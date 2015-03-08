@@ -16,7 +16,7 @@ public class CriarUsuarioTest {
 	}
 
 	@Test
-	public void testCriarUsuarioOk() {
+	public void testCriarUsuarioOk() throws Exception {
 
 		Assert.assertTrue(novoUsuario
 				.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
@@ -32,7 +32,7 @@ public class CriarUsuarioTest {
 	}
 
 	@Test
-	public void testLoginInvalidoCriarUsuario() {
+	public void testLoginInvalidoCriarUsuario() throws Exception {
 
 		Assert.assertFalse(novoUsuario.criarUsuario(null, "xptz", "xpto",
 				"xpto", "logininvalido@gmail.com"));
