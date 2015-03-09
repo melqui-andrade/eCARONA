@@ -37,8 +37,9 @@ public class StringValidator{
 	  }
 	  public boolean validatePassword(final String password){
 		  
-		  if(password == null)
+		  if(password == null){
 			  return false;
+		  }
 		  
 		  matcher = patternPassword.matcher(password);
 		  return matcher.matches();

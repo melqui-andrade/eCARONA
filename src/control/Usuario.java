@@ -64,7 +64,7 @@ public class Usuario {
 	 * @throws Exception
 	 **************************************************************/
 
-	public boolean criarUsuario(String login, String senha, String nome,
+	public void criarUsuario(String login, String senha, String nome,
 			String endereco, String email) throws Exception {
 		Usuario novoUsuario = new Usuario();
 
@@ -73,8 +73,7 @@ public class Usuario {
 		if (strValidator.validateUsername(login)) {
 			novoUsuario.setLogin(login);
 		} else {
-			throw new Exception(ErrorMessenger.LOGIN_INVALIDO);
-			// Can i do this?
+			throw new Exception(ErrorMessenger.LOGIN_INVALIDO);			
 
 		}
 
@@ -104,7 +103,6 @@ public class Usuario {
 		}
 
 		//usuarioBD.put(login, novoUsuario);
-		return true;
 	}
 
 	public void abrirSessao(String login, String senha) {
