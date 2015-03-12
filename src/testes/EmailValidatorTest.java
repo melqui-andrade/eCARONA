@@ -4,11 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import control.StringValidator;
+import control.ValidadorDeStrings;
 
 public class EmailValidatorTest {
 
-	private StringValidator strValidator;
+	private ValidadorDeStrings strValidator;
 	String[] validEmailProvider = new String[] { "mkyong@yahoo.com",
 			"mkyong-100@yahoo.com", "mkyong.100@yahoo.com",
 			"mkyong111@mkyong.com", "mkyong-100@mkyong.net",
@@ -23,14 +23,14 @@ public class EmailValidatorTest {
 
 	@Before
 	public void setUp() {
-		strValidator = new StringValidator();
+		strValidator = new ValidadorDeStrings();
 	}
 
 	@Test
 	public void ValidEmailTest() {
 
 		for (String temp : validEmailProvider) {
-			boolean valid = strValidator.validateEmail(temp);
+			boolean valid = strValidator.validarEmail(temp);
 			//System.out.println("Email is valid : " + temp + " , " + valid);
 			Assert.assertEquals(valid, true);
 		}
@@ -41,7 +41,7 @@ public class EmailValidatorTest {
 	public void InValidEmailTest() {
 
 		for (String temp : invalidEmailProvider) {
-			boolean valid = strValidator.validateEmail(temp);
+			boolean valid = strValidator.validarEmail(temp);
 			//System.out.println("Email is valid : " + temp + " , " + valid);
 			Assert.assertEquals(valid, false);
 		}
