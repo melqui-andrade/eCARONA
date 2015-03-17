@@ -1,6 +1,6 @@
 package control;
 
-public class ErrorMessenger {
+public class MensagensDeErro {
 
 	public static String LOGIN_INVALIDO = "Login inválido";
 	public static String NOME_INVALIDO = "Nome inválido";

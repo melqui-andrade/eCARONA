@@ -1,26 +1,31 @@
 package testes;
 
+import model.Usuario;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import control.ErrorMessenger;
-import control.Usuario;
+
+import control.GerenciadorDeUsuario;
+import control.MensagensDeErro;
 
 public class CriarUsuarioTest {
 
-	private Usuario novoUsuario;
+	private GerenciadorDeUsuario gerenciadorDeUsuario;
 
 	@Before
 	public void setUp() {
-		novoUsuario = new Usuario();
+		gerenciadorDeUsuario = new GerenciadorDeUsuario();
 	}
 
 	@Test
 	public void testCriarUsuarioOk() throws Exception {
 
-		novoUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",	"Palo Alto, California", "mark@facebook.com");
-		Assert.assertTrue(novoUsuario.getLogin().contentEquals("mark"));
-		Assert.assertTrue(novoUsuario.getNome().contentEquals("Mark Zuckerberg"));
+		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",	"Palo Alto, California", "mark@facebook.com");
+		Assert.assertNotNull(gerenciadorDeUsuario.usuarioBD.get("mark"));
+		Assert.assertEquals(gerenciadorDeUsuario.usuarioBD.get("mark").getLogin(),"mark");
+
+		//Assert.assertTrue(novoUsuario.getNome().contentEquals("Mark Zuckerberg"));
 		
 		
 		/*Assert.assertTrue(novoUsuario.criarUsuario("steve", "5t3v3",
@@ -36,10 +41,10 @@ public class CriarUsuarioTest {
 	public void testLoginInvalidoCriarUsuario() throws Exception {
 
 		
-		novoUsuario.criarUsuario(null, "xptz", "xpto", "xpto", "logininvalido@gmail.com");
+		gerenciadorDeUsuario.criarUsuario(null, "xptz", "xpto", "xpto", "logininvalido@gmail.com");
 		
 
-		novoUsuario.criarUsuario("", "xptz", "xpto", "xpto", "deuerro@gmail.com");
+		gerenciadorDeUsuario.criarUsuario("", "xptz", "xpto", "xpto", "deuerro@gmail.com");
 		
 		
 
