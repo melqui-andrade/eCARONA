@@ -8,5 +8,12 @@ public class MensagensDeErro {
 	public static String SENHA_INVALIDA = "Senha inválido";
 	public static String ENDERECO_INVALIDO = "Endereço inválido";
 	public static String EXISTE_USUARIO_C_EMAIL = "Já existe um usuário com este email";
+	public static String EXISTE_USUARIO_C_LOGIN = "Já existe um usuário com este login";
+	public static String USUARIO_INEXISTENTE = "Usuário inexistente";
+	//public static String ;
+	//public static String ;
+	//public static String ;
+	//public static String ;
+	//public static String ;
 
 }
