@@ -92,44 +92,39 @@ public class GerenciadorDeUsuario {
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
 
-		try {
 
-			Usuario usuario;
+		Usuario usuario;
 
-			if (login.equals(""))
-				throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
-
-			if (verificaLoginExistente(login)) {
-				usuario = usuarioBD.get(login);
-
-				if (atributo == "" || atributo == null)
-					throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
-
-				switch (atributo) {
-
-				case "":
-					throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
-
-				case "nome":
-					return usuario.getNome();
-
-				case "endereco":
-					return usuario.getEndereco();
-					
-				case "email":
-					return usuario.getEmail();
-
-				default:
-					throw new Exception(MensagensDeErro.ATRIBUTO_INEXISTENTE);
-
-				}
-			} else {
-
-				throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
-			}
-		} catch (NullPointerException e) {
+		if (login == null || login.equals(""))
 			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
 
+		if (usuarioBD.containsKey(login)) {
+			usuario = usuarioBD.get(login);
+
+			if (atributo == "" || atributo == null)
+				throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+
+			switch (atributo) {
+
+			case "":
+				throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+
+			case "nome":
+				return usuario.getNome();
+
+			case "endereco":
+				return usuario.getEndereco();
+
+			case "email":
+				return usuario.getEmail();
+
+			default:
+				throw new Exception(MensagensDeErro.ATRIBUTO_INEXISTENTE);
+
+			}
+		} else {
+
+			throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
 		}
 
 	}
