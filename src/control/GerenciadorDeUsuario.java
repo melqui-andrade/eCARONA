@@ -1,5 +1,6 @@
 package control;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,10 @@ public class GerenciadorDeUsuario {
 		} else {
 			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
 
+		}
+		
+		if(usuarioBD.containsKey(login)){
+			throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_LOGIN);
 		}
 
 		if (validarString.validarSenha(senha)) {
@@ -51,13 +56,48 @@ public class GerenciadorDeUsuario {
 			throw new Exception(MensagensDeErro.EMAIL_INVALIDO);
 		}
 		
-		
-		try {
-			usuarioBD.put(login, usuario);
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException(
-					MensagensDeErro.EXISTE_USUARIO_C_EMAIL);
+		for(Usuario u : usuarioBD.values()){
+			
+			if(u.getEmail().equals(email)){
+				throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_EMAIL);				
+			}
 		}
+		
+		usuarioBD.put(login, usuario);
+		
 
 	}
+	
+	public int abrirSessao(String login, String senha) throws Exception{
+		
+		Usuario usuario = usuarioBD.get(login);
+		
+		if(login == null || senha == null) throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+		
+		if(login.equals("") || senha.equals("")) throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+		
+		if(usuario == null) throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
+		
+		if(!usuario.getSenha().equals(senha)) throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+		
+		Date time = new Date();
+		int idSessao = (int)time.getTime();
+		return idSessao;
+	}
+	
+	public String getAtributoUsuario(String login, String atributo){
+		
+		Usuario usuario = usuarioBD.get(login);
+		
+		switch(atributo){
+			
+		case "nome": return usuario.getNome();
+		
+		case "endereco": return usuario.getEndereco();		
+		
+		}
+		
+		return "";
+	}
 }
+
