@@ -17,7 +17,8 @@ public class GerenciadorDeUsuario {
 		validarString = new ValidadorDeStrings();
 	}
 
-	public void criarUsuario(String login, String senha, String nome,	String endereco, String email) throws Exception {
+	public void criarUsuario(String login, String senha, String nome,
+			String endereco, String email) throws Exception {
 		Usuario usuario = new Usuario();
 
 		if (validarString.validarLogin(login)) {
@@ -26,8 +27,8 @@ public class GerenciadorDeUsuario {
 			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
 
 		}
-		
-		if(usuarioBD.containsKey(login)){
+
+		if (usuarioBD.containsKey(login)) {
 			throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_LOGIN);
 		}
 
@@ -55,49 +56,93 @@ public class GerenciadorDeUsuario {
 		} else {
 			throw new Exception(MensagensDeErro.EMAIL_INVALIDO);
 		}
-		
-		for(Usuario u : usuarioBD.values()){
-			
-			if(u.getEmail().equals(email)){
-				throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_EMAIL);				
+
+		for (Usuario u : usuarioBD.values()) {
+
+			if (u.getEmail().equals(email)) {
+				throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_EMAIL);
 			}
 		}
-		
+
 		usuarioBD.put(login, usuario);
-		
 
 	}
-	
-	public int abrirSessao(String login, String senha) throws Exception{
-		
+
+	public int abrirSessao(String login, String senha) throws Exception {
+
 		Usuario usuario = usuarioBD.get(login);
-		
-		if(login == null || senha == null) throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
-		
-		if(login.equals("") || senha.equals("")) throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
-		
-		if(usuario == null) throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
-		
-		if(!usuario.getSenha().equals(senha)) throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
-		
+
+		if (login == null || senha == null)
+			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+
+		if (login.equals("") || senha.equals(""))
+			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+
+		if (usuario == null)
+			throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
+
+		if (!usuario.getSenha().equals(senha))
+			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+
 		Date time = new Date();
-		int idSessao = (int)time.getTime();
+		int idSessao = (int) time.getTime();
 		return idSessao;
 	}
-	
-	public String getAtributoUsuario(String login, String atributo){
-		
-		Usuario usuario = usuarioBD.get(login);
-		
-		switch(atributo){
-			
-		case "nome": return usuario.getNome();
-		
-		case "endereco": return usuario.getEndereco();		
-		
+
+	public String getAtributoUsuario(String login, String atributo)
+			throws Exception {
+
+		try {
+
+			Usuario usuario;
+
+			if (login.equals(""))
+				throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+
+			if (verificaLoginExistente(login)) {
+				usuario = usuarioBD.get(login);
+
+				if (atributo == "" || atributo == null)
+					throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+
+				switch (atributo) {
+
+				case "":
+					throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+
+				case "nome":
+					return usuario.getNome();
+
+				case "endereco":
+					return usuario.getEndereco();
+					
+				case "email":
+					return usuario.getEmail();
+
+				default:
+					throw new Exception(MensagensDeErro.ATRIBUTO_INEXISTENTE);
+
+				}
+			} else {
+
+				throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
+			}
+		} catch (NullPointerException e) {
+			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+
 		}
-		
-		return "";
+
+	}
+
+	public boolean verificaLoginExistente(String login) {
+		//verifica se existe no BD o login informado
+		Usuario usuario = usuarioBD.get(login);
+		if (usuario != null) {
+			return true;
+		} else {
+			return false;
+
+		}
+
 	}
 }
-

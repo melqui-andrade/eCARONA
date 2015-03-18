@@ -10,6 +10,8 @@ public class MensagensDeErro {
 	public static String EXISTE_USUARIO_C_EMAIL = "Já existe um usuário com este email";
 	public static String EXISTE_USUARIO_C_LOGIN = "Já existe um usuário com este login";
 	public static String USUARIO_INEXISTENTE = "Usuário inexistente";
+	public static String ATRIBUTO_INVALIDO = "Atributo inválido";
+	public static String ATRIBUTO_INEXISTENTE = "Atributo inexistente";
 	//public static String ;
 	//public static String ;
 	//public static String ;
