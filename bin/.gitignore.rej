@@ -1,6 +1,0 @@
-diff a/bin/.gitignore b/bin/.gitignore	(rejected hunks)
-@@ -0,3 +0 @@
--/testes/
--/control/
--/easyAccept/
-+/.gitignore
