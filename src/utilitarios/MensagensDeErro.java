@@ -1,4 +1,4 @@
-package control;
+package utilitarios;
 
 public class MensagensDeErro {
 

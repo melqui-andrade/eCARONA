@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import utilitarios.MensagensDeErro;
 import control.GerenciadorDeUsuario;
-import control.MensagensDeErro;
 
 public class CriarUsuarioTest {
 

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import utilitarios.MensagensDeErro;
+import utilitarios.ValidadorDeStrings;
 import model.Usuario;
 
 public class GerenciadorDeUsuario {

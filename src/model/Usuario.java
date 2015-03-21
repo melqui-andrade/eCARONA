@@ -3,8 +3,8 @@ package model;
 import java.util.HashMap;
 import java.util.Map;
 
-import control.MensagensDeErro;
-import control.ValidadorDeStrings;
+import utilitarios.MensagensDeErro;
+import utilitarios.ValidadorDeStrings;
 
 public class Usuario {
 
