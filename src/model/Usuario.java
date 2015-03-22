@@ -13,6 +13,8 @@ public class Usuario {
 	private String nome;
 	private String endereco;
 	private String email;
+	
+	private Carona carona;
 
 	private ValidadorDeStrings validarString = new ValidadorDeStrings();
 
@@ -90,6 +92,14 @@ public class Usuario {
 			throw new Exception(MensagensDeErro.EMAIL_INVALIDO);
 		}
 
+	}
+
+	public Carona getCarona() {
+		return carona;
+	}
+
+	public void setCarona(Carona carona) {
+		this.carona = carona;
 	}
 
 }
