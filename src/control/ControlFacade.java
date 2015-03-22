@@ -17,8 +17,6 @@ public class ControlFacade {
 	public String getAtributoUsuario(String login, String atributo) throws Exception{
 		return gerenciadorDeUsuario.getAtributoUsuario(login, atributo);
 	}
-	
-	
 		
 		
 	public static void main(String[] args) {
