@@ -1,50 +1,103 @@
 package com.br.uepb.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.br.uepb.constants.MensagensDeErro;
+import com.br.uepb.validator.adapter.ValidadorDeStringsAdapter;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 public class UsuarioDomain {
-
-	@NotNull(message = "O nome não pode ser nulo")
-	@Size(min=2, max=30, message="Tamanho inválido de nome")
+	
+	private String login;
+	private String senha;
 	private String nome;
+	private String endereco;
+	private String email;
 	
-	@NotNull(message="Cpf não pode ser nulo")
-	@Pattern(regexp = "^[0-9]{1,3}$")
-	private String cpf;
+	private CaronaDomain carona;
 
-	private List<UsuarioDomain> lstUsers;
-	
-	public UsuarioDomain() {
-		lstUsers = new ArrayList<UsuarioDomain>();
+	private ValidadorDeStringsAdapter validarString = new ValidadorDeStringsAdapter();
+
+	/********************* GETTERS and SETTERS ********************/
+	public String getLogin() {
+		return login;
 	}
-	
+
+	public void setLogin(String login) throws Exception {
+
+		if (validarString.validarLogin(login)) {
+			this.login = login;
+		} else {
+			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+
+		}
+
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) throws Exception {
+
+		if (validarString.validarSenha(senha)) {
+			this.senha = senha;
+		} else {
+			throw new Exception(MensagensDeErro.SENHA_INVALIDA);
+
+		}
+
+	}
+
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome(String nome) throws Exception {
+
+		if (nome == null || nome.isEmpty() || nome.trim().isEmpty()) {
+			throw new Exception(MensagensDeErro.NOME_INVALIDO);
+
+		} else {
+			this.nome = nome;
+
+		}
+
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getEndereco() {
+		return endereco;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setEndereco(String endereco) throws Exception {
+
+		if (endereco == null || endereco.isEmpty() || endereco.trim().isEmpty()) {
+			throw new Exception(MensagensDeErro.ENDERECO_INVALIDO);
+
+		} else {
+			this.endereco = endereco;
+		}
+
 	}
 
-	public List<UsuarioDomain> getLstUsers() {
-		return lstUsers;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setLstUsers(List<UsuarioDomain> lstUsers) {
-		this.lstUsers = lstUsers;
+	public void setEmail(String email) throws Exception {
+
+		if (validarString.validarEmail(email)) {
+			this.email = email;
+		} else {
+			throw new Exception(MensagensDeErro.EMAIL_INVALIDO);
+		}
+
 	}
-	
+
+	public CaronaDomain getCarona() {
+		return carona;
+	}
+
+	public void setCarona(CaronaDomain carona) {
+		this.carona = carona;
+	}
+
 }

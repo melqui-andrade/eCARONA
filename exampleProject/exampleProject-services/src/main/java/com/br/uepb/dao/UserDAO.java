@@ -1,9 +1,9 @@
 package com.br.uepb.dao;
 
-import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.domain.ChicoTripa;
 
 public interface UserDAO {
 
-	public UsuarioDomain getUser(String cpf);
+	public ChicoTripa getUser(String cpf);
 	
 }

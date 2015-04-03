@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.br.uepb.dao.UserDAO;
-import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.domain.ChicoTripa;
 
 @Component
 public class HomeBusiness {
@@ -12,7 +12,7 @@ public class HomeBusiness {
 	@Autowired
 	private UserDAO userDao;
 	
-	public UsuarioDomain retrieveUser(String cpf){
+	public ChicoTripa retrieveUser(String cpf){
 		return userDao.getUser(cpf);
 	}
 	
