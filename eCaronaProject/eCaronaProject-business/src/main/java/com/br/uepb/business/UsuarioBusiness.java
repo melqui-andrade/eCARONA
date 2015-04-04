@@ -4,13 +4,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.text.html.parser.Parser;
+
+import net.sf.cglib.core.Converter;
+
 import com.br.uepb.constants.MensagensDeErro;
+import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 public class UsuarioBusiness {
 
 	public Map<String, UsuarioDomain> usuarioBD;
 	public UsuarioDomain usuarioBuffer;
+	public Map<String, SessaoDomain> sessaoBD;
 
 	public UsuarioBusiness() {
 		usuarioBD = new HashMap<String, UsuarioDomain>();
@@ -18,7 +25,7 @@ public class UsuarioBusiness {
 
 	public void criarUsuario(String login, String senha, String nome,
 			String endereco, String email) throws Exception {
-		
+
 		UsuarioDomain usuario = new UsuarioDomain();
 
 		usuario.setLogin(login);
@@ -45,7 +52,7 @@ public class UsuarioBusiness {
 
 	}
 
-	public int abrirSessao(String login, String senha) throws Exception {
+	public String abrirSessao(String login, String senha) throws Exception {
 
 		UsuarioDomain usuario = usuarioBD.get(login);
 
@@ -62,7 +69,14 @@ public class UsuarioBusiness {
 			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
 
 		Date time = new Date();
-		int idSessao = (int) time.getTime();
+		String idSessao = Integer.toString((int) time.getTime());
+
+		CaronaDomain carona = new CaronaDomain();
+		SessaoDomain sessao = new SessaoDomain((String) idSessao, usuario,
+				carona);
+
+		sessaoBD.put(idSessao, sessao);
+
 		return idSessao;
 	}
 
@@ -116,5 +130,5 @@ public class UsuarioBusiness {
 		}
 
 	}
-	
+
 }

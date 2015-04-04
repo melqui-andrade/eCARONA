@@ -3,11 +3,13 @@ package com.br.uepb.business;
 import java.util.Map;
 
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SessaoDomain;
 
 public class CaronaBusiness {
 	
 	public Map<String, CaronaDomain> caronaBD;
-	public Map<String, CaronaBusiness> usuarioBD;
+	public UsuarioBusiness gerenciadorDeUsuario;
+
 
 	public void cadastrarCarona(String origem, String destino, String data,
 			String hora, int vagas) {
@@ -35,7 +37,12 @@ public class CaronaBusiness {
 
 	public void localizarCarona(String idSessao, String origem, String destino){
 		
-		
+		if(gerenciadorDeUsuario.sessaoBD.containsKey(idSessao)){
+			SessaoDomain sessao = gerenciadorDeUsuario.sessaoBD.get(idSessao);
+
+		}else{
+			
+		}
 	}
 
 }

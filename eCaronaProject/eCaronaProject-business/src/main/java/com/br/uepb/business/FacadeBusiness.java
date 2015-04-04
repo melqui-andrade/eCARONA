@@ -9,7 +9,7 @@ public class FacadeBusiness {
 		gerenciadorDeUsuario.criarUsuario(login, senha, nome, endereco, email);
 	}
 	
-	public int abrirSessao(String login, String senha) throws Exception{
+	public String abrirSessao(String login, String senha) throws Exception{
 		return gerenciadorDeUsuario.abrirSessao(login, senha);
 	}
 	
@@ -19,7 +19,7 @@ public class FacadeBusiness {
 		
 		
 	public static void main(String[] args) {
-		args = new String[] {"com.br.uepb.business.FacadeBusiness","./src/test/resources/easyAcceptFiles/US01.txt"};
+		args = new String[] {"com.br.uepb.business.FacadeBusiness","./src/test/resources/easyAcceptFiles/US02.txt"};
 		EasyAccept.main(args);
 		
 	}
