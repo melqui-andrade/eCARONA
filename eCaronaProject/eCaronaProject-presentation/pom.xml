@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>exampleProject</artifactId>
+		<artifactId>eCaronaProject</artifactId>
 		<groupId>com.br.uepb</groupId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>exampleProject-presentation</artifactId>
-	<name>exampleProject-presentation</name>
+	<artifactId>eCaronaProject-presentation</artifactId>
+	<name>eCaronaProject-presentation</name>
 	<packaging>war</packaging>
 	<build>
 		<plugins>
@@ -41,14 +41,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.br.uepb</groupId>
-			<artifactId>exampleProject-domain</artifactId>
+			<artifactId>eCaronaProject-domain</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.br.uepb</groupId>
-			<artifactId>exampleProject-business</artifactId>
+			<artifactId>eCaronaProject-business</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
