@@ -11,7 +11,7 @@ public class CaronaBusiness {
 	public UsuarioBusiness gerenciadorDeUsuario;
 
 
-	public void cadastrarCarona(String origem, String destino, String data,
+	public String cadastrarCarona(String origem, String destino, String data,
 			String hora, int vagas) {
 
 		CaronaDomain carona = new CaronaDomain();
@@ -32,6 +32,8 @@ public class CaronaBusiness {
 				+ destino;
 
 		caronaBD.put(identificadorCarona, carona);
+		
+		return String.valueOf(carona.getId());
 
 	}
 

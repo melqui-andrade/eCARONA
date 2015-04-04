@@ -21,6 +21,7 @@ public class UsuarioBusiness {
 
 	public UsuarioBusiness() {
 		usuarioBD = new HashMap<String, UsuarioDomain>();
+		sessaoBD = new HashMap<String, SessaoDomain>();
 	}
 
 	public void criarUsuario(String login, String senha, String nome,
@@ -69,11 +70,10 @@ public class UsuarioBusiness {
 			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
 
 		Date time = new Date();
-		String idSessao = Integer.toString((int) time.getTime());
+		String idSessao = Long.toString(time.getTime());
 
 		CaronaDomain carona = new CaronaDomain();
-		SessaoDomain sessao = new SessaoDomain((String) idSessao, usuario,
-				carona);
+		SessaoDomain sessao = new SessaoDomain(idSessao, usuario);
 
 		sessaoBD.put(idSessao, sessao);
 
@@ -129,6 +129,11 @@ public class UsuarioBusiness {
 
 		}
 
+	}
+	
+	public SessaoDomain getSessaoPorId(String idSessao){
+		
+		return sessaoBD.get(idSessao);
 	}
 
 }
