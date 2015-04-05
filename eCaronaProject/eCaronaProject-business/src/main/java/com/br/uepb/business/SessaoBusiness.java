@@ -1,27 +1,31 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
+
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
+import com.br.uepb.domain.UsuarioDomain;
 
 public class SessaoBusiness {
 	
-	private SessaoDomain sessao;
+	private ArrayList<SessaoDomain> sessoes;
 	
-	public SessaoBusiness(SessaoDomain sessao){
-		this.sessao = sessao; 
-	}
-	
-	public String localizarCarona(String origem, String destino){
+	public SessaoBusiness(){
 		
-		CaronaDomain caronaProcurada = null;
-		for(CaronaDomain carona : sessao.getBancoCaronas()){
-			if(carona.getOrigem() == origem && carona.getDestino() == destino){
-				caronaProcurada = carona;
-				break;
-			}
-		}
-		if(caronaProcurada == null) return "";
-		return String.valueOf(caronaProcurada.getId());
 	}
-
+	
+	public void adicionaSessao(String id, UsuarioDomain usuario){
+		SessaoDomain sessao = new SessaoDomain(id, usuario);
+		sessoes.add(sessao);
+	}
+	
+	public SessaoDomain getSessao(String idSessao){
+		SessaoDomain sessao = null;
+		for(SessaoDomain s : sessoes){
+			if(s.getId() == idSessao){
+				sessao = s;
+			}
+		}		
+		return sessao;
+	}
 }

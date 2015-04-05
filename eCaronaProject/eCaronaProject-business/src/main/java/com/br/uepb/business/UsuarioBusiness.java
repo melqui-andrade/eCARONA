@@ -15,13 +15,15 @@ import com.br.uepb.domain.UsuarioDomain;
 
 public class UsuarioBusiness {
 
-	public Map<String, UsuarioDomain> usuarioBD;
 	public UsuarioDomain usuarioBuffer;
+	public Map<String, UsuarioDomain> usuarioBD;
 	public Map<String, SessaoDomain> sessaoBD;
+	public Map<String, CaronaDomain> caronaBD;
 
 	public UsuarioBusiness() {
 		usuarioBD = new HashMap<String, UsuarioDomain>();
 		sessaoBD = new HashMap<String, SessaoDomain>();
+		caronaBD = new HashMap<String, CaronaDomain>();
 	}
 
 	public void criarUsuario(String login, String senha, String nome,
@@ -136,4 +138,36 @@ public class UsuarioBusiness {
 		return sessaoBD.get(idSessao);
 	}
 
+	public String cadastrarCarona(String idSessao, String origem, String destino, String data,
+			String hora, int vagas) {
+
+		CaronaDomain carona = new CaronaDomain();
+
+		carona.setOrigem(origem);
+
+		carona.setDestino(destino);
+
+		carona.setData(data);
+
+		carona.setVagas(vagas);
+
+		String identificadorCarona = data + "_" + vagas + "_" + origem + "_"
+				+ destino;
+
+		caronaBD.put(identificadorCarona, carona);
+		
+		return String.valueOf(carona.getId());
+
+	}
+
+	public String localizarCarona(String idSessao, String origem, String destino){
+		String idCarona = "{}";
+		for(CaronaDomain carona : caronaBD.values()){
+			if(carona.getOrigem() == origem && carona.getDestino() == destino){
+				idCarona = carona.getId();
+			}
+		}
+		return idCarona;
+	}
+	
 }

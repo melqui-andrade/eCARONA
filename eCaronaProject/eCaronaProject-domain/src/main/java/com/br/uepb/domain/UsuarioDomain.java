@@ -1,5 +1,7 @@
 package com.br.uepb.domain;
 
+import java.util.ArrayList;
+
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.validator.adapter.ValidadorDeStringsAdapter;
 
@@ -12,7 +14,7 @@ public class UsuarioDomain {
 	private String endereco;
 	private String email;
 	
-	private CaronaDomain carona;
+	private ArrayList<CaronaDomain> caronas;
 
 	private ValidadorDeStringsAdapter validarString = new ValidadorDeStringsAdapter();
 
@@ -92,12 +94,12 @@ public class UsuarioDomain {
 
 	}
 
-	public CaronaDomain getCarona() {
-		return carona;
+	public ArrayList<CaronaDomain> getCarona() {
+		return caronas;
 	}
 
-	public void setCarona(CaronaDomain carona) {
-		this.carona = carona;
+	public void adicionarCarona(CaronaDomain carona){
+		caronas.add(carona);
 	}
 
 }

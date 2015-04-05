@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="com.br.uepb.validator.adapter.ValidadorDeStringsAdapter"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="com.br.uepb.constants.MensagensDeErro"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.UsuarioDomain"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.CaronaBusiness"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.SessaoDomain"/>
+<fullyQualifiedTypeName name="com.br.uepb.business.SessaoBusiness"/>
+<fullyQualifiedTypeName name="java.lang.Long"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.br.uepb.domain.CaronaDomain"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.UsuarioDomain"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.UsuarioBusiness"/>
 </qualifiedTypeNameHistroy>

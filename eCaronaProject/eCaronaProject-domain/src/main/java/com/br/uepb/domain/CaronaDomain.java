@@ -2,7 +2,7 @@ package com.br.uepb.domain;
 
 public class CaronaDomain {
 	
-	private int id;	
+	private String id;	
 	private String origem;
 	private String destino;
 	private String data;
@@ -10,10 +10,10 @@ public class CaronaDomain {
 	private int vagas;
 	
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getOrigem() {
