@@ -28,4 +28,16 @@ public class SessaoBusiness {
 		}		
 		return sessao;
 	}
+	
+	public boolean ehSessaoValida(String idSessao){
+		
+		if(idSessao == null || idSessao == "") return false;
+		
+		for(SessaoDomain s : sessoes){
+			if(s.getId() == idSessao){
+				return true;
+			}
+		}
+		return false;
+	}
 }

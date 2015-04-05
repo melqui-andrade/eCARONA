@@ -14,15 +14,13 @@ public class MensagensDeErro {
 		public static String ATRIBUTO_INVALIDO = "Atributo inválido";
 		public static String ATRIBUTO_INEXISTENTE = "Atributo inexistente";
 		
-		//ERROS DA CLASSE CARONA
-		
-		
-		
-		
-		//public static String ;
-		//public static String ;
-		//public static String ;
-		//public static String ;
-		//public static String ;
+	//ERROS DA CLASSE CARONA	
+		public static String SESSAO_INVALIDA = "Sessão inválida";
+		public static String SESSAO_INEXISTENTE = "Sessão inexistente" ;
+		public static String ORIGEM_INVALIDA = "Origem inválida";
+		public static String DESTINO_INVALIDO = "Destino Inválido";
+		public static String DATA_INVALIDA = "Data inválida";
+		public static String HORA_INVALIDA = "Hora inválida";
+		public static String VAGA_INVALIDA = "Vaga inválida";
 
 }

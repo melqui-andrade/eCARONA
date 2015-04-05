@@ -46,5 +46,9 @@ public class CaronaDomain {
 	public void setVagas(int vagas) {
 		this.vagas = vagas;
 	}
+	@Override
+	public String toString(){
+		return origem + " para " + destino + ", no dia " + data + ", as " + hora;
+	}
 
 }
