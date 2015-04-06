@@ -22,11 +22,11 @@ public class FacadeBusiness {
 	}
 	
 	public String cadastrarCarona(String sessao, String origem, String destino, String data,
-			String hora, Integer vagas) throws Exception{
+			String hora, String vagas) throws Exception{
 		return gerenciadorDeUsuario.cadastrarCarona(sessao, origem, destino, data, hora, vagas);
 	}
 	
-	public String localizarCarona(String sessao, String origem, String destino){
+	public String localizarCarona(String sessao, String origem, String destino) throws Exception{
 		return gerenciadorDeUsuario.localizarCarona(sessao, origem, destino);
 	}
 	
@@ -35,11 +35,11 @@ public class FacadeBusiness {
 		return gerenciadorDeUsuario.getAtributoCarona(idCarona, atributoCarona);		
 	}
 	
-	public String getTrajeto(String idCarona){
+	public String getTrajeto(String idCarona) throws Exception{
 		return gerenciadorDeUsuario.getTrajetoCarona(idCarona);
 	}
 	
-	public String getCarona(String idCarona){
+	public String getCarona(String idCarona) throws Exception{
 		return gerenciadorDeUsuario.getCaronaInfo(idCarona);
 	}
 		

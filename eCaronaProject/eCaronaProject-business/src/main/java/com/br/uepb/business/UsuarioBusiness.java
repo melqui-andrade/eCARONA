@@ -1,8 +1,5 @@
 package com.br.uepb.business;
 
-import java.security.IdentityScope;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,7 +9,7 @@ import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
-import com.sun.xml.bind.v2.schemagen.xmlschema.List;
+import com.br.uepb.utilities.VerificadorString;
 
 public class UsuarioBusiness {
 
@@ -140,8 +137,10 @@ public class UsuarioBusiness {
 	}
 
 	public String cadastrarCarona(String idSessao, String origem,
-			String destino, String data, String hora, Integer vagas)
+			String destino, String data, String hora, String vagas)
 			throws Exception {
+		if(vagas == null || vagas.equals("")) throw new Exception(MensagensDeErro.VAGA_INVALIDA);
+		if(VerificadorString.ContemLetra(vagas)) throw new Exception(MensagensDeErro.VAGA_INVALIDA);
 
 		if (idSessao == null || idSessao.equals(""))
 			throw new Exception(MensagensDeErro.SESSAO_INVALIDA);
@@ -156,7 +155,7 @@ public class UsuarioBusiness {
 
 			carona.setData(data);
 
-			carona.setVagas(vagas);
+			carona.setVagas(Integer.valueOf(vagas));
 
 			carona.setHora(hora);
 
@@ -174,8 +173,14 @@ public class UsuarioBusiness {
 
 	}
 
-	public String localizarCarona(String idSessao, String origem, String destino) {
+	public String localizarCarona(String idSessao, String origem, String destino) throws Exception {
 
+		if(origem.equals("-") || origem.equals("()") || origem.equals("!") || origem.equals("!?")) 
+			throw new Exception(MensagensDeErro.ORIGEM_INVALIDA);
+		if(destino.equals(".") || destino.equals("()") || destino.equals("!") || destino.equals("!?")) 
+			throw new Exception(MensagensDeErro.DESTINO_INVALIDO);
+		
+		
 		ArrayList<String> allID = new ArrayList<String>();
 		String idCarona = "{";
 		// System.out.println(caronaBD.values().);
@@ -213,8 +218,11 @@ public class UsuarioBusiness {
 				if (carona.getOrigem().equals(origem)
 						&& carona.getDestino().equals(destino)) {
 					idCarona += carona.getId();
+					idCarona += ",";
 				}
 			}
+			if(idCarona.length() > 2)
+			idCarona = idCarona.substring(0, idCarona.length() - 1);
 		}
 
 		return idCarona + "}";
@@ -224,7 +232,7 @@ public class UsuarioBusiness {
 			throws Exception {
 		CaronaDomain carona;
 
-		if (idCarona == null || idCarona == "") {
+		if (idCarona == null || idCarona.equals("")) {
 			throw new Exception(MensagensDeErro.IDENTIFICADOR_CARONA_INVALIDO);
 		}
 
@@ -261,13 +269,20 @@ public class UsuarioBusiness {
 
 	}
 
-	public String getTrajetoCarona(String idCarona) {
+	public String getTrajetoCarona(String idCarona) throws Exception {
+		if(idCarona == null) throw new Exception(MensagensDeErro.TRAJETO_INVALIDO);
+		if(idCarona.equals("")) throw new Exception(MensagensDeErro.TRAJETO_INEXISTENTE);
+		
 		CaronaDomain carona = caronaBD.get(idCarona);
+		if(carona == null) throw new Exception(MensagensDeErro.TRAJETO_INEXISTENTE);
 		return carona.getOrigem() + " - " + carona.getDestino();
 	}
 
-	public String getCaronaInfo(String idCarona) {
+	public String getCaronaInfo(String idCarona) throws Exception {
+		if(idCarona == null) throw new Exception(MensagensDeErro.CARONA_INVALIDA);
+		if(idCarona.equals("")) throw new Exception(MensagensDeErro.CARONA_INEXISTENTE);
 		CaronaDomain carona = caronaBD.get(idCarona);
+		if(carona == null) throw new Exception(MensagensDeErro.CARONA_INEXISTENTE);
 		return carona.toString();
 
 	}

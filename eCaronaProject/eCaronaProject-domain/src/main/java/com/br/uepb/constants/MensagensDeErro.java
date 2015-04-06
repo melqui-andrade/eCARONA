@@ -24,6 +24,10 @@ public class MensagensDeErro {
 		public static String VAGA_INVALIDA = "Vaga inválida";
 		public static String IDENTIFICADOR_CARONA_INVALIDO = "Identificador do carona é inválido";
 		public static String ITEM_INEXISTENTE = "Item inexistente";
+		public static String CARONA_INEXISTENTE = "Carona Inexistente";
+		public static String CARONA_INVALIDA = "Carona Inválida";
+		public static String TRAJETO_INEXISTENTE = "Trajeto Inexistente";
+		public static String TRAJETO_INVALIDO = "Trajeto Inválido";
 		
 		
 		
