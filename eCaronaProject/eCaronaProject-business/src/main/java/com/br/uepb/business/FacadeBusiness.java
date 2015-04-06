@@ -22,7 +22,7 @@ public class FacadeBusiness {
 	}
 	
 	public String cadastrarCarona(String sessao, String origem, String destino, String data,
-			String hora, int vagas) throws Exception{
+			String hora, Integer vagas) throws Exception{
 		return gerenciadorDeUsuario.cadastrarCarona(sessao, origem, destino, data, hora, vagas);
 	}
 	

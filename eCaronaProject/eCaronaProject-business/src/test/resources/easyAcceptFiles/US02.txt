@@ -67,7 +67,7 @@ expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Pato
 expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="30/02/2012" hora="16:00" vagas=3
 expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="31/04/2012" hora="16:00" vagas=3
 expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="32/12/2012" hora="16:00" vagas=3
-expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="25/12/2011" hora="16:00" vagas=3
+expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="30/02/2011" hora="16:00" vagas=3
 
 
 expectError "Hora inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora= vagas=3

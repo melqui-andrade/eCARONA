@@ -18,9 +18,16 @@ public class MensagensDeErro {
 		public static String SESSAO_INVALIDA = "Sessão inválida";
 		public static String SESSAO_INEXISTENTE = "Sessão inexistente" ;
 		public static String ORIGEM_INVALIDA = "Origem inválida";
-		public static String DESTINO_INVALIDO = "Destino Inválido";
+		public static String DESTINO_INVALIDO = "Destino inválido";
 		public static String DATA_INVALIDA = "Data inválida";
 		public static String HORA_INVALIDA = "Hora inválida";
 		public static String VAGA_INVALIDA = "Vaga inválida";
+		public static String IDENTIFICADOR_CARONA_INVALIDO = "Identificador do carona é inválido";
+		public static String ITEM_INEXISTENTE = "Item inexistente";
+		
+		
+		
+		
+	// ERROS DA CLASSE 
 
 }
