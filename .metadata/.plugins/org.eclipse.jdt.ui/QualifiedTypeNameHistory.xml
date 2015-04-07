@@ -3,14 +3,12 @@
 <fullyQualifiedTypeName name="com.br.uepb.validator.adapter.ValidadorDeStringsAdapter"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.lang.Long"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.UsuarioBusiness"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="javax.print.attribute.standard.DateTimeAtCompleted"/>
 <fullyQualifiedTypeName name="org.apache.commons.beanutils.converters.DateConverter"/>
 <fullyQualifiedTypeName name="com.br.uepb.domain.UsuarioDomain"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.SessaoDomain"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.CaronaBusiness"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.lang.Override"/>
@@ -22,4 +20,6 @@
 <fullyQualifiedTypeName name="com.br.uepb.business.SessaoBusiness"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="com.br.uepb.constants.MensagensDeErro"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.SessaoDomain"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>

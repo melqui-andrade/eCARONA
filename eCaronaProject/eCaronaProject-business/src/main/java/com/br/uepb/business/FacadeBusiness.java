@@ -42,6 +42,19 @@ public class FacadeBusiness {
 	public String getCarona(String idCarona) throws Exception{
 		return gerenciadorDeUsuario.getCaronaInfo(idCarona);
 	}
+	
+	public void encerrarSessao(String loginUsuario){
+		gerenciadorDeUsuario.encerrarSessao(loginUsuario);
+	}
+	
+	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontos){
+		String[] pontosSugeridos = pontos.split(";");
+		return gerenciadorDeUsuario.sugerirPontoEncontro(idSessao, idCarona, pontosSugeridos);
+	}
+	
+	public String solicitarVagaPontoEncontro(String idSessao, String idCarona, String ponto){
+		return null;
+	}
 		
 	public void zerarSistema(){
 		if(gerenciadorDeUsuario != null){
@@ -54,7 +67,7 @@ public class FacadeBusiness {
 	}
 		
 	public static void main(String[] args) {
-		args = new String[] {"com.br.uepb.business.FacadeBusiness","./src/test/resources/easyAcceptFiles/US02.txt"};
+		args = new String[] {"com.br.uepb.business.FacadeBusiness","./src/test/resources/easyAcceptFiles/US04.txt"};
 		EasyAccept.main(args);
 		
 	}
