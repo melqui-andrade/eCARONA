@@ -6,7 +6,13 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.br.uepb.constants.MensagensDeErro;
-
+/***
+ * Uma carona representa a carona que um usuário pode oferecer
+ * é composta de um ID, o nome da origem, o nome do destino, uma data, horário
+ * e quantidade de vagas
+ * @author Melqui
+ *
+ */
 public class CaronaDomain {
 
 	private String id;
@@ -125,7 +131,11 @@ public class CaronaDomain {
 		pontos.replace(idPonto, novosPontos);
 	}
 
+	
 	@Override
+	/**
+	 * Mensagem no formato: this.origem + " para " + this.destino + ", no dia " + this.data + ", as " + this.hora
+	 */
 	public String toString() {
 		return origem + " para " + destino + ", no dia " + data + ", as "
 				+ hora;

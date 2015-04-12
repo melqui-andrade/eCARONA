@@ -10,7 +10,15 @@ import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.utilities.VerificadorString;
-
+/**
+ * Gerenciador de usuario
+ * Classe responsávél por cadastrar e editar objetos do tipo UsuarioDomain,
+ * gerenciar sessões do usuário,
+ * manipular caronas
+ * @author Melqui
+ * @see UsuarioDomain
+ *
+ */
 public class UsuarioBusiness {
 
 	private Map<String, UsuarioDomain> usuarioBD;
@@ -25,6 +33,16 @@ public class UsuarioBusiness {
 		sufixoIdCarona = 0;
 	}
 
+	/**
+	 * Cria um novo usuário
+	 * @param login login do usuário
+	 * @param senha senha
+	 * @param nome nome
+	 * @param endereco rua, número e bairro
+	 * @param email endereço de email
+	 * @throws Exception caso algum dos atributos sejam inválidos (campos vazios,
+	 * formato de email incorreto) ou já exista um usuário com mesmo login ou email
+	 */
 	public void criarUsuario(String login, String senha, String nome,
 			String endereco, String email) throws Exception {
 
@@ -54,6 +72,15 @@ public class UsuarioBusiness {
 
 	}
 
+	/**
+	 * Iniciar sessão de usuário. O usuário só pode realizar atividades no sistema
+	 * após abrir a sessão
+	 * @param login
+	 * @param senha
+	 * @return O id da sessão
+	 * @throws Exception caso Algum dos atributos sejam nulos ou vazios, ou a autenticação
+	 * do usuário falhe
+	 */
 	public String abrirSessao(String login, String senha) throws Exception {
 
 		UsuarioDomain usuario = usuarioBD.get(login);
@@ -80,6 +107,13 @@ public class UsuarioBusiness {
 		return idSessao;
 	}
 
+	/**
+	 * Pegar um atributo específico de um usuário
+	 * @param login login do usuário
+	 * @param atributo nome | endereço | email
+	 * @return O valor do atributo especificado
+	 * @throws Exception caso o usuário não exista na base ou o atributo não seja válido
+	 */
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
 
@@ -119,6 +153,11 @@ public class UsuarioBusiness {
 
 	}
 
+	/**
+	 * Verifica se um dado login existe na base de usuários
+	 * @param login
+	 * @return true, caso exista
+	 */
 	public boolean verificaLoginExistente(String login) {
 		// verifica se existe no BD o login informado
 		UsuarioDomain usuario = usuarioBD.get(login);
@@ -131,13 +170,22 @@ public class UsuarioBusiness {
 
 	}
 
+	/**
+	 * Pegar sessão por id
+	 * @param idSessao
+	 * @return Uma SessãoDomain
+	 * @see SessaoDomain
+	 */
 	public SessaoDomain getSessaoPorId(String idSessao) {
 
 		return sessaoBD.get(idSessao);
 	}
 	
 	
-	
+	/**
+	 * Finaliza sessao de um usuário
+	 * @param usuario login do usuário
+	 */
 	public void encerrarSessao(String usuario){
 		for(SessaoDomain sessao : sessaoBD.values()){
 			if(sessao.getUsuario().getLogin().equals(usuario)){
@@ -147,6 +195,18 @@ public class UsuarioBusiness {
 		}
 	}
 
+	/**
+	 * Cadastra uma nova carona de determinado usuário
+	 * @param idSessao
+	 * @param origem
+	 * @param destino
+	 * @param data
+	 * @param hora
+	 * @param vagas
+	 * @return Id da carona
+	 * @throws Exception caso os campos sejam nulos ou vazios, o id da sessão não seja validado,
+	 * a sessão não exista na base de sessões ativas
+	 */
 	public String cadastrarCarona(String idSessao, String origem,
 			String destino, String data, String hora, String vagas)
 			throws Exception {
@@ -184,6 +244,14 @@ public class UsuarioBusiness {
 
 	}
 
+	/**
+	 * Localiza as caronas cadastradas de determinado usuário
+	 * @param idSessao campo obrigatório, id da sessão do usuário
+	 * @param origem [opicional] nome do local de origem
+	 * @param destino [opicional] nome do local de destino
+	 * @return uma mensagem com o conjuto de caronas que satisfazem os critérios de pesquisa
+	 * @throws Exception caso o os campos sejam preenchidos incorretamente
+	 */
 	public String localizarCarona(String idSessao, String origem, String destino) throws Exception {
 
 		if(origem.equals("-") || origem.equals("()") || origem.equals("!") || origem.equals("!?")) 
@@ -239,6 +307,13 @@ public class UsuarioBusiness {
 		return idCarona + "}";
 	}
 
+	/**
+	 * Pegar um atributo específico de uma carona
+	 * @param idCarona id da carona
+	 * @param atributoCarona origem | destino | data | vagas
+	 * @return O valor do atributo especificado
+	 * @throws Exception caso a carona não exista na base ou o atributo não seja válido
+	 */
 	public String getAtributoCarona(String idCarona, String atributoCarona)
 			throws Exception {
 		CaronaDomain carona;
@@ -280,6 +355,13 @@ public class UsuarioBusiness {
 
 	}
 
+	/**
+	 * Pegar o trajeto (origem -- destino) de uma carona 
+	 * @param idCarona
+	 * @return mensagem no formato: "origem - destino" da carona
+	 * @throws Exception caso os campos sejam nulos ou vazios, caso o id da carona
+	 * não exista
+	 */
 	public String getTrajetoCarona(String idCarona) throws Exception {
 		if(idCarona == null) throw new Exception(MensagensDeErro.TRAJETO_INVALIDO);
 		if(idCarona.equals("")) throw new Exception(MensagensDeErro.TRAJETO_INEXISTENTE);
@@ -289,6 +371,15 @@ public class UsuarioBusiness {
 		return carona.getOrigem() + " - " + carona.getDestino();
 	}
 
+	/**
+	 * Pegar todas as informações de uma carona
+	 * (origem, destino, data, horario, vagas)
+	 * @param idCarona
+	 * @return uma mensagem com as informações da carona
+	 * @see CaronaDomain CaronaDomain.toString()
+	 * @throws Exception Caso o atributo seja nulo ou inválido, não exista
+	 * carona com o id informado na base
+	 */
 	public String getCaronaInfo(String idCarona) throws Exception {
 		if(idCarona == null) throw new Exception(MensagensDeErro.CARONA_INVALIDA);
 		if(idCarona.equals("")) throw new Exception(MensagensDeErro.CARONA_INEXISTENTE);
@@ -298,6 +389,13 @@ public class UsuarioBusiness {
 
 	}
 
+	/**
+	 * 
+	 * @param idSessao
+	 * @param idCarona
+	 * @param pontosSugeridos
+	 * @return
+	 */
 	public String sugerirPontoEncontro(String idSessao, String idCarona,
 			String[] pontosSugeridos) {
 		return idSessao + idCarona;

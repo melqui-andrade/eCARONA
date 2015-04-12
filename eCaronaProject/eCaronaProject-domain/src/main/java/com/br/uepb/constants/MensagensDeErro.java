@@ -1,5 +1,11 @@
 package com.br.uepb.constants;
 
+/**
+ * Classe com todas as mensagens de erro do sistema
+ * Não necessita de instanciação
+ * @author Sidney
+ *
+ */
 public class MensagensDeErro {
 	
 	//ERROS DA CLASSE USUARIO

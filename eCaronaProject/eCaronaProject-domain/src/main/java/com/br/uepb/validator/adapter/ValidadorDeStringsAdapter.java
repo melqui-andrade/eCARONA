@@ -3,6 +3,12 @@ package com.br.uepb.validator.adapter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Varifica padrões em Strings com o intuito de validá-las
+ * Faz a validação de login, senha e email
+ * @author Sidney
+ *
+ */
 public class ValidadorDeStringsAdapter {
 
 	private Pattern padraoLogin;
@@ -21,6 +27,11 @@ public class ValidadorDeStringsAdapter {
 		padraoEmail = Pattern.compile(EMAIL_PADRAO);
 	}
 
+	/**
+	 * Verifica se login é válido
+	 * @param login
+	 * @return true, caso login seja válido
+	 */
 	public boolean validarLogin(final String login) {
 
 		if (login == null)
@@ -31,6 +42,11 @@ public class ValidadorDeStringsAdapter {
 
 	}
 
+	/**
+	 * Verifica se senha é válida
+	 * @param senha
+	 * @return true, caso senha seja válido
+	 */
 	public boolean validarSenha(final String senha) {
 
 		if (senha == null) {
@@ -42,6 +58,11 @@ public class ValidadorDeStringsAdapter {
 
 	}
 
+	/**
+	 * Verifica se email é válido
+	 * @param email
+	 * @return true, caso email seja válido
+	 */
 	public boolean validarEmail(final String email) {
 
 		if (email == null)

@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.validator.adapter.ValidadorDeStringsAdapter;
 
-
+/**
+ * Um usuário do sistema, todo usuário do sistema deve ter um login, senha
+ * nome endereço, email e um conjunto de caronas
+ * @author Melqui
+ *
+ */
 public class UsuarioDomain {
 	
 	private String login;
@@ -19,6 +24,7 @@ public class UsuarioDomain {
 	private ValidadorDeStringsAdapter validarString = new ValidadorDeStringsAdapter();
 
 	/********************* GETTERS and SETTERS ********************/
+
 	public String getLogin() {
 		return login;
 	}
@@ -97,7 +103,10 @@ public class UsuarioDomain {
 	public ArrayList<CaronaDomain> getCarona() {
 		return caronas;
 	}
-
+	/**
+	 * 
+	 * @param carona
+	 */
 	public void adicionarCarona(CaronaDomain carona){
 		caronas.add(carona);
 	}

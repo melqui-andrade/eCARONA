@@ -8,7 +8,6 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="javax.print.attribute.standard.DateTimeAtCompleted"/>
 <fullyQualifiedTypeName name="org.apache.commons.beanutils.converters.DateConverter"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.UsuarioDomain"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.CaronaBusiness"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.lang.Override"/>
@@ -16,10 +15,11 @@
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="java.util.Collection"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.CaronaDomain"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.SessaoBusiness"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="com.br.uepb.constants.MensagensDeErro"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.SessaoDomain"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.UsuarioDomain"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.SessaoDomain"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.CaronaDomain"/>
 </qualifiedTypeNameHistroy>
