@@ -3,6 +3,7 @@ package com.br.uepb.domain;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.br.uepb.constants.MensagensDeErro;
 
@@ -14,6 +15,7 @@ public class CaronaDomain {
 	private String data;
 	private String hora;
 	private Integer vagas;
+	private HashMap<String , String[] > pontos;
 
 	public String getId() {
 		return id;
@@ -111,6 +113,16 @@ public class CaronaDomain {
 			throw new Exception(MensagensDeErro.VAGA_INVALIDA);
 
 		}
+	}
+	
+	public String[] getPontosDeEncontro(String idPonto){
+		return pontos.get(idPonto);
+	}
+	
+	
+	
+	public void setPontoDeEncontro(String idPonto, String[] novosPontos){
+		pontos.replace(idPonto, novosPontos);
 	}
 
 	@Override

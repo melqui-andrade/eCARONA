@@ -135,6 +135,17 @@ public class UsuarioBusiness {
 
 		return sessaoBD.get(idSessao);
 	}
+	
+	
+	
+	public void encerrarSessao(String usuario){
+		for(SessaoDomain sessao : sessaoBD.values()){
+			if(sessao.getUsuario().getLogin().equals(usuario)){
+				sessaoBD.remove(sessao.getId());
+				break;
+			}
+		}
+	}
 
 	public String cadastrarCarona(String idSessao, String origem,
 			String destino, String data, String hora, String vagas)
@@ -285,6 +296,11 @@ public class UsuarioBusiness {
 		if(carona == null) throw new Exception(MensagensDeErro.CARONA_INEXISTENTE);
 		return carona.toString();
 
+	}
+
+	public String sugerirPontoEncontro(String idSessao, String idCarona,
+			String[] pontosSugeridos) {
+		return idSessao + idCarona;
 	}
 
 }
