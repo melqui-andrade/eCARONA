@@ -54,7 +54,7 @@ public class FacadeBusiness {
 	}
 		
 	public static void main(String[] args) {
-		args = new String[] {"com.br.uepb.business.FacadeBusiness","./src/test/resources/easyAcceptFiles/US02.txt"};
+		args = new String[] {"com.br.uepb.business.FacadeBusiness","./src/test/resources/easyAcceptFiles/US04.txt"};
 		EasyAccept.main(args);
 		
 	}
