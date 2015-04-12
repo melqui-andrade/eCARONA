@@ -20,9 +20,6 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.br.uepb.domain.CaronaDomain"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.SessaoBusiness"/>
-<fullyQualifiedTypeName name="java.lang.Character"/>
-<fullyQualifiedTypeName name="com.br.uepb.utilities.VerificadorString"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="com.br.uepb.constants.MensagensDeErro"/>
-<fullyQualifiedTypeName name="javax.swing.text.StyleConstants.CharacterConstants"/>
 </qualifiedTypeNameHistroy>
