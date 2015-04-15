@@ -26,8 +26,16 @@ public class UsuarioBusiness {
 	private Map<String, CaronaDomain> caronaBD;
 	private int sufixoIdCarona;
 
+	public Map<String, UsuarioDomain> getUsuarioBD() {
+		return usuarioBD;
+	}
+
+	public void setUsuarioBD(Map<String, UsuarioDomain> usuarioBD) {
+		this.usuarioBD = usuarioBD;
+	}
+
 	public UsuarioBusiness() {
-		usuarioBD = new HashMap<String, UsuarioDomain>();
+		setUsuarioBD(new HashMap<String, UsuarioDomain>());
 		sessaoBD = new HashMap<String, SessaoDomain>();
 		caronaBD = new HashMap<String, CaronaDomain>();
 		sufixoIdCarona = 0;
@@ -50,7 +58,7 @@ public class UsuarioBusiness {
 
 		usuario.setLogin(login);
 
-		if (usuarioBD.containsKey(login)) {
+		if (getUsuarioBD().containsKey(login)) {
 			throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_LOGIN);
 		}
 
@@ -62,13 +70,13 @@ public class UsuarioBusiness {
 
 		usuario.setEmail(email);
 
-		for (UsuarioDomain u : usuarioBD.values()) {
+		for (UsuarioDomain u : getUsuarioBD().values()) {
 			if (u.getEmail().equals(email)) {
 				throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_EMAIL);
 			}
 		}
 
-		usuarioBD.put(login, usuario);
+		getUsuarioBD().put(login, usuario);
 
 	}
 
@@ -83,7 +91,7 @@ public class UsuarioBusiness {
 	 */
 	public String abrirSessao(String login, String senha) throws Exception {
 
-		UsuarioDomain usuario = usuarioBD.get(login);
+		UsuarioDomain usuario = getUsuarioBD().get(login);
 
 		if (login == null || senha == null)
 			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
@@ -122,8 +130,8 @@ public class UsuarioBusiness {
 		if (login == null || login.equals(""))
 			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
 
-		if (usuarioBD.containsKey(login)) {
-			usuario = usuarioBD.get(login);
+		if (getUsuarioBD().containsKey(login)) {
+			usuario = getUsuarioBD().get(login);
 
 			if (atributo == "" || atributo == null)
 				throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
@@ -160,7 +168,7 @@ public class UsuarioBusiness {
 	 */
 	public boolean verificaLoginExistente(String login) {
 		// verifica se existe no BD o login informado
-		UsuarioDomain usuario = usuarioBD.get(login);
+		UsuarioDomain usuario = getUsuarioBD().get(login);
 		if (usuario != null) {
 			return true;
 		} else {
