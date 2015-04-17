@@ -7,19 +7,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.br.uepb.business.UsuarioBusiness;
+import com.br.uepb.constants.ECaronaException;
+import com.br.uepb.constants.MensagensDeErro;
 
 public class UsuarioBusinessTest {
 
 	private UsuarioBusiness gerenciadorDeUsuario;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		gerenciadorDeUsuario = new UsuarioBusiness();
 
 	}
 
 	@Test
-	public void verificarDadosSalvosDoUsuarioCriadoTest() throws Exception {
+	public void verificarDadosSalvosDoUsuarioCriadoTest()
+			throws ECaronaException {
 
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
@@ -69,26 +72,20 @@ public class UsuarioBusinessTest {
 				.getEmail(), "billzin@msn.com");
 
 	}
-	
-	/*
-	 * @Test(expected = Exception.class) public void
-	 * testLoginInvalidoCriarUsuario() throws Exception {
-	 * 
-	 * //login nulo gerenciadorDeUsuario.criarUsuario(null, "xptz", "xpto",
-	 * "xpto", "logininvalido@gmail.com"); //login vazio
-	 * gerenciadorDeUsuario.criarUsuario("", "xptz", "xpto", "xpto",
-	 * "deuerro@gmail.com"); //login com numeros
-	 * gerenciadorDeUsuario.criarUsuario("123", "xptz", "xpto", "xpto",
-	 * "deuerro@gmail.com");
-	 * 
-	 * }
-	 */
 
 	@Test
-	public void idSessaoTest() throws Exception {
-		
+	public void getAtributoUsuarioTest() throws ECaronaException {
+
+		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
+				"Palo Alto, California", "mark@facebook.com");
+		gerenciadorDeUsuario.criarUsuario("steve", "5t3v3", "Steven Paul Jobs",
+				"Palo Alto, California", "jobs@apple.com");
+		gerenciadorDeUsuario.criarUsuario("bill", "severino",
+				"William Henry Gates III", "Medina, Washington",
+				"billzin@msn.com");
+
+		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+
 	}
-	
-	
-	
+
 }

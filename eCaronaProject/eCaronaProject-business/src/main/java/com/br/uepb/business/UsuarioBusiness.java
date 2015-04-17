@@ -22,6 +22,8 @@ import com.br.uepb.utilities.VerificadorString;
  */
 public class UsuarioBusiness {
 
+	
+
 	private Map<String, UsuarioDomain> usuarioBD;
 	private Map<String, SessaoDomain> sessaoBD;
 	private Map<String, CaronaDomain> caronaBD;
@@ -35,6 +37,22 @@ public class UsuarioBusiness {
 		this.usuarioBD = usuarioBD;
 	}
 
+	public Map<String, SessaoDomain> getSessaoBD() {
+		return sessaoBD;
+	}
+
+	public void setSessaoBD(Map<String, SessaoDomain> sessaoBD) {
+		this.sessaoBD = sessaoBD;
+	}
+
+	public Map<String, CaronaDomain> getCaronaBD() {
+		return caronaBD;
+	}
+
+	public void setCaronaBD(Map<String, CaronaDomain> caronaBD) {
+		this.caronaBD = caronaBD;
+	}
+	
 	public UsuarioBusiness() {
 		setUsuarioBD(new HashMap<String, UsuarioDomain>());
 		sessaoBD = new HashMap<String, SessaoDomain>();
