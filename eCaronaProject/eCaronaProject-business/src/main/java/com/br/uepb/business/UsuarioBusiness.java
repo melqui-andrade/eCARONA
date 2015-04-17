@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
@@ -52,14 +53,14 @@ public class UsuarioBusiness {
 	 * formato de email incorreto) ou já exista um usuário com mesmo login ou email
 	 */
 	public void criarUsuario(String login, String senha, String nome,
-			String endereco, String email) throws Exception {
+			String endereco, String email) throws ECaronaException {
 
 		UsuarioDomain usuario = new UsuarioDomain();
 
 		usuario.setLogin(login);
 
 		if (getUsuarioBD().containsKey(login)) {
-			throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_LOGIN);
+			throw new ECaronaException(MensagensDeErro.EXISTE_USUARIO_C_LOGIN);
 		}
 
 		usuario.setSenha(senha);
@@ -72,7 +73,7 @@ public class UsuarioBusiness {
 
 		for (UsuarioDomain u : getUsuarioBD().values()) {
 			if (u.getEmail().equals(email)) {
-				throw new Exception(MensagensDeErro.EXISTE_USUARIO_C_EMAIL);
+				throw new ECaronaException(MensagensDeErro.EXISTE_USUARIO_C_EMAIL);
 			}
 		}
 
@@ -89,21 +90,21 @@ public class UsuarioBusiness {
 	 * @throws Exception caso Algum dos atributos sejam nulos ou vazios, ou a autenticação
 	 * do usuário falhe
 	 */
-	public String abrirSessao(String login, String senha) throws Exception {
+	public String abrirSessao(String login, String senha) throws ECaronaException {
 
 		UsuarioDomain usuario = getUsuarioBD().get(login);
 
 		if (login == null || senha == null)
-			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
 
 		if (login.equals("") || senha.equals(""))
-			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
 
 		if (usuario == null)
-			throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
+			throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
 
 		if (!usuario.getSenha().equals(senha))
-			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
 
 		Date time = new Date();
 		String idSessao = Long.toString(time.getTime());
@@ -123,23 +124,23 @@ public class UsuarioBusiness {
 	 * @throws Exception caso o usuário não exista na base ou o atributo não seja válido
 	 */
 	public String getAtributoUsuario(String login, String atributo)
-			throws Exception {
+			throws ECaronaException {
 
 		UsuarioDomain usuario;
 
 		if (login == null || login.equals(""))
-			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
 
 		if (getUsuarioBD().containsKey(login)) {
 			usuario = getUsuarioBD().get(login);
 
 			if (atributo == "" || atributo == null)
-				throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
 
 			switch (atributo) {
 
 			case "":
-				throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
 
 			case "nome":
 				return usuario.getNome();
@@ -151,12 +152,12 @@ public class UsuarioBusiness {
 				return usuario.getEmail();
 
 			default:
-				throw new Exception(MensagensDeErro.ATRIBUTO_INEXISTENTE);
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INEXISTENTE);
 
 			}
 		} else {
 
-			throw new Exception(MensagensDeErro.USUARIO_INEXISTENTE);
+			throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
 		}
 
 	}
@@ -217,12 +218,12 @@ public class UsuarioBusiness {
 	 */
 	public String cadastrarCarona(String idSessao, String origem,
 			String destino, String data, String hora, String vagas)
-			throws Exception {
-		if(vagas == null || vagas.equals("")) throw new Exception(MensagensDeErro.VAGA_INVALIDA);
-		if(VerificadorString.ContemLetra(vagas)) throw new Exception(MensagensDeErro.VAGA_INVALIDA);
+			throws ECaronaException {
+		if(vagas == null || vagas.equals("")) throw new ECaronaException(MensagensDeErro.VAGA_INVALIDA);
+		if(VerificadorString.ContemLetra(vagas)) throw new ECaronaException(MensagensDeErro.VAGA_INVALIDA);
 
 		if (idSessao == null || idSessao.equals(""))
-			throw new Exception(MensagensDeErro.SESSAO_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.SESSAO_INVALIDA);
 
 		if (sessaoBD.containsKey(idSessao)) {
 			sufixoIdCarona++;
@@ -247,7 +248,7 @@ public class UsuarioBusiness {
 
 			return carona.getId();
 		} else {
-			throw new Exception(MensagensDeErro.SESSAO_INEXISTENTE);
+			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
 		}
 
 	}
@@ -260,12 +261,12 @@ public class UsuarioBusiness {
 	 * @return uma mensagem com o conjuto de caronas que satisfazem os critérios de pesquisa
 	 * @throws Exception caso o os campos sejam preenchidos incorretamente
 	 */
-	public String localizarCarona(String idSessao, String origem, String destino) throws Exception {
+	public String localizarCarona(String idSessao, String origem, String destino) throws ECaronaException {
 
 		if(origem.equals("-") || origem.equals("()") || origem.equals("!") || origem.equals("!?")) 
-			throw new Exception(MensagensDeErro.ORIGEM_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.ORIGEM_INVALIDA);
 		if(destino.equals(".") || destino.equals("()") || destino.equals("!") || destino.equals("!?")) 
-			throw new Exception(MensagensDeErro.DESTINO_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
 		
 		
 		ArrayList<String> allID = new ArrayList<String>();
@@ -323,22 +324,22 @@ public class UsuarioBusiness {
 	 * @throws Exception caso a carona não exista na base ou o atributo não seja válido
 	 */
 	public String getAtributoCarona(String idCarona, String atributoCarona)
-			throws Exception {
+			throws ECaronaException {
 		CaronaDomain carona;
 
 		if (idCarona == null || idCarona.equals("")) {
-			throw new Exception(MensagensDeErro.IDENTIFICADOR_CARONA_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.IDENTIFICADOR_CARONA_INVALIDO);
 		}
 
 		if (caronaBD.containsKey(idCarona)) {
 			carona = caronaBD.get(idCarona);
 
 			if (atributoCarona == "" || atributoCarona == null)
-				throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
 
 			switch (atributoCarona) {
 			case "":
-				throw new Exception(MensagensDeErro.ATRIBUTO_INVALIDO);
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
 
 			case "origem":
 				return carona.getOrigem();
@@ -353,13 +354,13 @@ public class UsuarioBusiness {
 				return Integer.toString(carona.getVagas());
 
 			default:
-				throw new Exception(MensagensDeErro.ATRIBUTO_INEXISTENTE);
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INEXISTENTE);
 			}
 
 		}
 
 		else
-			throw new Exception(MensagensDeErro.ITEM_INEXISTENTE);
+			throw new ECaronaException(MensagensDeErro.ITEM_INEXISTENTE);
 
 	}
 
@@ -370,12 +371,12 @@ public class UsuarioBusiness {
 	 * @throws Exception caso os campos sejam nulos ou vazios, caso o id da carona
 	 * não exista
 	 */
-	public String getTrajetoCarona(String idCarona) throws Exception {
-		if(idCarona == null) throw new Exception(MensagensDeErro.TRAJETO_INVALIDO);
-		if(idCarona.equals("")) throw new Exception(MensagensDeErro.TRAJETO_INEXISTENTE);
+	public String getTrajetoCarona(String idCarona) throws ECaronaException {
+		if(idCarona == null) throw new ECaronaException(MensagensDeErro.TRAJETO_INVALIDO);
+		if(idCarona.equals("")) throw new ECaronaException(MensagensDeErro.TRAJETO_INEXISTENTE);
 		
 		CaronaDomain carona = caronaBD.get(idCarona);
-		if(carona == null) throw new Exception(MensagensDeErro.TRAJETO_INEXISTENTE);
+		if(carona == null) throw new ECaronaException(MensagensDeErro.TRAJETO_INEXISTENTE);
 		return carona.getOrigem() + " - " + carona.getDestino();
 	}
 
@@ -388,11 +389,11 @@ public class UsuarioBusiness {
 	 * @throws Exception Caso o atributo seja nulo ou inválido, não exista
 	 * carona com o id informado na base
 	 */
-	public String getCaronaInfo(String idCarona) throws Exception {
-		if(idCarona == null) throw new Exception(MensagensDeErro.CARONA_INVALIDA);
-		if(idCarona.equals("")) throw new Exception(MensagensDeErro.CARONA_INEXISTENTE);
+	public String getCaronaInfo(String idCarona) throws ECaronaException {
+		if(idCarona == null) throw new ECaronaException(MensagensDeErro.CARONA_INVALIDA);
+		if(idCarona.equals("")) throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
 		CaronaDomain carona = caronaBD.get(idCarona);
-		if(carona == null) throw new Exception(MensagensDeErro.CARONA_INEXISTENTE);
+		if(carona == null) throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
 		return carona.toString();
 
 	}

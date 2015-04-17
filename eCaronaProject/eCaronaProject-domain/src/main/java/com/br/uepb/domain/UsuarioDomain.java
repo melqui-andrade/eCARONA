@@ -3,6 +3,7 @@ package com.br.uepb.domain;
 import java.util.ArrayList;
 
 import com.br.uepb.constants.MensagensDeErro;
+import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.validator.adapter.ValidadorDeStringsAdapter;
 
 /**
@@ -29,12 +30,12 @@ public class UsuarioDomain {
 		return login;
 	}
 
-	public void setLogin(String login) throws Exception {
+	public void setLogin(String login) throws ECaronaException {
 
 		if (validarString.validarLogin(login)) {
 			this.login = login;
 		} else {
-			throw new Exception(MensagensDeErro.LOGIN_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
 
 		}
 
@@ -44,12 +45,12 @@ public class UsuarioDomain {
 		return senha;
 	}
 
-	public void setSenha(String senha) throws Exception {
+	public void setSenha(String senha) throws ECaronaException {
 
 		if (validarString.validarSenha(senha)) {
 			this.senha = senha;
 		} else {
-			throw new Exception(MensagensDeErro.SENHA_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.SENHA_INVALIDA);
 
 		}
 
@@ -59,10 +60,10 @@ public class UsuarioDomain {
 		return nome;
 	}
 
-	public void setNome(String nome) throws Exception {
+	public void setNome(String nome) throws ECaronaException {
 
 		if (nome == null || nome.isEmpty() || nome.trim().isEmpty()) {
-			throw new Exception(MensagensDeErro.NOME_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.NOME_INVALIDO);
 
 		} else {
 			this.nome = nome;
@@ -75,10 +76,10 @@ public class UsuarioDomain {
 		return endereco;
 	}
 
-	public void setEndereco(String endereco) throws Exception {
+	public void setEndereco(String endereco) throws ECaronaException {
 
 		if (endereco == null || endereco.isEmpty() || endereco.trim().isEmpty()) {
-			throw new Exception(MensagensDeErro.ENDERECO_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.ENDERECO_INVALIDO);
 
 		} else {
 			this.endereco = endereco;
@@ -90,12 +91,12 @@ public class UsuarioDomain {
 		return email;
 	}
 
-	public void setEmail(String email) throws Exception {
+	public void setEmail(String email) throws ECaronaException {
 
 		if (validarString.validarEmail(email)) {
 			this.email = email;
 		} else {
-			throw new Exception(MensagensDeErro.EMAIL_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.EMAIL_INVALIDO);
 		}
 
 	}

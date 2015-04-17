@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.br.uepb.constants.MensagensDeErro;
+import com.br.uepb.constants.ECaronaException;
 /***
  * Uma carona representa a carona que um usuário pode oferecer
  * é composta de um ID, o nome da origem, o nome do destino, uma data, horário
@@ -35,11 +36,11 @@ public class CaronaDomain {
 		return origem;
 	}
 
-	public void setOrigem(String origem) throws Exception {
+	public void setOrigem(String origem) throws ECaronaException {
 
 		if (origem == null || origem.equals("") || origem.equals("-")
 				|| origem.equals("!") || origem.equals("!?"))
-			throw new Exception(MensagensDeErro.ORIGEM_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.ORIGEM_INVALIDA);
 
 		this.origem = origem;
 	}
@@ -48,11 +49,11 @@ public class CaronaDomain {
 		return destino;
 	}
 
-	public void setDestino(String destino) throws Exception {
+	public void setDestino(String destino) throws ECaronaException {
 
 		if (destino == null || destino.equals("") || destino.equals("()")
 				|| destino.equals(".") || destino.equals("!?"))
-			throw new Exception(MensagensDeErro.DESTINO_INVALIDO);
+			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
 
 		this.destino = destino;
 	}
@@ -61,10 +62,10 @@ public class CaronaDomain {
 		return data;
 	}
 
-	public void setData(String data) throws Exception {
+	public void setData(String data) throws ECaronaException {
 
 		if (data == null || data.equals(""))
-			throw new Exception(MensagensDeErro.DATA_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.DATA_INVALIDA);
 
 		SimpleDateFormat dataStringFormat = new SimpleDateFormat("dd/MM/yyyy");
 		dataStringFormat.setLenient(false);
@@ -72,7 +73,7 @@ public class CaronaDomain {
 		try {
 			Date data_ = dataStringFormat.parse(data); // VALIDA A DATA
 		} catch (ParseException e) {
-			throw new Exception(MensagensDeErro.DATA_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.DATA_INVALIDA);
 
 		}
 
@@ -83,10 +84,10 @@ public class CaronaDomain {
 		return hora;
 	}
 
-	public void setHora(String hora) throws Exception {
+	public void setHora(String hora) throws ECaronaException {
 
 		if (hora == null || hora.equals("") || hora.trim() == null)
-			throw new Exception(MensagensDeErro.HORA_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.HORA_INVALIDA);
 		
 		SimpleDateFormat horaStringFormat = new SimpleDateFormat("HH:mm");
 
@@ -94,7 +95,7 @@ public class CaronaDomain {
 		try {
 			Date hora_ = horaStringFormat.parse(hora);
 		} catch (ParseException e) {
-			throw new Exception(MensagensDeErro.HORA_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.HORA_INVALIDA);
 		}
 
 		
@@ -106,17 +107,17 @@ public class CaronaDomain {
 		return vagas;
 	}
 
-	public void setVagas(Integer vagas) throws Exception {
+	public void setVagas(Integer vagas) throws ECaronaException {
 
 	
 		if (vagas == null || vagas.equals(""))
-			throw new Exception(MensagensDeErro.VAGA_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.VAGA_INVALIDA);
 
 		try{
 			this.vagas = vagas;
 
 		}catch (Exception e){
-			throw new Exception(MensagensDeErro.VAGA_INVALIDA);
+			throw new ECaronaException(MensagensDeErro.VAGA_INVALIDA);
 
 		}
 	}
