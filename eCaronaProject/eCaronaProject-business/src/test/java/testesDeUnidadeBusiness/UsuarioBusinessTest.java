@@ -11,7 +11,6 @@ import org.junit.Test;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
-import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 public class UsuarioBusinessTest {
@@ -160,9 +159,6 @@ public class UsuarioBusinessTest {
 
 		// VERIFICAR ATRIBUTOS DE MARK
 		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
-		UsuarioDomain usuario = gerenciadorDeUsuario.getSessaoBD()
-				.get(idSessao).getUsuario();
-		String loginUsuario = usuario.getLogin();
 
 		Assert.assertEquals(gerenciadorDeUsuario.localizarCarona(idSessao,
 				"Campina Grande", "João Pessoa"), "{}");
@@ -181,8 +177,6 @@ public class UsuarioBusinessTest {
 
 		// VERIFICAR ATRIBUTOS DE MARK
 		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
-		UsuarioDomain usuario = gerenciadorDeUsuario.getSessaoBD()
-				.get(idSessao).getUsuario();
 
 		ArrayList<String> allID = new ArrayList<String>();
 		int i = 0;
@@ -213,10 +207,45 @@ public class UsuarioBusinessTest {
 		i++;
 
 		// TERCEIRO ID
-		allID.add(gerenciadorDeUsuario.cadastrarCarona(idSessao,
-				"João Pessoa", "Campina Grande","25/11/2026", "06:59", "4"));
-		
+		allID.add(gerenciadorDeUsuario.cadastrarCarona(idSessao, "João Pessoa",
+				"Campina Grande", "25/11/2026", "06:59", "4"));
+		Assert.assertEquals(gerenciadorDeUsuario.getCaronaInfo(allID.get(i)),
+				"João Pessoa para Campina Grande, no dia 25/11/2026, as 06:59");
+		i++;
 
+		// QUARTO ID
+		allID.add(gerenciadorDeUsuario.cadastrarCarona(idSessao, "João Pessoa",
+				"Lagoa Seca", "25/11/2016", "05:00", "4"));
+		Assert.assertEquals(gerenciadorDeUsuario.getCaronaInfo(allID.get(i)),
+				"João Pessoa para Lagoa Seca, no dia 25/11/2016, as 05:00");
+		i++;
+
+		// QUINTO ID
+		allID.add(gerenciadorDeUsuario.cadastrarCarona(idSessao, "João Pessoa",
+				"Lagoa Seca", "25/11/2017", "05:00", "4"));
+		Assert.assertEquals(gerenciadorDeUsuario.getCaronaInfo(allID.get(i)),
+				"João Pessoa para Lagoa Seca, no dia 25/11/2017, as 05:00");
+		i++;
+
+		// LOCALIZAR CARONA PARA OS DADOS DESSE ESCOPO
+		Assert.assertEquals(gerenciadorDeUsuario.localizarCarona(idSessao,
+				"São Francisco", "Palo Alto"), "{}");
+		Assert.assertEquals(gerenciadorDeUsuario.localizarCarona(idSessao,
+				"Rio de Janeiro", "São Paulo"), "{" + allID.get(1) + "}");
+		Assert.assertEquals(gerenciadorDeUsuario.localizarCarona(idSessao,
+				"João Pessoa", "Campina Grande"), "{" + allID.get(2) + "}");
+
+		// LOCALIZAR TODAS AS CARONA PARA UMA ORIGEM ESPECIFICA CADASTRADA
+		Assert.assertEquals(gerenciadorDeUsuario.localizarCarona(idSessao,
+				"João Pessoa", ""), "{carona3ID,carona4ID,carona5ID}");
+		Assert.assertEquals(gerenciadorDeUsuario.localizarCarona(idSessao,
+				"", "São Paulo"), "{carona2ID}");
+		
+		//LOCALIZAR TODAS AS CARONAS
+		Assert.assertEquals(gerenciadorDeUsuario.localizarCarona(idSessao,
+				"", ""), "{carona1ID,carona2ID,carona3ID,carona4ID,carona5ID}");
 	}
 
+	
+	
 }
