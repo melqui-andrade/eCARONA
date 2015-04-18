@@ -16,6 +16,7 @@ import com.br.uepb.constants.ECaronaException;
  */
 public class CaronaDomain {
 
+	private String idSessao;
 	private String id;
 	private String origem;
 	private String destino;
@@ -30,6 +31,14 @@ public class CaronaDomain {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getIdSessao(){
+		return idSessao;
+	}
+	
+	public void setIdSessao(String idSessao){
+		this.idSessao = idSessao;
 	}
 
 	public String getOrigem() {

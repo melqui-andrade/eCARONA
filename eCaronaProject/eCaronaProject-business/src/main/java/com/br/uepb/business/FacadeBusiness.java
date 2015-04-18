@@ -56,11 +56,24 @@ public class FacadeBusiness {
 		return null;
 	}
 		
+	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSegestao, String pontos){
+		
+	}
+	
+	public String getAtributoSolicitacao(String idSocilitacao, String atributo){
+		return "";
+	}
+	
+	public void aceitarSolicitacaoPontoEncontro(String idSessao, String idSolicitacao){
+		
+	}
+	
 	public void zerarSistema(){
 		if(gerenciadorDeUsuario != null){
 			gerenciadorDeUsuario = new UsuarioBusiness();
 		}
 	}
+	
 	
 	public void encerrarSistema(){
 		

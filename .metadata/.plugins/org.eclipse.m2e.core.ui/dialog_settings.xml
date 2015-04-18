@@ -2,8 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
-			<item value="C:\Users\tecnova.DATASHOP\Documents\melqui\eCaronaProject"/>
 			<item value="C:\Users\Melqui\Documents\eCARONA"/>
+			<item value="C:\Users\tecnova.DATASHOP\Documents\melqui\eCaronaProject"/>
 			<item value="C:\Users\Melqui\Documents\eCARONA\exampleProject"/>
 		</list>
 		<list key="projectNameTemplate">

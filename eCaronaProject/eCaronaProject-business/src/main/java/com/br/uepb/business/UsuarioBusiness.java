@@ -129,7 +129,7 @@ public class UsuarioBusiness {
 
 		SessaoDomain sessao = new SessaoDomain(idSessao, usuario);
 
-		sessaoBD.put(idSessao, sessao);
+		sessaoBD.put(usuario.getLogin(), sessao);
 
 		return idSessao;
 	}
@@ -256,6 +256,7 @@ public class UsuarioBusiness {
 			carona.setVagas(Integer.valueOf(vagas));
 
 			carona.setHora(hora);
+			
 
 			String identificadorCarona = "carona"
 					+ String.valueOf(sufixoIdCarona) + "ID";
@@ -426,6 +427,10 @@ public class UsuarioBusiness {
 	public String sugerirPontoEncontro(String idSessao, String idCarona,
 			String[] pontosSugeridos) {
 		return idSessao + idCarona;
+	}
+	
+	public void aceitarPontoDeEncontro(String idSessao, String idSolicitacao){
+		
 	}
 
 }

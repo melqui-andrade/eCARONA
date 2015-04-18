@@ -10,10 +10,13 @@ public class SessaoDomain {
 
 	private String id;
 	private UsuarioDomain usuario;
+	private boolean estaAtiva;
+	private String data;
 
 	public SessaoDomain(String id1, UsuarioDomain usuario1) {
 		this.id = id1;
 		this.usuario = usuario1;
+		estaAtiva = true;
 	}	
 
 	public String getId() {
