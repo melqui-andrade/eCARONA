@@ -16,7 +16,7 @@ public class SessaoBusiness {
 	private ArrayList<SessaoDomain> sessoes;
 	
 	public SessaoBusiness(){
-		
+		sessoes = new ArrayList<SessaoDomain>();
 	}
 	/**
 	 * Cria uma nova sessão no sistema

@@ -129,7 +129,7 @@ public class UsuarioBusiness {
 
 		SessaoDomain sessao = new SessaoDomain(idSessao, usuario);
 
-		sessaoBD.put(usuario.getLogin(), sessao);
+		sessaoBD.put(idSessao, sessao);
 
 		return idSessao;
 	}
