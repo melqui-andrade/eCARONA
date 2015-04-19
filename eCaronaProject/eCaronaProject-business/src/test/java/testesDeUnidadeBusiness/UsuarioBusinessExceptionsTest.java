@@ -2,23 +2,28 @@ package testesDeUnidadeBusiness;
 
 import static org.junit.Assert.*;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.br.uepb.business.CaronaBusiness;
+import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
-import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.dao.PersistenciaDAO;
 
 public class UsuarioBusinessExceptionsTest {
 
+	private PersistenciaDAO persistencia = new PersistenciaDAO();
 	private UsuarioBusiness gerenciadorDeUsuario;
+	private SessaoBusiness gerenciadorDeSessao;
+	private CaronaBusiness gerenciadorDeCarona;
 
 	@Before
 	public void setUp() {
-		gerenciadorDeUsuario = new UsuarioBusiness();
-
+		this.gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+		this.gerenciadorDeSessao = new SessaoBusiness(persistencia);
+		this.gerenciadorDeCarona = new CaronaBusiness(persistencia);
 	}
 
 	// ERROS DO US01
@@ -43,31 +48,31 @@ public class UsuarioBusinessExceptionsTest {
 		}
 
 		try {
-			gerenciadorDeUsuario.abrirSessao(null, "teste");
+			gerenciadorDeSessao.abrirSessao(null, "teste");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.LOGIN_INVALIDO, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.abrirSessao("", "segundoTeste");
+			gerenciadorDeSessao.abrirSessao("", "segundoTeste");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.LOGIN_INVALIDO, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.abrirSessao("mark", "segundoTeste");
+			gerenciadorDeSessao.abrirSessao("mark", "segundoTeste");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.LOGIN_INVALIDO, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.abrirSessao(null, null);
+			gerenciadorDeSessao.abrirSessao(null, null);
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.LOGIN_INVALIDO, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.abrirSessao("", "");
+			gerenciadorDeSessao.abrirSessao("", "");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.LOGIN_INVALIDO, eCa.getMessage());
 		}
@@ -176,7 +181,7 @@ public class UsuarioBusinessExceptionsTest {
 				"billzin@msn.com");
 
 		try {
-			gerenciadorDeUsuario.abrirSessao("hufflees", "123");
+			gerenciadorDeSessao.abrirSessao("hufflees", "123");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.USUARIO_INEXISTENTE, eCa.getMessage());
 		}
@@ -243,14 +248,14 @@ public class UsuarioBusinessExceptionsTest {
 	public void sessaoInvalidaTest() throws ECaronaException {
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(null, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(null, "Campina Grande",
 					"João Pessoa", "23/06/2013", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.SESSAO_INVALIDA, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona("", "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona("", "Campina Grande",
 					"João Pessoa", "23/06/2013", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.SESSAO_INVALIDA, eCa.getMessage());
@@ -262,7 +267,7 @@ public class UsuarioBusinessExceptionsTest {
 	public void sessaoInexistenteTest() throws ECaronaException {
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona("teste", "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona("teste", "Campina Grande",
 					"João Pessoa", "23/06/2013", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.SESSAO_INEXISTENTE, eCa.getMessage());
@@ -275,17 +280,17 @@ public class UsuarioBusinessExceptionsTest {
 
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "", "João Pessoa",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "", "João Pessoa",
 					"23/06/2013", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ORIGEM_INVALIDA, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, null, "João Pessoa",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, null, "João Pessoa",
 					"23/06/2013", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ORIGEM_INVALIDA, eCa.getMessage());
@@ -298,17 +303,17 @@ public class UsuarioBusinessExceptionsTest {
 
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"", "23/06/2013", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DESTINO_INVALIDO, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					null, "23/06/2013", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DESTINO_INVALIDO, eCa.getMessage());
@@ -321,44 +326,44 @@ public class UsuarioBusinessExceptionsTest {
 
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DATA_INVALIDA, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", null, "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DATA_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "30/02/2012", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DATA_INVALIDA, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "31/04/2012", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DATA_INVALIDA, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "32/12/2012", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DATA_INVALIDA, eCa.getMessage());
 		}
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "30/02/2011", "16:00", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DATA_INVALIDA, eCa.getMessage());
@@ -371,22 +376,22 @@ public class UsuarioBusinessExceptionsTest {
 
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "23/06/2013", "", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.HORA_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "23/06/2013", null, "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.HORA_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "23/06/2013", "sete", "3");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.HORA_INVALIDA, eCa.getMessage());
@@ -398,22 +403,22 @@ public class UsuarioBusinessExceptionsTest {
 
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "23/06/2013", "16:00", "");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.VAGA_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "23/06/2013", "16:00", "null");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.VAGA_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.cadastrarCarona(idSessao, "Campina Grande",
+			gerenciadorDeCarona.cadastrarCarona(idSessao, "Campina Grande",
 					"João Pessoa", "23/06/2013", "16:00", "tres");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.VAGA_INVALIDA, eCa.getMessage());
@@ -427,13 +432,13 @@ public class UsuarioBusinessExceptionsTest {
 				"Palo Alto, California", "mark@facebook.com");
 
 		try {
-			gerenciadorDeUsuario.getAtributoCarona("", "origem");
+			gerenciadorDeCarona.getAtributoCarona("", "origem");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.IDENTIFICADOR_CARONA_INVALIDO,
 					eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.getAtributoCarona(null, "origem");
+			gerenciadorDeCarona.getAtributoCarona(null, "origem");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.IDENTIFICADOR_CARONA_INVALIDO,
 					eCa.getMessage());
@@ -447,7 +452,7 @@ public class UsuarioBusinessExceptionsTest {
 				"Palo Alto, California", "mark@facebook.com");
 
 		try {
-			gerenciadorDeUsuario.getAtributoCarona("xpto", "origem");
+			gerenciadorDeCarona.getAtributoCarona("xpto", "origem");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ITEM_INEXISTENTE, eCa.getMessage());
 		}
@@ -459,23 +464,23 @@ public class UsuarioBusinessExceptionsTest {
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
 
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
-		String idCarona = gerenciadorDeUsuario.cadastrarCarona(idSessao,
+		String idCarona = gerenciadorDeCarona.cadastrarCarona(idSessao,
 				"Rio de Janeiro", "São Paulo", "31/05/2013", "08:00", "2");
 
 		try {
-			gerenciadorDeUsuario.getAtributoCarona(idCarona, "");
+			gerenciadorDeCarona.getAtributoCarona(idCarona, "");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ATRIBUTO_INVALIDO, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.getAtributoCarona(idCarona, null);
+			gerenciadorDeCarona.getAtributoCarona(idCarona, null);
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ATRIBUTO_INVALIDO, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.getAtributoCarona(idCarona, "xpto");
+			gerenciadorDeCarona.getAtributoCarona(idCarona, "xpto");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ATRIBUTO_INEXISTENTE, eCa.getMessage());
 		}
@@ -487,25 +492,25 @@ public class UsuarioBusinessExceptionsTest {
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
 
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
 		try {
-			gerenciadorDeUsuario.localizarCarona(idSessao, "-", "João Pessoa");
+			gerenciadorDeCarona.localizarCarona(idSessao, "-", "João Pessoa");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ORIGEM_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.localizarCarona(idSessao, "()", "João Pessoa");
+			gerenciadorDeCarona.localizarCarona(idSessao, "()", "João Pessoa");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ORIGEM_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.localizarCarona(idSessao, "!", "João Pessoa");
+			gerenciadorDeCarona.localizarCarona(idSessao, "!", "João Pessoa");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ORIGEM_INVALIDA, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.localizarCarona(idSessao, "!?", "João Pessoa");
+			gerenciadorDeCarona.localizarCarona(idSessao, "!?", "João Pessoa");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.ORIGEM_INVALIDA, eCa.getMessage());
 		}
@@ -517,20 +522,20 @@ public class UsuarioBusinessExceptionsTest {
 		gerenciadorDeUsuario.criarUsuario("mark", "m@rk", "Mark Zuckerberg",
 				"Palo Alto, California", "mark@facebook.com");
 
-		String idSessao = gerenciadorDeUsuario.abrirSessao("mark", "m@rk");
+		String idSessao = gerenciadorDeSessao.abrirSessao("mark", "m@rk");
 
 		try {
-			gerenciadorDeUsuario.localizarCarona(idSessao, "Campina Grande", ".");
+			gerenciadorDeCarona.localizarCarona(idSessao, "Campina Grande", ".");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DESTINO_INVALIDO, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.localizarCarona(idSessao, "Campina Grande", "()");
+			gerenciadorDeCarona.localizarCarona(idSessao, "Campina Grande", "()");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DESTINO_INVALIDO, eCa.getMessage());
 		}
 		try {
-			gerenciadorDeUsuario.localizarCarona(idSessao, "Campina Grande", "!?");
+			gerenciadorDeCarona.localizarCarona(idSessao, "Campina Grande", "!?");
 		} catch (ECaronaException eCa) {
 			assertEquals(MensagensDeErro.DESTINO_INVALIDO, eCa.getMessage());
 		}

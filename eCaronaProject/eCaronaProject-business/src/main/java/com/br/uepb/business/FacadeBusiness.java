@@ -1,84 +1,118 @@
 package com.br.uepb.business;
-import easyaccept.*;
+
+import com.br.uepb.dao.PersistenciaDAO;
 
 public class FacadeBusiness {
-	
-	private UsuarioBusiness gerenciadorDeUsuario = new UsuarioBusiness();
-	private SessaoBusiness gerenciadorDeSessao = new SessaoBusiness();
-	
-	
-	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception{	
+
+	private PersistenciaDAO persistencia = new PersistenciaDAO();
+	private UsuarioBusiness gerenciadorDeUsuario;
+	private SessaoBusiness gerenciadorDeSessao;
+	private CaronaBusiness gerenciadorDeCarona;
+	private PontoDeEncontroBusiness gerenciadorDePontoDeEncontro;
+
+
+	public void criarUsuario(String login, String senha, String nome,
+			String endereco, String email) throws Exception {
 		gerenciadorDeUsuario.criarUsuario(login, senha, nome, endereco, email);
 	}
-	
-	public String abrirSessao(String login, String senha) throws Exception{
-		String sessaoId = gerenciadorDeUsuario.abrirSessao(login, senha);
-		
+
+	public String abrirSessao(String login, String senha) throws Exception {
+		String sessaoId = gerenciadorDeSessao.abrirSessao(login, senha);
+
 		return sessaoId;
 	}
-	
-	public String getAtributoUsuario(String login, String atributo) throws Exception{
+
+	public String getAtributoUsuario(String login, String atributo)
+			throws Exception {
 		return gerenciadorDeUsuario.getAtributoUsuario(login, atributo);
 	}
-	
-	public String cadastrarCarona(String sessao, String origem, String destino, String data,
-			String hora, String vagas) throws Exception{
-		return gerenciadorDeUsuario.cadastrarCarona(sessao, origem, destino, data, hora, vagas);
+
+	public String cadastrarCarona(String sessao, String origem, String destino,
+			String data, String hora, String vagas) throws Exception {
+		return gerenciadorDeCarona.cadastrarCarona(sessao, origem, destino,
+				data, hora, vagas);
 	}
-	
-	public String localizarCarona(String sessao, String origem, String destino) throws Exception{
-		return gerenciadorDeUsuario.localizarCarona(sessao, origem, destino);
+
+	public String localizarCarona(String sessao, String origem, String destino)
+			throws Exception {
+		return gerenciadorDeCarona.localizarCarona(sessao, origem, destino);
 	}
-	
-	public String getAtributoCarona(String idCarona, String atributoCarona) throws Exception{
-		
-		return gerenciadorDeUsuario.getAtributoCarona(idCarona, atributoCarona);		
+
+	public String getAtributoCarona(String idCarona, String atributoCarona)
+			throws Exception {
+
+		return gerenciadorDeCarona.getAtributoCarona(idCarona, atributoCarona);
 	}
-	
-	public String getTrajeto(String idCarona) throws Exception{
-		return gerenciadorDeUsuario.getTrajetoCarona(idCarona);
+
+	public String getTrajeto(String idCarona) throws Exception {
+		return gerenciadorDeCarona.getTrajetoCarona(idCarona);
 	}
-	
-	public String getCarona(String idCarona) throws Exception{
-		return gerenciadorDeUsuario.getCaronaInfo(idCarona);
+
+	public String getCarona(String idCarona) throws Exception {
+		return gerenciadorDeCarona.getCaronaInfo(idCarona);
 	}
-	
-	public void encerrarSessao(String loginUsuario){
-		gerenciadorDeUsuario.encerrarSessao(loginUsuario);
+
+	public void encerrarSessao(String loginUsuario) {
+		gerenciadorDeSessao.encerrarSessao(loginUsuario);
 	}
-	
-	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontos){
+
+	public String sugerirPontoEncontro(String idSessao, String idCarona,
+			String pontos) {
 		String[] pontosSugeridos = pontos.split(";");
-		return gerenciadorDeUsuario.sugerirPontoEncontro(idSessao, idCarona, pontosSugeridos);
+		return gerenciadorDePontoDeEncontro.sugerirPontoEncontro(idSessao, idCarona,
+				pontosSugeridos);
 	}
-	
-	public String solicitarVagaPontoEncontro(String idSessao, String idCarona, String ponto){
+
+	public String solicitarVagaPontoEncontro(String idSessao, String idCarona,
+			String ponto) {
 		return null;
 	}
-		
-	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSegestao, String pontos){
-		
+
+	public void responderSugestaoPontoEncontro(String idSessao,
+			String idCarona, String idSegestao, String pontos) {
+
 	}
-	
-	public String getAtributoSolicitacao(String idSocilitacao, String atributo){
+
+	public String getAtributoSolicitacao(String idSocilitacao, String atributo) {
 		return "";
 	}
-	
-	public void aceitarSolicitacaoPontoEncontro(String idSessao, String idSolicitacao){
-		
+
+	public void aceitarSolicitacaoPontoEncontro(String idSessao,
+			String idSolicitacao) {
+
 	}
-	
-	public void zerarSistema(){
-		if(gerenciadorDeUsuario != null){
-			gerenciadorDeUsuario = new UsuarioBusiness();
+
+	public void zerarSistema() {
+		persistencia = new PersistenciaDAO();
+		gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+		gerenciadorDeSessao = new SessaoBusiness(persistencia);
+		gerenciadorDeCarona = new CaronaBusiness(persistencia);
+		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+
+
+	}
+
+	public void encerrarSistema() {
+
+		if (persistencia != null) {
+			persistencia = new PersistenciaDAO();
 		}
+
+		if (gerenciadorDeUsuario != null) {
+			gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+		}
+
+		if (gerenciadorDeSessao != null) {
+			gerenciadorDeSessao = new SessaoBusiness(persistencia);
+		}
+
+		if (gerenciadorDeCarona != null) {
+			gerenciadorDeCarona = new CaronaBusiness(persistencia);
+		}
+		if (gerenciadorDePontoDeEncontro != null) {
+			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+		}
+
 	}
-	
-	
-	public void encerrarSistema(){
-		
-	}	
-	
-	
 
 }

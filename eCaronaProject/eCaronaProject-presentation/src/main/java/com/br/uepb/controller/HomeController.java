@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.br.uepb.business.HomeBusiness;
+import backupBusiness.HomeBusiness;
+
 import com.br.uepb.domain.ChicoTripa;
 
 @Controller

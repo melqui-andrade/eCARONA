@@ -2,26 +2,24 @@ package testesDeUnidadeBusiness;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.br.uepb.business.SessaoBusiness;
-import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.constants.ECaronaException;
-import com.br.uepb.constants.MensagensDeErro;
+import com.br.uepb.dao.PersistenciaDAO;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 public class SessaoBusinessTest {
 
+	private PersistenciaDAO persistencia = new PersistenciaDAO();
 	private SessaoBusiness gerenciadorDeSessao;
+	
 
 	@Before
 	public void setUp() {
-		gerenciadorDeSessao = new SessaoBusiness();
+		gerenciadorDeSessao = new SessaoBusiness(persistencia);
 
 	}
 
