@@ -3,8 +3,8 @@ package backupBusiness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.br.uepb.dao.UserDAO;
-import com.br.uepb.domain.ChicoTripa;
+import servicesBackup.UserDAO;
+import domainBackup.ChicoTripa;
 
 @Component
 public class HomeBusiness {

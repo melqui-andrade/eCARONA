@@ -1,4 +1,4 @@
-package com.br.uepb.domain;
+package domainBackup;
 
 import java.util.ArrayList;
 import java.util.List;

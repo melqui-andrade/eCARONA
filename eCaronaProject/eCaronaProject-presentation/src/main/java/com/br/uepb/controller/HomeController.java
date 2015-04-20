@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import backupBusiness.HomeBusiness;
-
-import com.br.uepb.domain.ChicoTripa;
+import domainBackup.ChicoTripa;
 
 @Controller
 public class HomeController {

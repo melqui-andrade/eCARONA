@@ -2,6 +2,10 @@ package com.br.uepb.domain;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.validator.adapter.ValidadorDeStringsAdapter;
@@ -12,12 +16,19 @@ import com.br.uepb.validator.adapter.ValidadorDeStringsAdapter;
  * @author Melqui
  *
  */
+@Entity
+@Table(name="USUARIO_DAO")
 public class UsuarioDomain {
-	
+
+	@Column(name="LOGIN")
 	private String login;
+	@Column(name="SENHA")
 	private String senha;
+	@Column(name="NOME")
 	private String nome;
+	@Column(name="ENDERECO")
 	private String endereco;
+	@Column(name="EMAIL")
 	private String email;
 	
 	private ArrayList<CaronaDomain> caronas;

@@ -1,6 +1,6 @@
 package com.br.uepb.business;
 
-import com.br.uepb.dao.PersistenciaDAO;
+import servicesBackup.PersistenciaDAO;
 
 public class PontoDeEncontroBusiness {
 

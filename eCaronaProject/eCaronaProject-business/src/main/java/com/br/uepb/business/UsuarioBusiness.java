@@ -1,9 +1,10 @@
 package com.br.uepb.business;
 
 
+import servicesBackup.PersistenciaDAO;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
-import com.br.uepb.dao.PersistenciaDAO;
 import com.br.uepb.domain.UsuarioDomain;
 
 /**

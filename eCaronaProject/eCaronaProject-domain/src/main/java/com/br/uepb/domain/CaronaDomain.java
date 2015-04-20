@@ -5,6 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.constants.ECaronaException;
 /***
@@ -14,23 +18,72 @@ import com.br.uepb.constants.ECaronaException;
  * @author Melqui
  *
  */
+@Entity
+@Table(name="CARONA_DAO")
 public class CaronaDomain {
 
+	@Column(name="ID_SESSAO")
 	private String idSessao;
-	private String id;
+	
+	@Column(name="ID_CARONA_DAO")
+	private String idCarona;
+	
+	@Column(name="ORIGEM")
 	private String origem;
+	
+	@Column(name="DESTINO")
 	private String destino;
+	
+	@Column(name="DATA_")
 	private String data;
+	
+	@Column(name="HORA_")
 	private String hora;
+	
+	@Column(name="VAGAS")
 	private Integer vagas;
+
+	@Column(name="SESSAO_DAO_USUARIO_DAO_LOGIN")
+	private String usuarioLogin;
+	
+		
+	/**
+	 * @return the idCarona
+	 */
+	public String getIdCarona() {
+		return idCarona;
+	}
+
+	/**
+	 * @param idCarona the idCarona to set
+	 */
+	public void setIdCarona(String idCarona) {
+		this.idCarona = idCarona;
+	}
+
+	/**
+	 * @return the usuarioLogin
+	 */
+	public String getUsuarioLogin() {
+		return usuarioLogin;
+	}
+
+	/**
+	 * @param usuarioLogin the usuarioLogin to set
+	 */
+	public void setUsuarioLogin(String usuarioLogin) {
+		this.usuarioLogin = usuarioLogin;
+	}
+
+
 	private HashMap<String , String[] > pontos;
 
 	public String getId() {
-		return id;
+		return idCarona;
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this.idCarona = id;
 	}
 	
 	public String getIdSessao(){
