@@ -1,6 +1,6 @@
-package com.br.uepb.dao;
+package servicesBackup;
 
-import com.br.uepb.domain.ChicoTripa;
+import domainBackup.ChicoTripa;
 
 public interface UserDAO {
 

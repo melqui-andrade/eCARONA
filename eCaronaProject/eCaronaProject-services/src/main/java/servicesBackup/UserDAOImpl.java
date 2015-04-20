@@ -1,9 +1,8 @@
-package com.br.uepb.dao.impl;
+package servicesBackup;
 
 import org.springframework.stereotype.Service;
 
-import com.br.uepb.dao.UserDAO;
-import com.br.uepb.domain.ChicoTripa;
+import domainBackup.ChicoTripa;
 
 @Service
 public class UserDAOImpl implements UserDAO {

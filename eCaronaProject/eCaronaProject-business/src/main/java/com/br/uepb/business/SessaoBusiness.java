@@ -3,9 +3,10 @@ package com.br.uepb.business;
 import java.util.ArrayList;
 import java.util.Date;
 
+import servicesBackup.PersistenciaDAO;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
-import com.br.uepb.dao.PersistenciaDAO;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
