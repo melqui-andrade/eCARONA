@@ -8,7 +8,7 @@ public class FacadeBusiness {
 	private UsuarioBusiness gerenciadorDeUsuario;
 	private SessaoBusiness gerenciadorDeSessao;
 	private CaronaBusiness gerenciadorDeCarona;
-	private PontoDeEncontroBusiness gerenciadorDePontoDeEncontro;
+	private SolicitacaoBusiness gerenciadorDePontoDeEncontro;
 
 
 	public void criarUsuario(String login, String senha, String nome,
@@ -65,20 +65,24 @@ public class FacadeBusiness {
 
 	public String solicitarVagaPontoEncontro(String idSessao, String idCarona,
 			String ponto) {
+		//TODO implementar no business
 		return null;
 	}
 
 	public void responderSugestaoPontoEncontro(String idSessao,
 			String idCarona, String idSegestao, String pontos) {
+		//TODO implementar no business
 
 	}
 
 	public String getAtributoSolicitacao(String idSocilitacao, String atributo) {
 		return "";
+		//TODO implementar no business
 	}
 
 	public void aceitarSolicitacaoPontoEncontro(String idSessao,
 			String idSolicitacao) {
+		//TODO implementar no business
 
 	}
 
@@ -87,7 +91,7 @@ public class FacadeBusiness {
 		gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
 		gerenciadorDeSessao = new SessaoBusiness(persistencia);
 		gerenciadorDeCarona = new CaronaBusiness(persistencia);
-		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+		gerenciadorDePontoDeEncontro = new SolicitacaoBusiness(persistencia);
 
 
 	}
@@ -110,7 +114,7 @@ public class FacadeBusiness {
 			gerenciadorDeCarona = new CaronaBusiness(persistencia);
 		}
 		if (gerenciadorDePontoDeEncontro != null) {
-			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+			gerenciadorDePontoDeEncontro = new SolicitacaoBusiness(persistencia);
 		}
 
 	}
