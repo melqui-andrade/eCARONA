@@ -1,5 +1,6 @@
 package com.br.uepb.business;
 
+<<<<<<< HEAD
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
@@ -8,6 +9,17 @@ import com.br.uepb.domain.SolicitacaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 import servicesBackup.PersistenciaDAO;
+=======
+import java.sql.Time;
+import java.time.ZonedDateTime;
+import java.util.Date;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
+
+import com.br.uepb.dao.PersistenciaDAO;
+import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SolicitacaoDomain;
+>>>>>>> 09d257765c33ef05be6b36ab091c9ab5c88bff5a
 
 public class SolicitacaoBusiness {
 
@@ -30,6 +42,7 @@ public class SolicitacaoBusiness {
 	}
 	/**
 	 * Solicita uma vaga em determinada carona
+<<<<<<< HEAD
 	 * @param idSessaoDoSolicitante Id do usuÃ¡rio interessado na carona
 	 * @param idCarona Id da carona desejada
 	 * @param local ponto de encontro sugerido pelo interessado
@@ -47,12 +60,30 @@ public class SolicitacaoBusiness {
 		novaSolicitacao.setLocal(local);
 		
 		persistencia.getSolicitacaoBD().put(idSolicitacao, novaSolicitacao);
+=======
+	 * @param idSessaoDoSolicitante Id do usuário interessado na carona
+	 * @param idCarona Id da carona desejada
+	 * @param local ponto de encontro sugerido pelo interessado
+	 * @return id da solicitação feita
+	 */
+	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona, String local){
+		long instante = System.currentTimeMillis();
+		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
+		String idSolicitacao = idSessaoDoSolicitante.substring(0,0) + idCarona.substring((idCarona.length()-1)) + instante;
+		
+		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
+		novaSolicitacao.setId(idSolicitacao);
+		novaSolicitacao.setIdCarona(idCarona);
+		novaSolicitacao.setLocal(local);
+		
+>>>>>>> 09d257765c33ef05be6b36ab091c9ab5c88bff5a
 		return idSolicitacao;
 	}
 
 	public void aceitarPontoDeEncontro(String idSessao, String idSolicitacao) {
 
 	}
+<<<<<<< HEAD
 
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws ECaronaException {
 		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(idSolicitacao);
@@ -95,4 +126,8 @@ public class SolicitacaoBusiness {
 		
 		
 	}
+=======
+	
+	
+>>>>>>> 09d257765c33ef05be6b36ab091c9ab5c88bff5a
 }
