@@ -5,6 +5,8 @@
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.lang.Long"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.UsuarioBusiness"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="javax.print.attribute.standard.DateTimeAtCompleted"/>
 <fullyQualifiedTypeName name="org.apache.commons.beanutils.converters.DateConverter"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.CaronaBusiness"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
@@ -17,15 +19,10 @@
 <fullyQualifiedTypeName name="com.br.uepb.constants.MensagensDeErro"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="com.br.uepb.domain.UsuarioDomain"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.SessaoDomain"/>
+<fullyQualifiedTypeName name="com.br.uepb.domain.CaronaDomain"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="easyaccept.EasyAcceptFacade"/>
 <fullyQualifiedTypeName name="com.br.uepb.business.FacadeBusiness"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.CaronaDomain"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.SolicitacaoDomain"/>
-<fullyQualifiedTypeName name="com.br.uepb.domain.SessaoDomain"/>
-<fullyQualifiedTypeName name="javax.print.attribute.standard.DateTimeAtCompleted"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
-<fullyQualifiedTypeName name="java.sql.Time"/>
-<fullyQualifiedTypeName name="java.time.ZonedDateTime"/>
 </qualifiedTypeNameHistroy>
