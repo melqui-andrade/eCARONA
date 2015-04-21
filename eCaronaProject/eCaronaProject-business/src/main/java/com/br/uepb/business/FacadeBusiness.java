@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import com.br.uepb.constants.ECaronaException;
+
 import servicesBackup.PersistenciaDAO;
 
 public class FacadeBusiness {
@@ -9,6 +11,16 @@ public class FacadeBusiness {
 	private SessaoBusiness gerenciadorDeSessao;
 	private CaronaBusiness gerenciadorDeCarona;
 	private PontoDeEncontroBusiness gerenciadorDePontoDeEncontro;
+	private SolicitacaoBusiness gerenciadorDeSolicitacao;
+	
+	static{
+		/**gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+		gerenciadorDeSessao = new SessaoBusiness(persistencia);
+		gerenciadorDeCarona = new CaronaBusiness(persistencia);
+		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+		gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
+		**/
+	}
 
 
 	public void criarUsuario(String login, String senha, String nome,
@@ -65,7 +77,7 @@ public class FacadeBusiness {
 
 	public String solicitarVagaPontoEncontro(String idSessao, String idCarona,
 			String ponto) {
-		return null;
+		return gerenciadorDeSolicitacao.solicitarVaga(idSessao, idCarona, ponto);
 	}
 
 	public void responderSugestaoPontoEncontro(String idSessao,
@@ -73,8 +85,8 @@ public class FacadeBusiness {
 
 	}
 
-	public String getAtributoSolicitacao(String idSocilitacao, String atributo) {
-		return "";
+	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws ECaronaException {
+		return gerenciadorDeSolicitacao.getAtributoSolicitacao(idSolicitacao, atributo);
 	}
 
 	public void aceitarSolicitacaoPontoEncontro(String idSessao,
