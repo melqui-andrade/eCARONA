@@ -1,0 +1,8 @@
+﻿Para rodar os testes de aceitação: Executar a classe: /eCaronaProject -business/src/test/java/testesDeAceitacaoBusiness/UsersStoryTests.java
+
+Os testes de unidade encontram se no caminho ~/src/test/resources
+de cada pacote do projeto
+
+A documentação encontra-se no diretório raiz do projeto
+
+O repositório do projeto encontra-se em: https://github.com/melqui-andrade/eCARONA
