@@ -38,7 +38,7 @@ expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caron
 
 
 #possivel erro
-expectError "Login inválido" visualizarPerfil idSessao=${sessaoMark} login=pedro
+expectError "Usuário inexistente" visualizarPerfil idSessao=${sessaoMark} login=pedro
 
 #Sair do sistema.
 encerrarSistema

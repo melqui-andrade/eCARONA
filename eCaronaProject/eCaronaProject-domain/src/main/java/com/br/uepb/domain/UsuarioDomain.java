@@ -31,7 +31,7 @@ public class UsuarioDomain {
 	@Column(name="EMAIL")
 	private String email;
 	
-	private ArrayList<CaronaDomain> caronas;
+	private ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
 
 	private ValidadorDeStringsAdapter validarString = new ValidadorDeStringsAdapter();
 
@@ -112,7 +112,7 @@ public class UsuarioDomain {
 
 	}
 
-	public ArrayList<CaronaDomain> getCarona() {
+	public ArrayList<CaronaDomain> getCaronas() {
 		return caronas;
 	}
 	/**

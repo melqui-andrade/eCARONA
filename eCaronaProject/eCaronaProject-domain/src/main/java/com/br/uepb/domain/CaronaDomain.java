@@ -46,6 +46,11 @@ public class CaronaDomain {
 	@Column(name="SESSAO_DAO_USUARIO_DAO_LOGIN")
 	private String usuarioLogin;
 	
+	private boolean foiConcluida;
+
+	private boolean foiTranquila;
+	
+	int passageirosPresentes;
 		
 	/**
 	 * @return the idCarona
@@ -192,6 +197,30 @@ public class CaronaDomain {
 	
 	public void setPontoDeEncontro(String idPonto, String[] novosPontos){
 		pontos.replace(idPonto, novosPontos);
+	}
+	
+	public boolean foiConcluida(){
+		return this.foiConcluida;
+	}
+	
+	public void foiConcluida(boolean foi){
+		this.foiConcluida = foi;
+	}
+	
+	public boolean foiTranquila() {
+		return foiTranquila;
+	}
+
+	public void foiTranquila(boolean foi) {
+		this.foiTranquila = foi;
+	}
+
+	public int getPassageirosPresentes() {
+		return passageirosPresentes;
+	}
+
+	public void setPassageirosPresentes(int passageirosPresentes) {
+		this.passageirosPresentes = passageirosPresentes;
 	}
 
 	

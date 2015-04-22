@@ -92,14 +92,14 @@ public class SessaoDomain {
 	/**
 	 * @return the usuarioLogin
 	 */
-	public String getUsuarioLogin() {
+	public String getIdUsuario() {
 		return usuarioLogin;
 	}
 
 	/**
 	 * @param usuarioLogin the usuarioLogin to set
 	 */
-	public void setUsuarioLogin(String usuarioLogin) {
+	public void setIdUsuario(String usuarioLogin) {
 		this.usuarioLogin = usuarioLogin;
 	}
 

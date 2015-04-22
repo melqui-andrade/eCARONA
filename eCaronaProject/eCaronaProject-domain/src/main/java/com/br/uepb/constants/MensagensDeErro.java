@@ -8,6 +8,10 @@ package com.br.uepb.constants;
  */
 public class MensagensDeErro {
 	
+	//ERROS GENERICOS
+		public static String ATRIBUTO_INVALIDO = "Atributo inválido";
+		public static String ATRIBUTO_INEXISTENTE = "Atributo inexistente";
+		
 	//ERROS DA CLASSE USUARIO
 		public static String LOGIN_INVALIDO = "Login inválido";
 		public static String NOME_INVALIDO = "Nome inválido";
@@ -17,8 +21,6 @@ public class MensagensDeErro {
 		public static String EXISTE_USUARIO_C_EMAIL = "Já existe um usuário com este email";
 		public static String EXISTE_USUARIO_C_LOGIN = "Já existe um usuário com este login";
 		public static String USUARIO_INEXISTENTE = "Usuário inexistente";
-		public static String ATRIBUTO_INVALIDO = "Atributo inválido";
-		public static String ATRIBUTO_INEXISTENTE = "Atributo inexistente";
 		
 	//ERROS DA CLASSE CARONA	
 		public static String SESSAO_INVALIDA = "Sessão inválida";
@@ -35,7 +37,11 @@ public class MensagensDeErro {
 		public static String TRAJETO_INEXISTENTE = "Trajeto Inexistente";
 		public static String TRAJETO_INVALIDO = "Trajeto Inválido";
 		
+	//ERROS DA CLASSE SOLICITACAO
+		public static String SOLICITACAO_INEXISTENTE = "Solicitação inexistente";
 		
+	//ERROS DA CLASSE SUGESTAO
+		public static String PONTO_INVALIDO = "Ponto Inválido";
 		
 		
 	// ERROS DA CLASSE 
