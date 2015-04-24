@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.constants.ECaronaException;
@@ -37,8 +38,10 @@ public class UsuarioDomain {
 	@Column(name="EMAIL")
 	private String email;
 	
+	@Transient //para ignorar essa variavel no bd
 	private ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
 
+	@Transient //para ignorar essa variavel no bd
 	private ValidadorDeStringsAdapter validarString = new ValidadorDeStringsAdapter();
 
 	/********************* GETTERS and SETTERS ********************/
