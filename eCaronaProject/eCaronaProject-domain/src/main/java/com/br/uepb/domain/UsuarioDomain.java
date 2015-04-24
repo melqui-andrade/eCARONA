@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.br.uepb.constants.MensagensDeErro;
@@ -17,17 +18,22 @@ import com.br.uepb.validator.adapter.ValidadorDeStringsAdapter;
  *
  */
 @Entity
-@Table(name="USUARIO_DAO")
+@Table(name="USUARIO_BD")
 public class UsuarioDomain {
 
+	@Id
 	@Column(name="LOGIN")
 	private String login;
+	
 	@Column(name="SENHA")
 	private String senha;
+	
 	@Column(name="NOME")
 	private String nome;
+	
 	@Column(name="ENDERECO")
 	private String endereco;
+	
 	@Column(name="EMAIL")
 	private String email;
 	

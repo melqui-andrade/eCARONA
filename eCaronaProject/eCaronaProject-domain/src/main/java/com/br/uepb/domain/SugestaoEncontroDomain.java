@@ -2,22 +2,24 @@ package com.br.uepb.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SUGESTAO_ENCONTRO_DAO")
+@Table(name="SUGESTAO_ENCONTRO_BD")
 public class SugestaoEncontroDomain {
 
-	@Column(name="ID_SUGESTAO_ENCONTRO_DAO")
+	@Id
+	@Column(name="ID_SUGESTAO_ENCONTRO")
 	private String idSugestao;
 	
 	@Column(name="LOCAL")
 	private String local;
 	
-	@Column(name="CARONA_DAO_ID_CARONA_DAO")
+	@Column(name="CARONA_ID")
 	private String idCarona;
 	
-	@Column(name="CARONA_DAO_SESSAO_DAO_ID_SESSAO_DAO")
+	@Column(name="SESSAO_ID")
 	private String idSessao;
 
 	/**

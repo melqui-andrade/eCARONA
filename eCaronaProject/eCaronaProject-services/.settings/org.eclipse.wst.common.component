@@ -2,5 +2,6 @@
     <wb-module deploy-name="exampleProject-services">
         <wb-resource deploy-path="/" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/config"/>
     </wb-module>
 </project-modules>

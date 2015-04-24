@@ -1,6 +1,5 @@
 package com.br.uepb.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -15,110 +14,58 @@ import com.br.uepb.dao.CaronaDAO;
 import com.br.uepb.dao.UsuarioDAO;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.utilities.HibernateUtil;
 
 @Repository
 public class ICaronaDAO implements CaronaDAO {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-	private Session session;
-	private CaronaDomain carona;
-	private String ID_CARONA_DAO;
-
 	@Override
-	public void setID(String strLogin) {
-		this.ID_CARONA_DAO = strLogin;
+	public void save(CaronaDomain carona) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.save(carona);
+		t.commit();
 	}
 
 	@Override
-	public CaronaDomain getCarona() {
-		return carona;
+	public CaronaDomain getCarona(String login) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		return (CaronaDomain) session.load(CaronaDomain.class, login);
 	}
 
 	@Override
-	public void setCarona(CaronaDomain carona) {
-		this.carona = carona;
-
-	}
-
-	@Override
-	public void abrirTransacao() {
-		sessionFactory = new Configuration().configure().buildSessionFactory();
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-	}
-
-	@Override
-	public void fecharTransacao() {
-		session.getTransaction().commit();
-		session.close();
-
-	}
-
-	@Override
-	public List<CaronaDomain> getListar() {
-		List<CaronaDomain> lista = new ArrayList<CaronaDomain>();
-		try {
-			abrirTransacao();
-			Query query = session.createQuery("from CARONA_DAO");
-			lista = query.list();
-			fecharTransacao();
-		} catch (Throwable e) {
-		}
+	public List<CaronaDomain> list() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		List<CaronaDomain> lista = session.createQuery("from carona_dao").list();
+		t.commit();
 		return lista;
-
 	}
 
 	@Override
-	public boolean getObter() {
-		try {
-			abrirTransacao();
-			carona = (CaronaDomain) session.get(CaronaDomain.class, ID_CARONA_DAO);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			System.out.println("ID: " + e.getMessage());
-			return false;
-		}
-
+	public void remove(CaronaDomain carona) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.delete(carona);
+		t.commit();
 	}
 
 	@Override
-	public boolean getIncluir() {
-		try {
-			abrirTransacao();
-			session.save(carona);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-
+	public void update(CaronaDomain carona) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.update(carona);
+		t.commit();
 	}
-
+	
 	@Override
-	public boolean getAlterar() {
-		try {
-			abrirTransacao();
-			session.update(carona);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-
-	}
-
-	@Override
-	public boolean getExcluir() {
-		try {
-			abrirTransacao();
-			session.delete(carona);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-	}
+	public void excluirTudo() {  
+        List<CaronaDomain> list = list();
+        for(CaronaDomain carona:list){
+        	remove(carona);
+        }
+    } 
+	
+	
 
 }

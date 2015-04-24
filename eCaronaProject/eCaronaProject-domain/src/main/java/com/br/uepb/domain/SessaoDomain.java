@@ -2,6 +2,7 @@ package com.br.uepb.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -11,10 +12,11 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="SESSAO_DAO")
+@Table(name="SESSAO_BD")
 public class SessaoDomain {
 
-	@Column(name="ID_SESSAO_DAO")
+	@Id
+	@Column(name="ID_SESSAO")
 	private String idSessao;
 	
 	//@Column(name="LOGIN")
@@ -29,7 +31,7 @@ public class SessaoDomain {
 	@Column(name="HORA_")
 	private String hora;
 	
-	@Column(name="USUARIO_DAO_LOGIN")
+	@Column(name="USUARIO_LOGIN")
 	private String usuarioLogin;
 
 

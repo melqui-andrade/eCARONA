@@ -17,110 +17,55 @@ import com.br.uepb.dao.UsuarioDAO;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.utilities.HibernateUtil;
 
 @Repository
 public class ISugestaoEncontroDAO implements SugestaoEncontroDAO {
-
-	@Autowired
-	private SessionFactory sessionFactory;
-	private Session session;
-	private SugestaoEncontroDomain sugestaoEncontro;
-	private String ID_SUGESTAO_ENCONTRO_DAO;
-
 	@Override
-	public void setID(String strID) {
-		this.ID_SUGESTAO_ENCONTRO_DAO = strID;
+	public void save(SugestaoEncontroDomain sugestaoEncontro) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.save(sugestaoEncontro);
+		t.commit();
 	}
 
 	@Override
-	public SugestaoEncontroDomain getCarona() {
-		return sugestaoEncontro;
+	public SugestaoEncontroDomain getSugestaoEncontro(String id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		return (SugestaoEncontroDomain) session.load(SugestaoEncontroDomain.class, id);
 	}
 
 	@Override
-	public void setCarona(SugestaoEncontroDomain sugestaoEncontro) {
-		this.sugestaoEncontro = sugestaoEncontro;
-
-	}
-
-	@Override
-	public void abrirTransacao() {
-		sessionFactory = new Configuration().configure().buildSessionFactory();
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-	}
-
-	@Override
-	public void fecharTransacao() {
-		session.getTransaction().commit();
-		session.close();
-
-	}
-
-	@Override
-	public List<SugestaoEncontroDomain> getListar() {
-		List<SugestaoEncontroDomain> lista = new ArrayList<SugestaoEncontroDomain>();
-		try {
-			abrirTransacao();
-			Query query = session.createQuery("from SUGESTAO_ENCONTRO_DAO");
-			lista = query.list();
-			fecharTransacao();
-		} catch (Throwable e) {
-		}
+	public List<SugestaoEncontroDomain> list() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		List<SugestaoEncontroDomain> lista = session.createQuery("from sugestao_encontro_dao").list();
+		t.commit();
 		return lista;
-
 	}
 
 	@Override
-	public boolean getObter() {
-		try {
-			abrirTransacao();
-			sugestaoEncontro = (SugestaoEncontroDomain) session.get(SugestaoEncontroDomain.class, ID_SUGESTAO_ENCONTRO_DAO);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			System.out.println("ID: " + e.getMessage());
-			return false;
-		}
-
+	public void remove(SugestaoEncontroDomain sugestaoEncontro) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.delete(sugestaoEncontro);
+		t.commit();
 	}
 
 	@Override
-	public boolean getIncluir() {
-		try {
-			abrirTransacao();
-			session.save(sugestaoEncontro);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-
+	public void update(SugestaoEncontroDomain sugestaoEncontro) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.update(sugestaoEncontro);
+		t.commit();
 	}
-
+	
 	@Override
-	public boolean getAlterar() {
-		try {
-			abrirTransacao();
-			session.update(sugestaoEncontro);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-
-	}
-
-	@Override
-	public boolean getExcluir() {
-		try {
-			abrirTransacao();
-			session.delete(sugestaoEncontro);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-	}
-
+	public void excluirTudo() {  
+        List<SugestaoEncontroDomain> list = list();
+        for(SugestaoEncontroDomain sugestaoEncontro:list){
+        	remove(sugestaoEncontro);
+        }
+    } 
+	
 }

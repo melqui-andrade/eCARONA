@@ -6,24 +6,11 @@ import com.br.uepb.domain.UsuarioDomain;
 
 public interface UsuarioDAO {
 
-	public void setLogin(String strLogin);
-
-	public UsuarioDomain getUsuario();
-
-	public void setUsuario(UsuarioDomain usuario);
-
-	public void abrirTransacao();
-
-	public void fecharTransacao();
-
-	public List<UsuarioDomain> getListar();
-
-	public boolean getObter();
-
-	public boolean getIncluir();
-
-	public boolean getAlterar();
-
-	public boolean getExcluir();
+	public void save(UsuarioDomain usuario);
+	public UsuarioDomain getUsuario(String login);
+	public List<UsuarioDomain> list();
+	public void remove(UsuarioDomain usuario);
+	public void update(UsuarioDomain usuario);
+	public void excluirTudo();
 
 }

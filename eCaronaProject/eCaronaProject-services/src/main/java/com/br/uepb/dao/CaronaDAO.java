@@ -7,23 +7,10 @@ import com.br.uepb.domain.UsuarioDomain;
 
 public interface CaronaDAO {
 
-	public void setID(String strID);
-
-	public CaronaDomain getCarona();
-
-	public void setCarona(CaronaDomain carona);
-
-	public void abrirTransacao();
-
-	public void fecharTransacao();
-
-	public List<CaronaDomain> getListar();
-
-	public boolean getObter();
-
-	public boolean getIncluir();
-
-	public boolean getAlterar();
-
-	public boolean getExcluir();
+	public void save(CaronaDomain carona);
+	public CaronaDomain getCarona(String login);
+	public List<CaronaDomain> list();
+	public void remove(CaronaDomain carona);
+	public void update(CaronaDomain carona);
+	public void excluirTudo();
 }

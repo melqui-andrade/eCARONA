@@ -17,110 +17,58 @@ import com.br.uepb.dao.UsuarioDAO;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.utilities.HibernateUtil;
 
 @Repository
 public class ISessaoDAO implements SessaoDAO {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-	private Session session;
-	private SessaoDomain sessao;
-	private int ID_SESSAO_DAO;
-
 	@Override
-	public void setID(int id) {
-		this.ID_SESSAO_DAO = id;
+	public void save(SessaoDomain sessao) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.save(sessao);
+		t.commit();
 	}
 
 	@Override
-	public SessaoDomain getSessao() {
-		return sessao;
+	public SessaoDomain getSessao(String id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		return (SessaoDomain) session.load(UsuarioDomain.class, id);
 	}
 
 	@Override
-	public void setSessao(SessaoDomain sessao) {
-		this.sessao = sessao;
-
-	}
-
-	@Override
-	public void abrirTransacao() {
-		sessionFactory = new Configuration().configure().buildSessionFactory();
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-	}
-
-	@Override
-	public void fecharTransacao() {
-		session.getTransaction().commit();
-		session.close();
-
-	}
-
-	@Override
-	public List<SessaoDomain> getListar() {
-		List<SessaoDomain> lista = new ArrayList<SessaoDomain>();
-		try {
-			abrirTransacao();
-			Query query = session.createQuery("from USUARIO_DAO");
-			lista = query.list();
-			fecharTransacao();
-		} catch (Throwable e) {
-		}
+	public List<SessaoDomain> list() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		List<SessaoDomain> lista = session.createQuery("from sessao_dao").list();
+		t.commit();
 		return lista;
-
 	}
 
 	@Override
-	public boolean getObter() {
-		try {
-			abrirTransacao();
-			sessao = (SessaoDomain) session.get(SessaoDomain.class, ID_SESSAO_DAO);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			System.out.println("ID: " + e.getMessage());
-			return false;
-		}
-
+	public void remove(SessaoDomain sessao) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.delete(sessao);
+		t.commit();
 	}
 
 	@Override
-	public boolean getIncluir() {
-		try {
-			abrirTransacao();
-			session.save(sessao);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-
+	public void update(SessaoDomain sessao) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		session.update(sessao);
+		t.commit();
 	}
-
+	
 	@Override
-	public boolean getAlterar() {
-		try {
-			abrirTransacao();
-			session.update(sessao);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
+	public void excluirTudo() {  
+        List<SessaoDomain> list = list();
+        for(SessaoDomain sessao:list){
+        	remove(sessao);
+        }
+    } 
 
-	}
-
-	@Override
-	public boolean getExcluir() {
-		try {
-			abrirTransacao();
-			session.delete(sessao);
-			fecharTransacao();
-			return true;
-		} catch (Throwable e) {
-			return false;
-		}
-	}
+	
 
 }

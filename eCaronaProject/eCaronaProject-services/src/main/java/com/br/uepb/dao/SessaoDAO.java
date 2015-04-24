@@ -8,23 +8,11 @@ import com.br.uepb.domain.UsuarioDomain;
 
 public interface SessaoDAO {
 
-	public void setID(int id);
+	public void save(SessaoDomain sessao);
+	public SessaoDomain getSessao(String id);
+	public List<SessaoDomain> list();
+	public void remove(SessaoDomain sessao);
+	public void update(SessaoDomain sessao);
+	public void excluirTudo();
 
-	public SessaoDomain getSessao();
-
-	public void setSessao(SessaoDomain sessao);
-
-	public void abrirTransacao();
-
-	public void fecharTransacao();
-
-	public List<SessaoDomain> getListar();
-
-	public boolean getObter();
-
-	public boolean getIncluir();
-
-	public boolean getAlterar();
-
-	public boolean getExcluir();
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.br.uepb.constants.MensagensDeErro;
@@ -19,15 +20,16 @@ import com.br.uepb.constants.ECaronaException;
  *
  */
 @Entity
-@Table(name="CARONA_DAO")
+@Table(name="CARONA_BD")
 public class CaronaDomain {
-
-	@Column(name="ID_SESSAO")
-	private String idSessao;
 	
-	@Column(name="ID_CARONA_DAO")
+	@Id
+	@Column(name="ID_CARONA")
 	private String idCarona;
 	
+	@Column(name="ID_SESSAO")
+	private String idSessao;
+			
 	@Column(name="ORIGEM")
 	private String origem;
 	
@@ -43,13 +45,16 @@ public class CaronaDomain {
 	@Column(name="VAGAS")
 	private Integer vagas;
 
-	@Column(name="SESSAO_DAO_USUARIO_DAO_LOGIN")
+	@Column(name="USUARIO_LOGIN")
 	private String usuarioLogin;
 	
+	@Column(name="FOI_CONCLUIDA")
 	private boolean foiConcluida;
 
+	@Column(name="FOI_TRANQUILA")
 	private boolean foiTranquila;
 	
+	@Column(name="PASSAGEIROS_PRESENTES")
 	int passageirosPresentes;
 		
 	/**
