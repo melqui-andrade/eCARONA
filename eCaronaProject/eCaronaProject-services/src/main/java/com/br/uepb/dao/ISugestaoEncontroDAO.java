@@ -7,7 +7,7 @@ import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
-public interface SugestaoEncontroDAO {
+public interface ISugestaoEncontroDAO {
 
 	public void save(SugestaoEncontroDomain sugestaoEncontro);
 	public SugestaoEncontroDomain getSugestaoEncontro(String id);

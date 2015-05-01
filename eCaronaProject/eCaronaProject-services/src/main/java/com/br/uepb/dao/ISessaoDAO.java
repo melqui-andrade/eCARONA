@@ -6,7 +6,7 @@ import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
-public interface SessaoDAO {
+public interface ISessaoDAO {
 
 	public void save(SessaoDomain sessao);
 	public SessaoDomain getSessao(String id);

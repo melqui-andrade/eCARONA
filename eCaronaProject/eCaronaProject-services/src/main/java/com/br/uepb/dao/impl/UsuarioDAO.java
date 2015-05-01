@@ -2,70 +2,65 @@ package com.br.uepb.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.br.uepb.dao.CaronaDAO;
-import com.br.uepb.dao.UsuarioDAO;
-import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.dao.IUsuarioDAO;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.utilities.HibernateUtil;
 
+
 @Repository
-public class ICaronaDAO implements CaronaDAO {
+public class UsuarioDAO implements IUsuarioDAO {
 
 	@Override
-	public void save(CaronaDomain carona) {
+	public void save(UsuarioDomain usuario) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.save(carona);
+		session.save(usuario);
 		t.commit();
 	}
 
 	@Override
-	public CaronaDomain getCarona(String login) {
+	public UsuarioDomain getUsuario(String login) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		return (CaronaDomain) session.load(CaronaDomain.class, login);
+		return (UsuarioDomain) session.load(UsuarioDomain.class, login);
 	}
 
 	@Override
-	public List<CaronaDomain> list() {
+	public List<UsuarioDomain> list() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		List<CaronaDomain> lista = session.createQuery("from carona_dao").list();
+		List<UsuarioDomain> lista = session.createQuery("from usuario_dao").list();
 		t.commit();
 		return lista;
 	}
 
 	@Override
-	public void remove(CaronaDomain carona) {
+	public void remove(UsuarioDomain usuario) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.delete(carona);
+		session.delete(usuario);
 		t.commit();
 	}
 
 	@Override
-	public void update(CaronaDomain carona) {
+	public void update(UsuarioDomain usuario) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.update(carona);
+		session.update(usuario);
 		t.commit();
 	}
 	
 	@Override
 	public void excluirTudo() {  
-        List<CaronaDomain> list = list();
-        for(CaronaDomain carona:list){
-        	remove(carona);
+        List<UsuarioDomain> list = list();
+        for(UsuarioDomain usuario:list){
+        	remove(usuario);
         }
     } 
 	
 	
-
+	
 }

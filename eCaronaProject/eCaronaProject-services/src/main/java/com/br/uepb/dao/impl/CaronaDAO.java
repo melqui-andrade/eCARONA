@@ -1,6 +1,5 @@
 package com.br.uepb.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -11,61 +10,62 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.br.uepb.dao.CaronaDAO;
-import com.br.uepb.dao.SugestaoEncontroDAO;
-import com.br.uepb.dao.UsuarioDAO;
+import com.br.uepb.dao.ICaronaDAO;
+import com.br.uepb.dao.IUsuarioDAO;
 import com.br.uepb.domain.CaronaDomain;
-import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.utilities.HibernateUtil;
 
 @Repository
-public class ISugestaoEncontroDAO implements SugestaoEncontroDAO {
+public class CaronaDAO implements ICaronaDAO {
+
 	@Override
-	public void save(SugestaoEncontroDomain sugestaoEncontro) {
+	public void save(CaronaDomain carona) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.save(sugestaoEncontro);
+		session.save(carona);
 		t.commit();
 	}
 
 	@Override
-	public SugestaoEncontroDomain getSugestaoEncontro(String id) {
+	public CaronaDomain getCarona(String login) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		return (SugestaoEncontroDomain) session.load(SugestaoEncontroDomain.class, id);
+		return (CaronaDomain) session.load(CaronaDomain.class, login);
 	}
 
 	@Override
-	public List<SugestaoEncontroDomain> list() {
+	public List<CaronaDomain> list() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		List<SugestaoEncontroDomain> lista = session.createQuery("from sugestao_encontro_dao").list();
+		List<CaronaDomain> lista = session.createQuery("from carona_dao").list();
 		t.commit();
 		return lista;
 	}
 
 	@Override
-	public void remove(SugestaoEncontroDomain sugestaoEncontro) {
+	public void remove(CaronaDomain carona) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.delete(sugestaoEncontro);
+		session.delete(carona);
 		t.commit();
 	}
 
 	@Override
-	public void update(SugestaoEncontroDomain sugestaoEncontro) {
+	public void update(CaronaDomain carona) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		session.update(sugestaoEncontro);
+		session.update(carona);
 		t.commit();
 	}
 	
 	@Override
 	public void excluirTudo() {  
-        List<SugestaoEncontroDomain> list = list();
-        for(SugestaoEncontroDomain sugestaoEncontro:list){
-        	remove(sugestaoEncontro);
+        List<CaronaDomain> list = list();
+        for(CaronaDomain carona:list){
+        	remove(carona);
         }
     } 
 	
+	
+
 }

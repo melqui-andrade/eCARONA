@@ -1,30 +1,30 @@
 package com.br.uepb.persistencia;
 
-import com.br.uepb.dao.impl.ICaronaDAO;
-import com.br.uepb.dao.impl.ISessaoDAO;
-import com.br.uepb.dao.impl.ISugestaoEncontroDAO;
-import com.br.uepb.dao.impl.IUsuarioDAO;
+import com.br.uepb.dao.impl.CaronaDAO;
+import com.br.uepb.dao.impl.SessaoDAO;
+import com.br.uepb.dao.impl.SugestaoEncontroDAO;
+import com.br.uepb.dao.impl.UsuarioDAO;
 
 public class Persistencia {
 
-	private IUsuarioDAO usuarioBD;
-	private ICaronaDAO caronaBD;
-	private ISessaoDAO sessaoBD;
-	private ISugestaoEncontroDAO sugestaoEncontroBD;
+	private UsuarioDAO usuarioBD;
+	private CaronaDAO caronaBD;
+	private SessaoDAO sessaoBD;
+	private SugestaoEncontroDAO sugestaoEncontroBD;
 	
 	
 	public Persistencia() {
-		usuarioBD = new IUsuarioDAO();
-		caronaBD = new ICaronaDAO();
-		sessaoBD = new ISessaoDAO();
-		sugestaoEncontroBD = new ISugestaoEncontroDAO();
+		usuarioBD = new UsuarioDAO();
+		caronaBD = new CaronaDAO();
+		sessaoBD = new SessaoDAO();
+		sugestaoEncontroBD = new SugestaoEncontroDAO();
 	}
 
 
 	/**
 	 * @return the usuarioBD
 	 */
-	public IUsuarioDAO getUsuarioBD() {
+	public UsuarioDAO getUsuarioBD() {
 		return usuarioBD;
 	}
 
@@ -32,7 +32,7 @@ public class Persistencia {
 	/**
 	 * @param usuarioBD the usuarioBD to set
 	 */
-	public void setUsuarioBD(IUsuarioDAO usuarioBD) {
+	public void setUsuarioBD(UsuarioDAO usuarioBD) {
 		this.usuarioBD = usuarioBD;
 	}
 
@@ -40,7 +40,7 @@ public class Persistencia {
 	/**
 	 * @return the caronaBD
 	 */
-	public ICaronaDAO getCaronaBD() {
+	public CaronaDAO getCaronaBD() {
 		return caronaBD;
 	}
 
@@ -48,7 +48,7 @@ public class Persistencia {
 	/**
 	 * @param caronaBD the caronaBD to set
 	 */
-	public void setCaronaBD(ICaronaDAO caronaBD) {
+	public void setCaronaBD(CaronaDAO caronaBD) {
 		this.caronaBD = caronaBD;
 	}
 
@@ -56,7 +56,7 @@ public class Persistencia {
 	/**
 	 * @return the sessaoBD
 	 */
-	public ISessaoDAO getSessaoBD() {
+	public SessaoDAO getSessaoBD() {
 		return sessaoBD;
 	}
 
@@ -64,7 +64,7 @@ public class Persistencia {
 	/**
 	 * @param sessaoBD the sessaoBD to set
 	 */
-	public void setSessaoBD(ISessaoDAO sessaoBD) {
+	public void setSessaoBD(SessaoDAO sessaoBD) {
 		this.sessaoBD = sessaoBD;
 	}
 
@@ -72,7 +72,7 @@ public class Persistencia {
 	/**
 	 * @return the sugestaoEncontroBD
 	 */
-	public ISugestaoEncontroDAO getSugestaoEncontroBD() {
+	public SugestaoEncontroDAO getSugestaoEncontroBD() {
 		return sugestaoEncontroBD;
 	}
 
@@ -80,7 +80,7 @@ public class Persistencia {
 	/**
 	 * @param sugestaoEncontroBD the sugestaoEncontroBD to set
 	 */
-	public void setSugestaoEncontroBD(ISugestaoEncontroDAO sugestaoEncontroBD) {
+	public void setSugestaoEncontroBD(SugestaoEncontroDAO sugestaoEncontroBD) {
 		this.sugestaoEncontroBD = sugestaoEncontroBD;
 	}
 

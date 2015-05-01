@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.br.uepb.domain.UsuarioDomain;
 
-public interface UsuarioDAO {
+public interface IUsuarioDAO {
 
 	public void save(UsuarioDomain usuario);
 	public UsuarioDomain getUsuario(String login);

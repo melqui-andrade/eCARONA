@@ -5,7 +5,7 @@ import java.util.List;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
-public interface CaronaDAO {
+public interface ICaronaDAO {
 
 	public void save(CaronaDomain carona);
 	public CaronaDomain getCarona(String login);
