@@ -1,10 +1,12 @@
 package com.br.uepb.business;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import servicesBackup.PersistenciaDAO;
-
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.SessaoDomain;
@@ -35,7 +37,16 @@ public class SessaoBusiness {
 	 *            : O usuário que vai logar a sessão
 	 */
 	public void adicionaSessao(String id, UsuarioDomain usuario) {
+		Calendar data = Calendar.getInstance();
+		DateFormat formatoData = new SimpleDateFormat("yyyy/MM/dd");
+		DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+		
 		SessaoDomain sessao = new SessaoDomain(id, usuario);
+		
+		sessao.setData(formatoData.format(data));
+		sessao.setHora(formatoHora.format(data));
+		sessao.setUsuario(usuario);
+		
 		sessoes.add(sessao);
 	}
 
@@ -107,8 +118,17 @@ public class SessaoBusiness {
 
 		Date time = new Date();
 		String idSessao = Long.toString(time.getTime());
-
+		
 		SessaoDomain sessao = new SessaoDomain(idSessao, usuario);
+		
+		Date data = new Date();
+		DateFormat formatoData = new SimpleDateFormat("yyyy/MM/dd");
+		DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+		
+		sessao.setData(formatoData.format(data));
+		sessao.setHora(formatoHora.format(data));
+		sessao.setUsuario(usuario);
+		sessao.setIdUsuario(login);
 
 		persistencia.getSessaoBD().put(idSessao, sessao);
 
@@ -130,16 +150,13 @@ public class SessaoBusiness {
 	/**
 	 * Finaliza sessao de um usuário
 	 * 
-	 * @param usuario
+	 * @param idUsuario
 	 *            login do usuário
 	 */
-	public void encerrarSessao(String usuario) {
-		for (SessaoDomain sessao : persistencia.getSessaoBD().values()) {
-			if (sessao.getUsuario().getLogin().equals(usuario)) {
-				persistencia.getSessaoBD().remove(sessao.getId());
-				break;
-			}
-		}
+	public void encerrarSessao(String idUsuario) {
+		
+			
+		
 	}
 	
 	

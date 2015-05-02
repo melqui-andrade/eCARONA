@@ -1,6 +1,8 @@
 package com.br.uepb.business;
 
 import com.br.uepb.constants.ECaronaException;
+import com.br.uepb.constants.MensagensDeErro;
+import com.br.uepb.domain.UsuarioDomain;
 
 import servicesBackup.PersistenciaDAO;
 
@@ -12,15 +14,7 @@ public class FacadeBusiness {
 	private CaronaBusiness gerenciadorDeCarona;
 	private PontoDeEncontroBusiness gerenciadorDePontoDeEncontro;
 	private SolicitacaoBusiness gerenciadorDeSolicitacao;
-	
-	static{
-		/**gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
-		gerenciadorDeSessao = new SessaoBusiness(persistencia);
-		gerenciadorDeCarona = new CaronaBusiness(persistencia);
-		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
-		gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
-		**/
-	}
+	private VisualizadorPerfil controladorPerfil;
 
 
 	public void criarUsuario(String login, String senha, String nome,
@@ -68,11 +62,16 @@ public class FacadeBusiness {
 		gerenciadorDeSessao.encerrarSessao(loginUsuario);
 	}
 
-	public String sugerirPontoEncontro(String idSessao, String idCarona,
-			String pontos) {
+	public void sugerirPontoEncontro(String idSessao, String idCarona,
+			String pontos)throws ECaronaException {		
+		
 		String[] pontosSugeridos = pontos.split(";");
-		return gerenciadorDePontoDeEncontro.sugerirPontoEncontro(idSessao, idCarona,
+		gerenciadorDePontoDeEncontro.sugerirPontoEncontro(idSessao, idCarona,
 				pontosSugeridos);
+	}
+	
+	public String solicitarVaga(String idSessao, String idCarona){
+		return gerenciadorDeSolicitacao.solicitarVaga(idSessao, idCarona);
 	}
 
 	public String solicitarVagaPontoEncontro(String idSessao, String idCarona,
@@ -81,17 +80,48 @@ public class FacadeBusiness {
 	}
 
 	public void responderSugestaoPontoEncontro(String idSessao,
-			String idCarona, String idSegestao, String pontos) {
+			String idCarona, String idSegestao, String pontos) throws ECaronaException {		
 
+		String[] pontosSugeridos = pontos.split(";");
+		gerenciadorDePontoDeEncontro.responderSugestaoPontoEncontro(idSessao, idCarona, idSegestao, pontosSugeridos);
 	}
 
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws ECaronaException {
 		return gerenciadorDeSolicitacao.getAtributoSolicitacao(idSolicitacao, atributo);
 	}
 
+	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws ECaronaException{
+		gerenciadorDeSolicitacao.aceitarSolicitacao(idSessao, idSolicitacao);
+	}
+	
+	
 	public void aceitarSolicitacaoPontoEncontro(String idSessao,
-			String idSolicitacao) {
-
+			String idSolicitacao) throws ECaronaException {
+		
+		gerenciadorDePontoDeEncontro.aceitarPontoDeEncontro(idSessao, idSolicitacao);
+	}
+	
+	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws ECaronaException{
+		gerenciadorDeSolicitacao.rejeitarSolicitacao(idSessao, idSolicitacao);
+	}
+	
+	public void desistirRequisicao(String idSessao, String idCarona, String idSolicitacao) throws ECaronaException{
+		
+		gerenciadorDeSolicitacao.desistirRequisicao(idSessao, idCarona, idSolicitacao);
+	}
+	
+	public String getAtributoPerfil(String login, String atributo) throws ECaronaException{
+		
+		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
+		return controladorPerfil.getAtributoPerfil(usuario, atributo);
+	}
+	
+	public String visualizarPerfil(String idSessao, String login) throws ECaronaException{
+		
+		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
+		
+		if(usuario == null) throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
+		return "";
 	}
 
 	public void zerarSistema() {
@@ -100,6 +130,8 @@ public class FacadeBusiness {
 		gerenciadorDeSessao = new SessaoBusiness(persistencia);
 		gerenciadorDeCarona = new CaronaBusiness(persistencia);
 		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+		gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
+		controladorPerfil = new VisualizadorPerfil();
 
 
 	}
@@ -123,6 +155,12 @@ public class FacadeBusiness {
 		}
 		if (gerenciadorDePontoDeEncontro != null) {
 			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+		}
+		if(gerenciadorDeSolicitacao != null){
+			gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
+		}
+		if(controladorPerfil != null){
+			controladorPerfil = new VisualizadorPerfil();
 		}
 
 	}

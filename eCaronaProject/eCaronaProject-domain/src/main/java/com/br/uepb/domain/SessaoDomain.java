@@ -2,7 +2,9 @@ package com.br.uepb.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Representa uma sessão de determinado usuário no sistema
@@ -11,13 +13,14 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="SESSAO_DAO")
+@Table(name="SESSAO_BD")
 public class SessaoDomain {
 
-	@Column(name="ID_SESSAO_DAO")
+	@Id
+	@Column(name="ID_SESSAO")
 	private String idSessao;
 	
-	//@Column(name="LOGIN")
+	@Transient //para ignorar essa variavel no bd
 	private UsuarioDomain usuario;
 	
 	@Column(name="ESTA_ATIVA")
@@ -29,7 +32,7 @@ public class SessaoDomain {
 	@Column(name="HORA_")
 	private String hora;
 	
-	@Column(name="USUARIO_DAO_LOGIN")
+	@Column(name="USUARIO_LOGIN")
 	private String usuarioLogin;
 
 
@@ -92,14 +95,14 @@ public class SessaoDomain {
 	/**
 	 * @return the usuarioLogin
 	 */
-	public String getUsuarioLogin() {
+	public String getIdUsuario() {
 		return usuarioLogin;
 	}
 
 	/**
 	 * @param usuarioLogin the usuarioLogin to set
 	 */
-	public void setUsuarioLogin(String usuarioLogin) {
+	public void setIdUsuario(String usuarioLogin) {
 		this.usuarioLogin = usuarioLogin;
 	}
 

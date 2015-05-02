@@ -6,6 +6,7 @@ import servicesBackup.PersistenciaDAO;
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.persistencia.Persistencia;
 
 /**
  * Gerenciador de usuario Classe responsávél por cadastrar e editar objetos do
@@ -18,9 +19,11 @@ import com.br.uepb.domain.UsuarioDomain;
 public class UsuarioBusiness {
 
 	private PersistenciaDAO persistencia;
+	private Persistencia persistenciaBD;
 
 	public UsuarioBusiness(PersistenciaDAO persistencia) {
 		this.persistencia = persistencia;
+		this.persistenciaBD = new Persistencia();
 	}
 
 	/**
@@ -68,6 +71,7 @@ public class UsuarioBusiness {
 		}
 
 		persistencia.getUsuarioBD().put(login, usuario);
+		persistenciaBD.getUsuarioBD().save(usuario);
 
 	}
 

@@ -7,6 +7,8 @@ import servicesBackup.PersistenciaDAO;
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SessaoDomain;
+import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.utilities.VerificadorString;
 
 public class CaronaBusiness {
@@ -47,6 +49,9 @@ public class CaronaBusiness {
 
 		if (persistencia.getSessaoBD().containsKey(idSessao)) {
 			sufixoIdCarona++;
+			
+			SessaoDomain sessao = persistencia.getSessaoBD().get(idSessao);
+			
 			CaronaDomain carona = new CaronaDomain();
 
 			carona.setOrigem(origem);
@@ -54,10 +59,18 @@ public class CaronaBusiness {
 			carona.setDestino(destino);
 
 			carona.setData(data);
+			
+			carona.setIdSessao(idSessao);
 
 			carona.setVagas(Integer.valueOf(vagas));
 
 			carona.setHora(hora);
+			
+			carona.setUsuarioLogin(sessao.getIdUsuario());
+			
+			carona.foiConcluida(false);
+			
+			carona.foiTranquila(false);
 
 			String identificadorCarona = "carona"
 					+ String.valueOf(sufixoIdCarona) + "ID";
@@ -65,7 +78,8 @@ public class CaronaBusiness {
 			carona.setId(identificadorCarona);
 
 			persistencia.getCaronaBD().put(identificadorCarona, carona);
-
+			UsuarioDomain usuario = persistencia.getUsuarioBD().get(sessao.getIdUsuario());
+			usuario.adicionarCarona(carona);
 			return carona.getId();
 		} else {
 			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
