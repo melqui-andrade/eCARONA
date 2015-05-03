@@ -121,7 +121,7 @@ public class CaronaBusiness {
 		String idCarona = "{";
 		// System.out.println(caronaBD.values().);
 		if (origem.equals("") && destino.equals("")) {
-			for (CaronaDomain carona : persistencia.getCaronaBD().values()) {
+			for (CaronaDomain carona : persistenciaBD.getCaronaBD().list()) {
 				allID.add(carona.getId());
 			}
 
@@ -133,7 +133,7 @@ public class CaronaBusiness {
 			idCarona = idCarona.replace(" ", "");
 
 		} else if (origem.equals("")) {
-			for (CaronaDomain carona : persistencia.getCaronaBD().values()) {
+			for (CaronaDomain carona : persistenciaBD.getCaronaBD().list()) {
 				if (carona.getDestino().equals(destino)) {
 					idCarona += carona.getId();
 					idCarona += ",";
@@ -141,7 +141,7 @@ public class CaronaBusiness {
 			}
 			idCarona = idCarona.substring(0, idCarona.length() - 1);
 		} else if (destino.equals("")) {
-			for (CaronaDomain carona : persistencia.getCaronaBD().values()) {
+			for (CaronaDomain carona : persistenciaBD.getCaronaBD().list()) {
 				if (carona.getOrigem().equals(origem)) {
 					idCarona += carona.getId();
 					idCarona += ",";
@@ -149,7 +149,7 @@ public class CaronaBusiness {
 			}
 			idCarona = idCarona.substring(0, idCarona.length() - 1);
 		} else {
-			for (CaronaDomain carona : persistencia.getCaronaBD().values()) {
+			for (CaronaDomain carona : persistenciaBD.getCaronaBD().list()) {
 
 				if (carona.getOrigem().equals(origem)
 						&& carona.getDestino().equals(destino)) {
@@ -185,8 +185,8 @@ public class CaronaBusiness {
 					MensagensDeErro.IDENTIFICADOR_CARONA_INVALIDO);
 		}
 
-		if (persistencia.getCaronaBD().containsKey(idCarona)) {
-			carona = persistencia.getCaronaBD().get(idCarona);
+		carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		if (carona != null) {
 
 			if (atributoCarona == "" || atributoCarona == null)
 				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
@@ -233,7 +233,7 @@ public class CaronaBusiness {
 		if (idCarona.equals(""))
 			throw new ECaronaException(MensagensDeErro.TRAJETO_INEXISTENTE);
 
-		CaronaDomain carona = persistencia.getCaronaBD().get(idCarona);
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		if (carona == null)
 			throw new ECaronaException(MensagensDeErro.TRAJETO_INEXISTENTE);
 		return carona.getOrigem() + " - " + carona.getDestino();
@@ -255,7 +255,7 @@ public class CaronaBusiness {
 			throw new ECaronaException(MensagensDeErro.CARONA_INVALIDA);
 		if (idCarona.equals(""))
 			throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
-		CaronaDomain carona = persistencia.getCaronaBD().get(idCarona);
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		if (carona == null)
 			throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
 		return carona.toString();

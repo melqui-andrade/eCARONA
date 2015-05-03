@@ -88,9 +88,10 @@ public class SolicitacaoBusiness {
 			}
 			else{
 				if(!solicitacao.foiAceita()){
-					CaronaDomain carona = persistencia.getCaronaBD().get(solicitacao.getIdCarona());
+					CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
 					carona.setVagas(carona.getVagas()-1);
 					solicitacao.foiAceita(true);
+					persistenciaBD.getCaronaBD().update(carona);
 				}
 				else{throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);}			
 				
@@ -111,20 +112,22 @@ public class SolicitacaoBusiness {
 	
 	public void desistirRequisicao(String idSessao, String idCarona, String idSolicitacao) throws ECaronaException{
 		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(idSolicitacao);
-		CaronaDomain carona = persistencia.getCaronaBD().get(solicitacao.getIdCarona());
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
 		
 		carona.setVagas(carona.getVagas()+1);
 		solicitacao.foiAceita(false);
+		persistenciaBD.getCaronaBD().update(carona);
 	}
 
 
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws ECaronaException {
+		
 		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(idSolicitacao);
 		
 		if(atributo == "" || atributo.equals(null)){
 			throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
 		}
-		CaronaDomain carona = persistencia.getCaronaBD().get(solicitacao.getIdCarona());
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
 		SessaoDomain sessaoDono = persistencia.getSessaoBD().get(carona.getIdSessao());
 		SessaoDomain sessaoSolicitante = persistencia.getSessaoBD().get(solicitacao.getIdSessaoSolicitante());
 		UsuarioDomain dono = persistenciaBD.getUsuarioBD().getUsuario(sessaoDono.getIdUsuario());

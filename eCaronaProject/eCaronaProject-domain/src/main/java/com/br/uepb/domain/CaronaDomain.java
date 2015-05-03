@@ -88,10 +88,6 @@ public class CaronaDomain {
 
 	private HashMap<String , String[] > pontos;
 
-	public String getId() {
-		return idCarona;
-	}
-
 	public void setId(String id) {
 		this.idCarona = id;
 	}
@@ -236,6 +232,11 @@ public class CaronaDomain {
 	public String toString() {
 		return origem + " para " + destino + ", no dia " + data + ", as "
 				+ hora;
+	}
+
+	public String getId() {
+		
+		return this.idCarona;
 	}
 
 }
