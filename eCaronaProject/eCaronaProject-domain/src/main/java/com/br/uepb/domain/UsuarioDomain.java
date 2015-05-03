@@ -1,10 +1,14 @@
 package com.br.uepb.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -38,8 +42,8 @@ public class UsuarioDomain {
 	@Column(name="EMAIL")
 	private String email;
 	
-	@Transient //para ignorar essa variavel no bd
-	private ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) //para ignorar essa variavel no bd
+	private Collection<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
 
 	@Transient //para ignorar essa variavel no bd
 	private ValidadorDeStringsAdapter validarString = new ValidadorDeStringsAdapter();
@@ -122,7 +126,7 @@ public class UsuarioDomain {
 	}
 
 	public ArrayList<CaronaDomain> getCaronas() {
-		return caronas;
+		return  new ArrayList<CaronaDomain>(caronas);
 	}
 	/**
 	 * 

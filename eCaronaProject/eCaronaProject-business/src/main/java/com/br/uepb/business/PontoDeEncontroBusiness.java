@@ -4,15 +4,18 @@ import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoDomain;
+import com.br.uepb.persistencia.Persistencia;
 
 import servicesBackup.PersistenciaDAO;
 
 public class PontoDeEncontroBusiness {
 
-	private PersistenciaDAO persistencia;
+	private PersistenciaDAO persistenciaDAO;
+	private Persistencia persistenciaBD;	
 
 	public PontoDeEncontroBusiness(PersistenciaDAO persistencia){
-		this.persistencia = persistencia;
+		this.persistenciaDAO = persistencia;
+		this.persistenciaBD = new Persistencia();
 	}
 	
 	public void sugerirPontoEncontro(String idSessao, String idCarona,
@@ -41,14 +44,16 @@ public class PontoDeEncontroBusiness {
 
 		
 		
-		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(idSolicitacao);
+		SolicitacaoDomain solicitacao = persistenciaDAO.getSolicitacaoBD().get(idSolicitacao);
 		if(solicitacao.equals(null)){
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);		
 		}
 		else{
 			if(!solicitacao.foiAceita()){
-				CaronaDomain carona = persistencia.getCaronaBD().get(solicitacao.getIdCarona());
+				CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
 				carona.setVagas(carona.getVagas()-1);
+				solicitacao.foiAceita(true);
+				persistenciaBD.getCaronaBD().update(carona);
 				solicitacao.foiAceita(true);
 			}
 			else{throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);}			
