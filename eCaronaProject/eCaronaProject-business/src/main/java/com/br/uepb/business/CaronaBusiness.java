@@ -9,15 +9,20 @@ import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.persistencia.Persistencia;
 import com.br.uepb.utilities.VerificadorString;
 
 public class CaronaBusiness {
 
+	//Persistencia volatil [antiga]
 	private PersistenciaDAO persistencia;
+	//persistencia atraves de BD
+	private Persistencia persistenciaBD;
 	private int sufixoIdCarona;
 
 	public CaronaBusiness(PersistenciaDAO persistencia) {
 		this.persistencia = persistencia;
+		this.persistenciaBD = new Persistencia();
 		sufixoIdCarona = 0;
 
 	}
@@ -78,7 +83,7 @@ public class CaronaBusiness {
 			carona.setId(identificadorCarona);
 
 			persistencia.getCaronaBD().put(identificadorCarona, carona);
-			UsuarioDomain usuario = persistencia.getUsuarioBD().get(sessao.getIdUsuario());
+			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			return carona.getId();
 		} else {

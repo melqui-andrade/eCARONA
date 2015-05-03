@@ -6,15 +6,18 @@ import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SolicitacaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.persistencia.Persistencia;
 
 import servicesBackup.PersistenciaDAO;
 
 public class SolicitacaoBusiness {
 
 	private PersistenciaDAO persistencia;
+	private Persistencia persistenciaBD;
 
 	public SolicitacaoBusiness(PersistenciaDAO persistencia){
 		this.persistencia = persistencia;
+		this.persistenciaBD = new Persistencia();
 	}
 	
 	/**
@@ -124,8 +127,8 @@ public class SolicitacaoBusiness {
 		CaronaDomain carona = persistencia.getCaronaBD().get(solicitacao.getIdCarona());
 		SessaoDomain sessaoDono = persistencia.getSessaoBD().get(carona.getIdSessao());
 		SessaoDomain sessaoSolicitante = persistencia.getSessaoBD().get(solicitacao.getIdSessaoSolicitante());
-		UsuarioDomain dono = persistencia.getUsuarioBD().get(sessaoDono.getIdUsuario());
-		UsuarioDomain caroneiro = persistencia.getUsuarioBD().get(sessaoSolicitante.getIdUsuario());
+		UsuarioDomain dono = persistenciaBD.getUsuarioBD().getUsuario(sessaoDono.getIdUsuario());
+		UsuarioDomain caroneiro = persistenciaBD.getUsuarioBD().getUsuario(sessaoSolicitante.getIdUsuario());
 		
 		if(persistencia.getSolicitacaoBD().containsKey(idSolicitacao)){
 		switch(atributo){

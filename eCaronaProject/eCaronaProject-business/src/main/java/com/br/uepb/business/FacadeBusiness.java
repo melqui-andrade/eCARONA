@@ -111,27 +111,24 @@ public class FacadeBusiness {
 	}
 	
 	public String getAtributoPerfil(String login, String atributo) throws ECaronaException{
-		
-		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
-		return controladorPerfil.getAtributoPerfil(usuario, atributo);
+	
+		return controladorPerfil.getAtributoPerfil(login, atributo);
 	}
 	
 	public String visualizarPerfil(String idSessao, String login) throws ECaronaException{
 		
-		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
-		
-		if(usuario == null) throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
-		return "";
+		return controladorPerfil.visualizarPerfil(idSessao, login);		
 	}
 
 	public void zerarSistema() {
 		persistencia = new PersistenciaDAO();
-		gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+		gerenciadorDeUsuario = new UsuarioBusiness();
 		gerenciadorDeSessao = new SessaoBusiness(persistencia);
 		gerenciadorDeCarona = new CaronaBusiness(persistencia);
 		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
 		gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
 		controladorPerfil = new VisualizadorPerfil();
+		gerenciadorDeUsuario.zerarBase();
 
 
 	}
@@ -143,7 +140,7 @@ public class FacadeBusiness {
 		}
 
 		if (gerenciadorDeUsuario != null) {
-			gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+			gerenciadorDeUsuario = new UsuarioBusiness();
 		}
 
 		if (gerenciadorDeSessao != null) {

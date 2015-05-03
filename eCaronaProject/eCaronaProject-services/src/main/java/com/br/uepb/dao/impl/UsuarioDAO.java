@@ -25,14 +25,14 @@ public class UsuarioDAO implements IUsuarioDAO {
 	@Override
 	public UsuarioDomain getUsuario(String login) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		return (UsuarioDomain) session.load(UsuarioDomain.class, login);
+		return (UsuarioDomain) session.get(UsuarioDomain.class, login);
 	}
 
 	@Override
 	public List<UsuarioDomain> list() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		List<UsuarioDomain> lista = session.createQuery("from usuario_dao").list();
+		List<UsuarioDomain> lista = session.createQuery("from UsuarioDomain").list();
 		t.commit();
 		return lista;
 	}
@@ -59,7 +59,16 @@ public class UsuarioDAO implements IUsuarioDAO {
         for(UsuarioDomain usuario:list){
         	remove(usuario);
         }
-    } 
+    }
+
+	public boolean jaCadastrado(String login) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		UsuarioDomain usuario = (UsuarioDomain) session.get(UsuarioDomain.class, login);
+		if(usuario == null){
+			return false;
+		}
+		return true;
+	} 
 	
 	
 	

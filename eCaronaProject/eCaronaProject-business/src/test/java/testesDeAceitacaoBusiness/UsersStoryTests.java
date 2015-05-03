@@ -23,7 +23,7 @@ public class UsersStoryTests {
 		arquivos.add("./src/test/resources/easyAcceptFiles/US04.txt");
 		arquivos.add("./src/test/resources/easyAcceptFiles/US05.txt");
 		arquivos.add("./src/test/resources/easyAcceptFiles/US06.txt");
-		//arquivos.add("./src/test/resources/easyAcceptFiles/US07.txt");
+		arquivos.add("./src/test/resources/easyAcceptFiles/US07.txt");
 		
 		FacadeBusiness facadeBusiness = new FacadeBusiness();
 		

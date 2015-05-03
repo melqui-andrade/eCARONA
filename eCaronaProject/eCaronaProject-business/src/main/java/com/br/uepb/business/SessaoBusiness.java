@@ -7,10 +7,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import servicesBackup.PersistenciaDAO;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.persistencia.Persistencia;
 
 /**
  * Gerenciador de sessão As sessões criadas ficam amazenadas temporariamente em
@@ -21,10 +23,12 @@ import com.br.uepb.domain.UsuarioDomain;
 public class SessaoBusiness {
 
 	private PersistenciaDAO persistencia;
+	private Persistencia persistenciaBD;
 	private ArrayList<SessaoDomain> sessoes;
 
 	public SessaoBusiness(PersistenciaDAO persistencia){
 		this.persistencia = persistencia;
+		this.persistenciaBD = new Persistencia();
 		sessoes = new ArrayList<SessaoDomain>();
 	}
 
@@ -102,7 +106,6 @@ public class SessaoBusiness {
 	public String abrirSessao(String login, String senha)
 			throws ECaronaException {
 
-		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
 
 		if (login == null || senha == null)
 			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
@@ -110,6 +113,8 @@ public class SessaoBusiness {
 		if (login.equals("") || senha.equals(""))
 			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
 
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(login);
+		
 		if (usuario == null)
 			throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
 
