@@ -85,6 +85,7 @@ public class CaronaBusiness {
 			persistencia.getCaronaBD().put(identificadorCarona, carona);
 			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
+			persistenciaBD.getUsuarioBD().update(usuario);
 			return carona.getId();
 		} else {
 			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
