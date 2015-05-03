@@ -4,11 +4,19 @@ import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.persistencia.Persistencia;
 
 public class VisualizadorPerfil {
+	
+	private Persistencia persistenciaBD;
+	
+	public VisualizadorPerfil(){
+		persistenciaBD = new Persistencia();
+	}
 
-	public String getAtributoPerfil(UsuarioDomain usuario, String atributo) throws ECaronaException {
+	public String getAtributoPerfil(String idUsuario, String atributo) throws ECaronaException {
 		
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(idUsuario);
 		if(usuario.equals(null)) throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
 		
 		switch(atributo){
@@ -34,9 +42,10 @@ public class VisualizadorPerfil {
 		return "";
 	}
 
-	public String visualizarPerfil(String idSessao, String login) {
-		// TODO Auto-generated method stub
-		return null;
+	public String visualizarPerfil(String idSessao, String login) throws ECaronaException {
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(login);
+		if(usuario == null) throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
+		return usuario.getNome();
 	}
 	
 	private String historicoCarona(UsuarioDomain usuario){

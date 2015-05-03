@@ -111,17 +111,13 @@ public class FacadeBusiness {
 	}
 	
 	public String getAtributoPerfil(String login, String atributo) throws ECaronaException{
-		
-		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
-		return controladorPerfil.getAtributoPerfil(usuario, atributo);
+	
+		return controladorPerfil.getAtributoPerfil(login, atributo);
 	}
 	
 	public String visualizarPerfil(String idSessao, String login) throws ECaronaException{
 		
-		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
-		
-		if(usuario == null) throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
-		return "";
+		return controladorPerfil.visualizarPerfil(idSessao, login);		
 	}
 
 	public void zerarSistema() {
