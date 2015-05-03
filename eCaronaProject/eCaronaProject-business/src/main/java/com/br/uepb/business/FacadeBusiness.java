@@ -126,12 +126,13 @@ public class FacadeBusiness {
 
 	public void zerarSistema() {
 		persistencia = new PersistenciaDAO();
-		gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+		gerenciadorDeUsuario = new UsuarioBusiness();
 		gerenciadorDeSessao = new SessaoBusiness(persistencia);
 		gerenciadorDeCarona = new CaronaBusiness(persistencia);
 		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
 		gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
 		controladorPerfil = new VisualizadorPerfil();
+		gerenciadorDeUsuario.zerarBase();
 
 
 	}
@@ -143,7 +144,7 @@ public class FacadeBusiness {
 		}
 
 		if (gerenciadorDeUsuario != null) {
-			gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+			gerenciadorDeUsuario = new UsuarioBusiness();
 		}
 
 		if (gerenciadorDeSessao != null) {

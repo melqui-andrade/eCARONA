@@ -1,8 +1,5 @@
 package com.br.uepb.business;
 
-
-import servicesBackup.PersistenciaDAO;
-
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.UsuarioDomain;
@@ -18,11 +15,11 @@ import com.br.uepb.persistencia.Persistencia;
  */
 public class UsuarioBusiness {
 
-	private PersistenciaDAO persistencia;
+	
 	private Persistencia persistenciaBD;
 
-	public UsuarioBusiness(PersistenciaDAO persistencia) {
-		this.persistencia = persistencia;
+	public UsuarioBusiness() {
+		
 		this.persistenciaBD = new Persistencia();
 	}
 
@@ -51,7 +48,7 @@ public class UsuarioBusiness {
 
 		usuario.setLogin(login);
 
-		if (persistencia.getUsuarioBD().containsKey(login)) {
+		if (persistenciaBD.getUsuarioBD().jaCadastrado(login)) {
 			throw new ECaronaException(MensagensDeErro.EXISTE_USUARIO_C_LOGIN);
 		}
 
@@ -63,14 +60,12 @@ public class UsuarioBusiness {
 
 		usuario.setEmail(email);
 
-		for (UsuarioDomain u : persistencia.getUsuarioBD().values()) {
+		for (UsuarioDomain u : persistenciaBD.getUsuarioBD().list()) {
 			if (u.getEmail().equals(email)) {
 				throw new ECaronaException(
 						MensagensDeErro.EXISTE_USUARIO_C_EMAIL);
 			}
 		}
-
-		persistencia.getUsuarioBD().put(login, usuario);
 		persistenciaBD.getUsuarioBD().save(usuario);
 
 	}
@@ -95,8 +90,8 @@ public class UsuarioBusiness {
 		if (login == null || login.equals(""))
 			throw new ECaronaException(MensagensDeErro.LOGIN_INVALIDO);
 
-		if (persistencia.getUsuarioBD().containsKey(login)) {
-			usuario = persistencia.getUsuarioBD().get(login);
+		if (persistenciaBD.getUsuarioBD().jaCadastrado(login)) {
+			usuario = persistenciaBD.getUsuarioBD().getUsuario(login);
 
 			if (atributo == "" || atributo == null)
 				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
@@ -134,14 +129,13 @@ public class UsuarioBusiness {
 	 */
 	public boolean verificaLoginExistente(String login) {
 		// verifica se existe no BD o login informado
-		UsuarioDomain usuario = persistencia.getUsuarioBD().get(login);
-		if (usuario != null) {
-			return true;
-		} else {
-			return false;
+		
+		return persistenciaBD.getUsuarioBD().jaCadastrado(login);
 
-		}
-
+	}
+	
+	public void zerarBase(){
+		persistenciaBD.getUsuarioBD().excluirTudo();
 	}
 
 	

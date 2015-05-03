@@ -22,7 +22,7 @@ public class UsuarioBusinessExceptionsTest {
 
 	@Before
 	public void setUp() {
-		this.gerenciadorDeUsuario = new UsuarioBusiness(persistencia);
+		this.gerenciadorDeUsuario = new UsuarioBusiness();
 		this.gerenciadorDeSessao = new SessaoBusiness(persistencia);
 		this.gerenciadorDeCarona = new CaronaBusiness(persistencia);
 	}
