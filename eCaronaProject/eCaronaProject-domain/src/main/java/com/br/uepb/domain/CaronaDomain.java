@@ -2,12 +2,17 @@ package com.br.uepb.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.br.uepb.constants.MensagensDeErro;
@@ -56,7 +61,19 @@ public class CaronaDomain {
 	
 	@Column(name="PASSAGEIROS_PRESENTES")
 	int passageirosPresentes;
-		
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Collection<SolicitacaoDomain> solicitacoes = new ArrayList<SolicitacaoDomain>();
+
+	
+
+	/**
+	 * @param solicitacoes the solicitacoes to set
+	 */
+	public void setSolicitacoes(Collection<SolicitacaoDomain> solicitacoes) {
+		this.solicitacoes = solicitacoes;
+	}
+
 	/**
 	 * @return the idCarona
 	 */
@@ -238,5 +255,14 @@ public class CaronaDomain {
 		
 		return this.idCarona;
 	}
+	
+	public ArrayList<SolicitacaoDomain> getSolicitacoes() {
+		return  new ArrayList<SolicitacaoDomain>(solicitacoes);
+	}
 
+	public void adicionarSolicitacao(SolicitacaoDomain solicitacao){
+		solicitacoes.add(solicitacao);
+	}
+
+	
 }

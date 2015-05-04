@@ -118,6 +118,11 @@ public class FacadeBusiness {
 		gerenciadorDeSolicitacao.desistirRequisicao(idSessao, idCarona, idSolicitacao);
 	}
 	
+	public String getSolicitacoesConfirmadas(String idSessao, String idCarona){
+		return gerenciadorDeSolicitacao.getSolicitacoesConfirmadas(idSessao, idCarona);
+	}
+	
+	
 	public String getAtributoPerfil(String login, String atributo) throws ECaronaException{
 	
 		return controladorPerfil.getAtributoPerfil(login, atributo);

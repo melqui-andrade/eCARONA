@@ -42,7 +42,7 @@ public class UsuarioDomain {
 	@Column(name="EMAIL")
 	private String email;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) //para ignorar essa variavel no bd
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
 
 	@Transient //para ignorar essa variavel no bd
