@@ -78,7 +78,7 @@ public class CaronaBusiness {
 			carona.foiTranquila(false);
 
 			String identificadorCarona = "carona"
-					+ String.valueOf(sufixoIdCarona) + "ID";
+					+ String.valueOf(sufixoIdCarona);
 			// System.out.println(identificadorCarona);
 			carona.setId(identificadorCarona);
 
@@ -91,6 +91,15 @@ public class CaronaBusiness {
 			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
 		}
 
+	}
+	
+	public String localizarCaronaUsuarioPorIndex(String idSessao, String index){
+		
+		int valorIndex = Integer.parseInt(index);
+		SessaoDomain sessao = persistencia.getSessaoBD().get(idSessao);
+		ArrayList<CaronaDomain> caronas = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario()).getCaronas();
+		caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
+		return caronas.get(valorIndex-1).getId();
 	}
 
 	/**
@@ -116,12 +125,15 @@ public class CaronaBusiness {
 		if (destino.equals(".") || destino.equals("()") || destino.equals("!")
 				|| destino.equals("!?"))
 			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
+		
+		SessaoDomain sessao = persistencia.getSessaoBD().get(idSessao);
+		
 
 		ArrayList<String> allID = new ArrayList<String>();
 		String idCarona = "{";
 		// System.out.println(caronaBD.values().);
 		if (origem.equals("") && destino.equals("")) {
-			for (CaronaDomain carona : persistenciaBD.getCaronaBD().list()) {
+			for (CaronaDomain carona : persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario()).getCaronas()) {
 				allID.add(carona.getId());
 			}
 

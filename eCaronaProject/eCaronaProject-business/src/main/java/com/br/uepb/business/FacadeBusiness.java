@@ -57,6 +57,14 @@ public class FacadeBusiness {
 	public String getCarona(String idCarona) throws Exception {
 		return gerenciadorDeCarona.getCaronaInfo(idCarona);
 	}
+	
+	public String getCaronaUsuario(String idSessao, String indexCarona) throws ECaronaException{
+		return gerenciadorDeCarona.localizarCaronaUsuarioPorIndex(idSessao, indexCarona);
+	}
+	
+	public String getTodasCaronasUsuario(String idSessao) throws ECaronaException{
+		return gerenciadorDeCarona.localizarCarona(idSessao, "", "");
+	}
 
 	public void encerrarSessao(String loginUsuario) {
 		gerenciadorDeSessao.encerrarSessao(loginUsuario);
@@ -132,11 +140,16 @@ public class FacadeBusiness {
 
 
 	}
+	
+	public void reiniciarSistema(){
+		encerrarSistema();
+	}
 
 	public void encerrarSistema() {
 
 		if (persistencia != null) {
 			persistencia = new PersistenciaDAO();
+			
 		}
 
 		if (gerenciadorDeUsuario != null) {
