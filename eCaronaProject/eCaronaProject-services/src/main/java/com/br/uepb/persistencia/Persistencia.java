@@ -2,6 +2,7 @@ package com.br.uepb.persistencia;
 
 import com.br.uepb.dao.impl.CaronaDAO;
 import com.br.uepb.dao.impl.SessaoDAO;
+import com.br.uepb.dao.impl.SolicitacaoDAO;
 import com.br.uepb.dao.impl.SugestaoEncontroDAO;
 import com.br.uepb.dao.impl.UsuarioDAO;
 
@@ -10,6 +11,9 @@ public class Persistencia {
 	private UsuarioDAO usuarioBD;
 	private CaronaDAO caronaBD;
 	private SessaoDAO sessaoBD;
+	private SolicitacaoDAO solicitacaoBD;
+
+
 	private SugestaoEncontroDAO sugestaoEncontroBD;
 	
 	
@@ -17,6 +21,7 @@ public class Persistencia {
 		usuarioBD = new UsuarioDAO();
 		caronaBD = new CaronaDAO();
 		sessaoBD = new SessaoDAO();
+		solicitacaoBD = new SolicitacaoDAO();
 		sugestaoEncontroBD = new SugestaoEncontroDAO();
 	}
 
@@ -66,6 +71,15 @@ public class Persistencia {
 	 */
 	public void setSessaoBD(SessaoDAO sessaoBD) {
 		this.sessaoBD = sessaoBD;
+	}
+	
+	public SolicitacaoDAO getSolicitacaoBD() {
+		return solicitacaoBD;
+	}
+	
+	
+	public void setSolicitacaoBD(SolicitacaoDAO solicitacaoBD) {
+		this.solicitacaoBD = solicitacaoBD;
 	}
 
 

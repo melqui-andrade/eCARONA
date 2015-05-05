@@ -64,6 +64,9 @@ public class SolicitacaoBusiness {
 		novaSolicitacao.setLocal(local);
 		novaSolicitacao.foiAceita(false);
 		persistencia.getSolicitacaoBD().put(idSolicitacao, novaSolicitacao);
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		carona.adicionarSolicitacao(novaSolicitacao);
+		persistenciaBD.getCaronaBD().update(carona);
 
 		return idSolicitacao;
 	}
@@ -123,8 +126,8 @@ public class SolicitacaoBusiness {
 
 	public String getSolicitacoesConfirmadas(String idSessao, String idCarona) {
 
-		//Todo parou aqui
-		SessaoDomain sessao = persistencia.getSessaoBD().get(idSessao);
+		
+		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		ArrayList<SolicitacaoDomain> solicitacoes = carona.getSolicitacoes();
 		StringBuilder saidaSolicitacoes = new StringBuilder();
@@ -137,7 +140,7 @@ public class SolicitacaoBusiness {
 		
 		
 		
-		return solicitacoes.toString();
+		return saidaSolicitacoes.toString();
 
 	}
 
