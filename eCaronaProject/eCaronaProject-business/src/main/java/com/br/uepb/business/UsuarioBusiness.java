@@ -6,10 +6,9 @@ import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.persistencia.Persistencia;
 
 /**
- * Gerenciador de usuario Classe responsávél por cadastrar e editar objetos do
- * tipo UsuarioDomain, gerenciar sessões do usuário, manipular caronas
+ * Implementação das regras de negócio de UsuarioDomain
+ * Todas as ações relacionadas ao gerenciamento de usuários se encontram nessa classe
  * 
- * @author Melqui
  * @see UsuarioDomain
  *
  */
@@ -17,26 +16,23 @@ public class UsuarioBusiness {
 
 	
 	private Persistencia persistenciaBD;
-	//minhaaa modificacao
 
+	/**
+	 * Construtor da classe, inicializa a entidade de persistência
+	 */
 	public UsuarioBusiness() {
 		
 		this.persistenciaBD = new Persistencia();
 	}
 
 	/**
-	 * Cria um novo usuário
+	 * Criar um novo usuário
 	 * 
-	 * @param login
-	 *            login do usuário
-	 * @param senha
-	 *            senha
-	 * @param nome
-	 *            nome
-	 * @param endereco
-	 *            rua, número e bairro
-	 * @param email
-	 *            endereço de email
+	 * @param login Login do usuário
+	 * @param senha senha
+	 * @param nome  Nome do usuário 
+	 * @param endereco Rua, número e bairro
+	 * @param email Endereço de email
 	 * @throws Exception
 	 *             caso algum dos atributos sejam inválidos (campos vazios,
 	 *             formato de email incorreto) ou já exista um usuário com mesmo
@@ -74,14 +70,10 @@ public class UsuarioBusiness {
 	/**
 	 * Pegar um atributo específico de um usuário
 	 * 
-	 * @param login
-	 *            login do usuário
-	 * @param atributo
-	 *            nome | endereço | email
+	 * @param login Login do usuário
+	 * @param atributo Atributos válidos: nome | endereço | email
 	 * @return O valor do atributo especificado
-	 * @throws Exception
-	 *             caso o usuário não exista na base ou o atributo não seja
-	 *             válido
+	 * @throws Exception caso o usuário não exista na base ou o atributo não seja válido
 	 */
 	public String getAtributoUsuario(String login, String atributo)
 			throws ECaronaException {
@@ -125,8 +117,8 @@ public class UsuarioBusiness {
 	/**
 	 * Verifica se um dado login existe na base de usuários
 	 * 
-	 * @param login
-	 * @return true, caso exista
+	 * @param login Identificador do usuário
+	 * @return True, caso exista
 	 */
 	public boolean verificaLoginExistente(String login) {
 		// verifica se existe no BD o login informado
@@ -135,6 +127,10 @@ public class UsuarioBusiness {
 
 	}
 	
+	/**
+	 * Limpar todos os valores persistidos. Como usuário é o elemento raiz, quando deletado
+	 * todos os demais elementos são deletados em cascata
+	 */
 	public void zerarBase(){
 		persistenciaBD.getUsuarioBD().excluirTudo();
 	}

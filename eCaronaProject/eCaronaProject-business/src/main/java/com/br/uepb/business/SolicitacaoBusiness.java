@@ -12,6 +12,10 @@ import com.br.uepb.persistencia.Persistencia;
 
 import servicesBackup.PersistenciaDAO;
 
+/**
+ * Implementação das regras de negócio de SolicitacaoDomain
+ * Todas as ações relacionadas ao gerenciamento de solicitações se encontram nessa classe
+ */
 public class SolicitacaoBusiness {
 
 	private PersistenciaDAO persistencia;
@@ -23,12 +27,11 @@ public class SolicitacaoBusiness {
 	}
 
 	/**
-	 * 
-	 * @param idSessao
-	 * @param idCarona
-	 * @param pontosSugeridos
-	 * @return
-	 * @throws ECaronaException
+	 * Sugerir um ponto de encontro para uma dada solicitação de carona
+	 * @param idSessao ID da Sessão do usuário solicitante 
+	 * @param idCarona ID da carona requisitada
+	 * @param pontosSugeridos Locais de encontro sugeridos pelo usuário solicitante
+	 * @throws ECaronaException caso pontosSugeridos seja nulo ou vazio
 	 */
 	public void sugerirPontoEncontro(String idSessao, String idCarona,
 			String[] pontosSugeridos) throws ECaronaException {
@@ -43,13 +46,11 @@ public class SolicitacaoBusiness {
 	}
 
 	/**
-	 * @param idSessaoDoSolicitante
-	 *            Id do usu⳩o interessado na carona
-	 * @param idCarona
-	 *            Id da carona desejada
-	 * @param local
-	 *            ponto de encontro sugerido pelo interessado
-	 * @return id da solicitação feita
+	 * Solicitar uma vaga em uma carona
+	 * @param idSessaoDoSolicitante Id do usuário interessado na carona
+	 * @param idCarona Id da carona desejada
+	 * @param local ponto de encontro sugerido pelo interessado
+	 * @return ID da solicitação feita
 	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona,
 			String local) {
@@ -71,6 +72,12 @@ public class SolicitacaoBusiness {
 		return idSolicitacao;
 	}
 
+	/**
+	 * Solicitar uma vaga em uma carona
+	 * @param idSessaoDoSolicitante Id do usuário interessado na carona
+	 * @param idCarona Id da carona desejada
+	 * @return ID da solicitação feita
+	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona) {
 		long instante = System.currentTimeMillis();
 		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
@@ -86,6 +93,13 @@ public class SolicitacaoBusiness {
 		return idSolicitacao;
 	}
 
+	/**
+	 * Aceitar uma solicitação de carona
+	 * @param idSessao ID da sessão do usuário que fornece a carona
+	 * @param idSolicitacao ID da solicitação a ser aceita
+	 * @throws ECaronaException caso a solicitação não exista na base ou a 
+	 * solicitação já tenha sido aceita
+	 */
 	public void aceitarSolicitacao(String idSessao, String idSolicitacao)
 			throws ECaronaException {
 
@@ -111,6 +125,12 @@ public class SolicitacaoBusiness {
 
 	}
 
+	/**
+	 * Rejeitar uma solicitação de carona
+	 * @param idSessao ID da sessão do usuário fornecedor da carona
+	 * @param idSolicitacao ID da solicitação de carona
+	 * @throws ECaronaException caso a solicitação já tenha sido rejeitada
+	 */
 	public void rejeitarSolicitacao(String idSessao, String idSolicitacao)
 			throws ECaronaException {
 
@@ -124,9 +144,13 @@ public class SolicitacaoBusiness {
 		}
 	}
 
-	public String getSolicitacoesConfirmadas(String idSessao, String idCarona) {
-
-		
+	/**
+	 * Pegar o conjunto de caronas confirmadas
+	 * @param idSessao ID da sessão do usuário que fornece a carona
+	 * @param idCarona ID da carona
+	 * @return IDs das solicitações no formato "{IDsolicitacao01, IDsolicitacao02, ...}"
+	 */
+	public String getSolicitacoesConfirmadas(String idSessao, String idCarona) {		
 		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		ArrayList<SolicitacaoDomain> solicitacoes = carona.getSolicitacoes();
@@ -136,14 +160,20 @@ public class SolicitacaoBusiness {
 			saidaSolicitacoes.append(solicitacao.getId());
 			saidaSolicitacoes.append("},");
 		}
-		saidaSolicitacoes.deleteCharAt(saidaSolicitacoes.length()-1);
-		
-		
+		saidaSolicitacoes.deleteCharAt(saidaSolicitacoes.length()-1);	
 		
 		return saidaSolicitacoes.toString();
 
 	}
 
+	/**
+	 * Abandonar a vaga em uma carona. Marca a solicitação previamente confirmada
+	 * como não aceita, e incrementa a quantidade de vagas na carona em +1
+	 * @param idSessao ID da Sessao do usuário que solicitou a carona
+	 * @param idCarona ID da carona solicitada
+	 * @param idSolicitacao ID da solicitação efetuada
+	 * @throws ECaronaException caso algum dos campos seja nulo ou vazio
+	 */
 	public void desistirRequisicao(String idSessao, String idCarona,
 			String idSolicitacao) throws ECaronaException {
 		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(
@@ -156,6 +186,13 @@ public class SolicitacaoBusiness {
 		persistenciaBD.getCaronaBD().update(carona);
 	}
 
+	/**
+	 * Pegar um atributo específico de uma solicitação
+	 * @param idSolicitacao ID da solicitação
+	 * @param atributo Atributos válidos: origem | destino | Dono da carona | Dono da solicitacao | Ponto de Encontro
+	 * @return O valor do atributo especificado
+	 * @throws Exception caso a carona não exista na base ou o atributo não seja válido
+	 */
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo)
 			throws ECaronaException {
 

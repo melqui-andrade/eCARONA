@@ -15,9 +15,9 @@ import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.persistencia.Persistencia;
 
 /**
- * Gerenciador de sessão As sessões criadas ficam amazenadas temporariamente em
- * um banco de sessões e são encerradas após comando do usuário
- * 
+ * Implementação das regras de negócio de SessaoDomain
+ * Todas as ações relacionadas ao gerenciamento de sessões se encontram nessa classe
+ * @see SessaoDomain
  * @author Sidney
  */
 public class SessaoBusiness {
@@ -26,6 +26,10 @@ public class SessaoBusiness {
 	private Persistencia persistenciaBD;
 	private ArrayList<SessaoDomain> sessoes;
 
+	/**
+	 * Construtor da classe
+	 * @param persistencia Entidade responsavel em persistir os dados do sistema
+	 */
 	public SessaoBusiness(PersistenciaDAO persistencia){
 		this.persistencia = persistencia;
 		this.persistenciaBD = new Persistencia();
@@ -35,10 +39,8 @@ public class SessaoBusiness {
 	/**
 	 * Cria uma nova sessão no sistema
 	 * 
-	 * @param id
-	 *            : Identificador da sessão
-	 * @param usuario
-	 *            : O usuário que vai logar a sessão
+	 * @param id Identificador da sessão
+	 * @param usuario O UsuarioDomain que vai logar a sessão
 	 */
 	public void adicionaSessao(String id, UsuarioDomain usuario) {
 		Calendar data = Calendar.getInstance();
@@ -57,8 +59,7 @@ public class SessaoBusiness {
 	/**
 	 * Busca uma sessão pelo seu ID
 	 * 
-	 * @param idSessao
-	 *            ID da sessão
+	 * @param idSessao ID da sessão
 	 * @return Uma sessão
 	 */
 	public SessaoDomain getSessao(String idSessao) {
@@ -74,8 +75,7 @@ public class SessaoBusiness {
 	/**
 	 * Verifica se o ID passado pertence a alguma sessão do banco de sessões
 	 * 
-	 * @param idSessao
-	 *            ID desejado
+	 * @param idSessao ID desejado
 	 * @return True, caso exista alguma sessão com o tal ID
 	 */
 	public boolean ehSessaoValida(String idSessao) {
@@ -95,11 +95,10 @@ public class SessaoBusiness {
 	 * Iniciar sessão de usuário. O usuário só pode realizar atividades no
 	 * sistema após abrir a sessão
 	 * 
-	 * @param login
-	 * @param senha
-	 * @return O id da sessão
-	 * @throws Exception
-	 *             caso Algum dos atributos sejam nulos ou vazios, ou a
+	 * @param login Identificador do usuário no sistema
+	 * @param senha Senha do usuário
+	 * @return ID da nova sessão iniciada
+	 * @throws Exception caso Algum dos atributos sejam nulos ou vazios, ou a
 	 *             autenticação do usuário falhe
 	 */
 
@@ -143,7 +142,7 @@ public class SessaoBusiness {
 	/**
 	 * Pegar sessão por id
 	 * 
-	 * @param idSessao
+	 * @param login Identificador do usuário no sistema
 	 * @return Uma SessãoDomain
 	 * @see SessaoDomain
 	 */
@@ -155,8 +154,7 @@ public class SessaoBusiness {
 	/**
 	 * Finaliza sessao de um usuário
 	 * 
-	 * @param idUsuario
-	 *            login do usuário
+	 * @param idUsuario Identificador do usuário
 	 */
 	public void encerrarSessao(String idUsuario) {
 		
