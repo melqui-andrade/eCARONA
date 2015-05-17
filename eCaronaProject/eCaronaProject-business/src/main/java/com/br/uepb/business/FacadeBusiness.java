@@ -122,6 +122,10 @@ public class FacadeBusiness {
 		return gerenciadorDeSolicitacao.getSolicitacoesConfirmadas(idSessao, idCarona);
 	}
 	
+	public String getSolicitacoesPendentes(String idSessao, String idCarona){
+		return gerenciadorDeSolicitacao.getSolicitacoesPendentes(idSessao, idCarona);
+	}
+	
 	
 	public String getAtributoPerfil(String login, String atributo) throws ECaronaException{
 	

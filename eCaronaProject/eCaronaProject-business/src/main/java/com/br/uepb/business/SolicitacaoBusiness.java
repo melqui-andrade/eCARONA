@@ -143,6 +143,30 @@ public class SolicitacaoBusiness {
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);
 		}
 	}
+	
+	/**
+	 * Pegar o conjunto de solicitações pendentes para uma dada carona
+	 * @param idSessao ID da sessão do usuário que fornece a carona
+	 * @param idCarona ID da carona
+	 * @return IDs das solicitações pendentes no formato "{{IDsolicitacao01, IDsolicitacao02, ...}"
+	 */
+	public String getSolicitacoesPendentes(String idSessao, String idCarona){
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		ArrayList<SolicitacaoDomain> solicitacoes = carona.getSolicitacoes();
+		StringBuilder saidaSolicitacoes = new StringBuilder();
+		saidaSolicitacoes.append("{");
+		for(SolicitacaoDomain solicitacao : carona.getSolicitacoes()){
+			if(!solicitacao.foiAceita() && !solicitacao.foiRejeitada()){
+				saidaSolicitacoes.append("{");
+				saidaSolicitacoes.append(solicitacao.getId());
+				saidaSolicitacoes.append("},");
+			}
+		}
+		saidaSolicitacoes.deleteCharAt(saidaSolicitacoes.length()-1);	
+		
+		if(saidaSolicitacoes.toString().isEmpty()) return "{}";
+		return saidaSolicitacoes.toString();
+	}
 
 	/**
 	 * Pegar o conjunto de caronas confirmadas
