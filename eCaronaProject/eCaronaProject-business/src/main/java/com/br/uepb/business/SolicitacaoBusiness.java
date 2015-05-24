@@ -55,10 +55,9 @@ public class SolicitacaoBusiness {
 	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona,
 			String local) {
-		Random rand = new Random();
-		int instante = rand.nextInt();
-		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
-		String idSolicitacao = "sol" + instante;
+		
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);		
+		String idSolicitacao = "solic" + (carona.getSolicitacoes().size() + 1);
 
 		SugestaoEncontroDomain sugestao = new SugestaoEncontroDomain();
 		sugestao.foiAceita(false);
@@ -67,6 +66,7 @@ public class SolicitacaoBusiness {
 		sugestao.setIdSessao(idSessaoDoSolicitante);
 		sugestao.setLocal(local);
 		
+		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
 		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
 		novaSolicitacao.setId(idSolicitacao);
 		novaSolicitacao.setIdCarona(idCarona);
@@ -74,7 +74,6 @@ public class SolicitacaoBusiness {
 		novaSolicitacao.foiAceita(false);
 		novaSolicitacao.foiRejeitada(false);
 		
-		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		carona.adicionarSolicitacao(novaSolicitacao);
 		persistenciaBD.getCaronaBD().update(carona);
 
@@ -88,18 +87,17 @@ public class SolicitacaoBusiness {
 	 * @return ID da solicitação feita
 	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona) {
-		Random rand = new Random();
-		int instante = rand.nextInt();
-		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
-		String idSolicitacao = "sol" + instante;
+		
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		String idSolicitacao = "solic" + (carona.getSolicitacoes().size() + 1);
 
+		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
 		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
 		novaSolicitacao.setId(idSolicitacao);
 		novaSolicitacao.setIdCarona(idCarona);
 		novaSolicitacao.foiAceita(false);
 		novaSolicitacao.foiRejeitada(false);
 		
-		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		carona.adicionarSolicitacao(novaSolicitacao);
 		persistenciaBD.getCaronaBD().update(carona);
 		
@@ -124,6 +122,7 @@ public class SolicitacaoBusiness {
 			if (!solicitacao.foiAceita()) {				
 				CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(
 						solicitacao.getIdCarona());
+				
 				carona.setVagas(carona.getVagas() - 1);
 			
 				solicitacao.foiAceita(true);

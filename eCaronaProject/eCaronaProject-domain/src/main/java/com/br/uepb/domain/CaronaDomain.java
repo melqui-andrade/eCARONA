@@ -261,7 +261,12 @@ public class CaronaDomain {
 	}
 
 	public void adicionarSolicitacao(SolicitacaoDomain solicitacao){
-		
+		for(SolicitacaoDomain s : solicitacoes){
+			if(s.getId().equals(solicitacao.getId())){
+				solicitacoes.remove(s);
+				break;
+			}
+		}
 		solicitacoes.add(solicitacao);
 	}
 
