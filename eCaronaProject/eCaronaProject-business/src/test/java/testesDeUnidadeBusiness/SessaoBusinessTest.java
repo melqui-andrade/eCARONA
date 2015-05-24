@@ -5,22 +5,18 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import servicesBackup.PersistenciaDAO;
-
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 public class SessaoBusinessTest {
-
-	private PersistenciaDAO persistencia = new PersistenciaDAO();
 	private SessaoBusiness gerenciadorDeSessao;
 	
 
 	@Before
 	public void setUp() {
-		gerenciadorDeSessao = new SessaoBusiness(persistencia);
+		gerenciadorDeSessao = new SessaoBusiness();
 
 	}
 
@@ -46,17 +42,15 @@ public class SessaoBusinessTest {
 		SessaoDomain sessao = gerenciadorDeSessao.getSessao("ID01");
 
 		assertEquals(sessao.getId(), "ID01");
-		assertEquals(sessao.getUsuario(), usuario1);
+		
 
 		sessao = gerenciadorDeSessao.getSessao("ID02");
 
 		assertEquals(sessao.getId(), "ID02");
-		assertEquals(sessao.getUsuario(), usuario2);
 
 		sessao = gerenciadorDeSessao.getSessao("ID03");
 
 		assertEquals(sessao.getId(), "ID03");
-		assertEquals(sessao.getUsuario(), usuario3);
 		
 		assertFalse(gerenciadorDeSessao.ehSessaoValida(""));
 		assertFalse(gerenciadorDeSessao.ehSessaoValida(null));

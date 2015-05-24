@@ -1,6 +1,7 @@
 package com.br.uepb.business;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
@@ -54,10 +55,10 @@ public class SolicitacaoBusiness {
 	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona,
 			String local) {
-		long instante = System.currentTimeMillis();
+		Random rand = new Random();
+		int instante = rand.nextInt();
 		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
-		String idSolicitacao = idSessaoDoSolicitante.substring(0, 0)
-				+ idCarona.substring((idCarona.length() - 1)) + instante;
+		String idSolicitacao = "sol" + instante;
 
 		SugestaoEncontroDomain sugestao = new SugestaoEncontroDomain();
 		sugestao.foiAceita(false);
@@ -87,12 +88,12 @@ public class SolicitacaoBusiness {
 	 * @return ID da solicitação feita
 	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona) {
-		long instante = System.currentTimeMillis();
+		Random rand = new Random();
+		int instante = rand.nextInt();
 		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
-		String idSolicitacao = idSessaoDoSolicitante.substring(0, 0)
-				+ idCarona.substring((idCarona.length() - 1)) + instante;
+		String idSolicitacao = "sol" + instante;
 
-		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
+		novaSolicitacao.setSessaoSolicitante(idSolicitacao);
 		novaSolicitacao.setId(idSolicitacao);
 		novaSolicitacao.setIdCarona(idCarona);
 		novaSolicitacao.foiAceita(false);
@@ -252,7 +253,7 @@ public class SolicitacaoBusiness {
 		UsuarioDomain caroneiro = persistenciaBD.getUsuarioBD().
 				getUsuario(sessaoSolicitante.getIdUsuario());
 
-		if (persistenciaBD.getSolicitacaoBD().getSolicitacao(idSolicitacao) != null) {
+		if (solicitacao != null) {
 			switch (atributo) {
 
 			case "origem":

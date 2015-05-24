@@ -20,9 +20,6 @@ public class SessaoDomain {
 	@Column(name="ID_SESSAO")
 	private String idSessao;
 	
-	@Transient //para ignorar essa variavel no bd
-	private UsuarioDomain usuario;
-	
 	@Column(name="ESTA_ATIVA")
 	private boolean estaAtiva;
 	
@@ -105,26 +102,9 @@ public class SessaoDomain {
 	public void setIdUsuario(String usuarioLogin) {
 		this.usuarioLogin = usuarioLogin;
 	}
-
-	/**
-	 * @param usuario the usuario to set
-	 */
-	public void setUsuario(UsuarioDomain usuario) {
-		this.usuario = usuario;
-	}
-
-	public SessaoDomain(String id1, UsuarioDomain usuario1) {
-		this.idSessao = id1;
-		this.usuario = usuario1;
-		estaAtiva = true;
-	}	
-
+	
 	public String getId() {
 		return idSessao;
-	}
-
-	public UsuarioDomain getUsuario() {
-		return usuario;
 	}
 
 }

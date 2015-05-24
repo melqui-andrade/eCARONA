@@ -261,9 +261,7 @@ public class CaronaDomain {
 	}
 
 	public void adicionarSolicitacao(SolicitacaoDomain solicitacao){
-		if(solicitacoes.contains(solicitacao)){
-			solicitacoes.remove(solicitacao);
-		}
+		
 		solicitacoes.add(solicitacao);
 	}
 

@@ -144,8 +144,8 @@ public class FacadeBusiness {
 	public void zerarSistema() {
 		persistencia = new PersistenciaDAO();
 		gerenciadorDeUsuario = new UsuarioBusiness();
-		gerenciadorDeSessao = new SessaoBusiness(persistencia);
-		gerenciadorDeCarona = new CaronaBusiness(persistencia);
+		gerenciadorDeSessao = new SessaoBusiness();
+		gerenciadorDeCarona = new CaronaBusiness();
 		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
 		gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		controladorPerfil = new VisualizadorPerfil();
@@ -170,11 +170,11 @@ public class FacadeBusiness {
 		}
 
 		if (gerenciadorDeSessao != null) {
-			gerenciadorDeSessao = new SessaoBusiness(persistencia);
+			gerenciadorDeSessao = new SessaoBusiness();
 		}
 
 		if (gerenciadorDeCarona != null) {
-			gerenciadorDeCarona = new CaronaBusiness(persistencia);
+			gerenciadorDeCarona = new CaronaBusiness();
 		}
 		if (gerenciadorDePontoDeEncontro != null) {
 			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
