@@ -4,6 +4,7 @@ import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoDomain;
+import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.persistencia.Persistencia;
 
 import servicesBackup.PersistenciaDAO;
@@ -42,6 +43,21 @@ public class PontoDeEncontroBusiness {
 		for(String ponto : pontosSugeridos){
 			if(ponto.isEmpty()) throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
 		}
+		
+		SugestaoEncontroDomain pontoDeEncontro = new SugestaoEncontroDomain();
+		pontoDeEncontro.foiAceita(false);
+		pontoDeEncontro.foiRejeitada(false);
+		pontoDeEncontro.setIdCarona(idCarona);
+		pontoDeEncontro.setIdSessao(idSessao);
+		StringBuilder locais = new StringBuilder();
+		
+		for(String local : pontosSugeridos){
+			locais.append(local);
+			locais.append(",");
+		}
+		locais.deleteCharAt(locais.length()-1);
+		pontoDeEncontro.setLocal(locais.toString());
+		persistenciaBD.getSugestaoEncontroBD().save(pontoDeEncontro);
 	}
 	
 	/**
@@ -53,7 +69,7 @@ public class PontoDeEncontroBusiness {
 	 * @throws ECaronaException caso pontosSugeridos seja nulo ou vazio
 	 */
 	public void responderSugestaoPontoEncontro(String idSessao,
-			String idCarona, String idSegestao, String[] pontosSugeridos) throws ECaronaException {		
+			String idCarona, String idSugestao, String[] pontosSugeridos) throws ECaronaException {		
 
 		if(pontosSugeridos.length == 0 || pontosSugeridos.equals(null)){
 			throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
@@ -61,6 +77,23 @@ public class PontoDeEncontroBusiness {
 		for(String ponto : pontosSugeridos){
 			if(ponto.isEmpty()) throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
 		}
+		SugestaoEncontroDomain sugestaoAntiga = persistenciaBD.getSugestaoEncontroBD().getSugestaoEncontro(idSugestao);
+		sugestaoAntiga.foiRejeitada(true);
+		SugestaoEncontroDomain sugestaoNova = new SugestaoEncontroDomain();
+		sugestaoNova.foiAceita(false);
+		sugestaoNova.foiRejeitada(false);
+		sugestaoNova.setIdCarona(idCarona);
+		sugestaoNova.setIdSessao(idSessao);
+		StringBuilder locais = new StringBuilder();
+		
+		for(String local : pontosSugeridos){
+			locais.append(local);
+			locais.append(",");
+		}
+		locais.deleteCharAt(locais.length()-1);
+		sugestaoNova.setLocal(locais.toString());
+		persistenciaBD.getSugestaoEncontroBD().save(sugestaoNova);		
+		
 	}
 
 	/**
