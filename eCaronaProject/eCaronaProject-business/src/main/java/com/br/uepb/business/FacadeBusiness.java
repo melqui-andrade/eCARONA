@@ -1,8 +1,6 @@
 package com.br.uepb.business;
 
 import com.br.uepb.constants.ECaronaException;
-import com.br.uepb.constants.MensagensDeErro;
-import com.br.uepb.domain.UsuarioDomain;
 
 import servicesBackup.PersistenciaDAO;
 
@@ -146,7 +144,7 @@ public class FacadeBusiness {
 		gerenciadorDeUsuario = new UsuarioBusiness();
 		gerenciadorDeSessao = new SessaoBusiness();
 		gerenciadorDeCarona = new CaronaBusiness();
-		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness();
 		gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		controladorPerfil = new VisualizadorPerfil();
 		gerenciadorDeUsuario.zerarBase();
@@ -177,7 +175,7 @@ public class FacadeBusiness {
 			gerenciadorDeCarona = new CaronaBusiness();
 		}
 		if (gerenciadorDePontoDeEncontro != null) {
-			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness();
 		}
 		if(gerenciadorDeSolicitacao != null){
 			gerenciadorDeSolicitacao = new SolicitacaoBusiness();

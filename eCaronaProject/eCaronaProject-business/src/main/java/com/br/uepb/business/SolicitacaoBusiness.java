@@ -93,7 +93,7 @@ public class SolicitacaoBusiness {
 		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
 		String idSolicitacao = "sol" + instante;
 
-		novaSolicitacao.setSessaoSolicitante(idSolicitacao);
+		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
 		novaSolicitacao.setId(idSolicitacao);
 		novaSolicitacao.setIdCarona(idCarona);
 		novaSolicitacao.foiAceita(false);

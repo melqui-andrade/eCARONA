@@ -1,7 +1,5 @@
 package com.br.uepb.business;
 
-import java.util.Timer;
-
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
@@ -9,23 +7,18 @@ import com.br.uepb.domain.SolicitacaoDomain;
 import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.persistencia.Persistencia;
 
-import servicesBackup.PersistenciaDAO;
-
 /**
   * Implementação das regras de negócio de PontoDeEncontro
  * Todas as ações relacionadas ao gerenciamento de caronas se encontra nessa classe
  */
 public class PontoDeEncontroBusiness {
-
-	private PersistenciaDAO persistenciaDAO;
 	private Persistencia persistenciaBD;	
 
 	/**
 	 * Contrutor da classe
 	 * @param persistencia Entidade responsavel em persistir os dados do sistema
 	 */
-	public PontoDeEncontroBusiness(PersistenciaDAO persistencia){
-		this.persistenciaDAO = persistencia;
+	public PontoDeEncontroBusiness(){
 		this.persistenciaBD = new Persistencia();
 	}
 	
@@ -110,7 +103,7 @@ public class PontoDeEncontroBusiness {
 
 		
 		//TODO aceitar ponto de encontro deve definir o local da solicitacao do ponto de encontro
-		SolicitacaoDomain solicitacao = persistenciaDAO.getSolicitacaoBD().get(idSolicitacao);
+		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().getSolicitacao(idSolicitacao);
 		if(solicitacao.equals(null)){
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);		
 		}
