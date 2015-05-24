@@ -147,7 +147,7 @@ public class FacadeBusiness {
 		gerenciadorDeSessao = new SessaoBusiness(persistencia);
 		gerenciadorDeCarona = new CaronaBusiness(persistencia);
 		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
-		gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
+		gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		controladorPerfil = new VisualizadorPerfil();
 		gerenciadorDeUsuario.zerarBase();
 
@@ -180,7 +180,7 @@ public class FacadeBusiness {
 			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
 		}
 		if(gerenciadorDeSolicitacao != null){
-			gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
+			gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		}
 		if(controladorPerfil != null){
 			controladorPerfil = new VisualizadorPerfil();

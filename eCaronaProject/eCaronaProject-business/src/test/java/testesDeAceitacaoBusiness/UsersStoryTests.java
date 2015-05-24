@@ -31,6 +31,7 @@ public class UsersStoryTests {
 		eaFacade.executeTests();
 		
 		System.out.println(eaFacade.getCompleteResults());
+		System.exit(0);
 
 	}
 

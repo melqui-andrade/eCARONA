@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import java.util.Timer;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
@@ -43,8 +45,10 @@ public class PontoDeEncontroBusiness {
 		for(String ponto : pontosSugeridos){
 			if(ponto.isEmpty()) throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
 		}
+		String idPontoSeEncontro = idSessao + "IN" + String.valueOf(System.currentTimeMillis());
 		
 		SugestaoEncontroDomain pontoDeEncontro = new SugestaoEncontroDomain();
+		pontoDeEncontro.setIdSugestao(idPontoSeEncontro);
 		pontoDeEncontro.foiAceita(false);
 		pontoDeEncontro.foiRejeitada(false);
 		pontoDeEncontro.setIdCarona(idCarona);
@@ -105,7 +109,7 @@ public class PontoDeEncontroBusiness {
 	public void aceitarPontoDeEncontro(String idSessao, String idSolicitacao) throws ECaronaException {
 
 		
-		
+		//TODO aceitar ponto de encontro deve definir o local da solicitacao do ponto de encontro
 		SolicitacaoDomain solicitacao = persistenciaDAO.getSolicitacaoBD().get(idSolicitacao);
 		if(solicitacao.equals(null)){
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);		
