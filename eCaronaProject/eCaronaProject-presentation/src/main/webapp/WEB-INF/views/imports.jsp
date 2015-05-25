@@ -1,5 +1,16 @@
   <!-- Bootstrap -->
-  <link href="../styles/bootstrap.min.css" rel="stylesheet">
+  <link href="../styles/bootstrap.css" rel="stylesheet">
+  
+    <!-- Materialize CSS -->
+  <link href="../styles/materialize.css" rel="stylesheet">
+  
+      <!-- Freelancer CSS -->
+  <link href="../styles/freelancer.css" rel="stylesheet">
+  
+  <!-- Font awesome CSS -->
+  <link href="../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  
+  
   <!-- CSS Customizado -->
   <link href="../styles/bootstrap-custom.css" rel="stylesheet">
   <!-- CSS Datepicker -->
@@ -39,3 +50,10 @@
   <!--[if lt IE 9]>
     <script src="../js/placeholders.min.js"></script>
   <![endif]-->
+  
+  <!-- Materialize JS -->
+<script src="../js/materialize.min.js"></script>
+
+ <!-- Custom Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">

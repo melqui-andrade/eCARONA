@@ -1,64 +1,64 @@
-<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Início</title>
+<%@ include file="/WEB-INF/views/imports.jsp"%>
 <%@ include file="/WEB-INF/views/includeTags.jsp"%>
-<html>
-<body>
+</head>
+<body id="page-top" class="index">
 
-	<form:form modelAttribute="usuarioDomain" method="post">
-		<form:errors path="*" cssClass="errorblock" element="div" />
+    <nav class="navbar navbar-default navbar-fixed-top" style="height: 10%; border-bottom: 2px solid #ecf0f1; position:fixed; background-color: #2a80b9; padding-bottom: 10px; padding-right: 20px; padding-left: 20px;">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    MENU
+                    <span class="fa fa-chevron-down"></span>
+                    &nbsp;
+                    &nbsp;
+                </button>
+            	<img src="../images/logo_header.png" class="img-responsive" />
+          	 </div>
 
-		<table class="table table-striped table-hover table-custom">
-			<tr>
-				<th id="property"></th>
-				<th id="value"></th>
-			</tr>
-			<tr>
-				<td headers="property"><spring:message code="home.user.id"/></td>
-				<td headers="value">
-					<td><form:input path="nome" placeholder="Nome"/></td>
-					<td><form:errors path="nome" cssClass="error" /></td>
-				<td headers="property"><spring:message code="home.user.cpf"/></td>
-				<td headers="value">
-					<td><form:input path="cpf" placeholder="CPF"/></td>
-					<td><form:errors path="cpf" cssClass="error" /></td>
-					
-				<td><input type="submit" value="<spring:message code="home.user.add.button"/>" onclick="teste();"/></td>
-				
-			</tr>
-		</table>
-	</form:form>
-	
-	<div id ="contentUsers">
-		<c:set var="lstUsersAsParameter" value="${usuarioDomain.lstUsers}" scope="request" />
-		<jsp:include page="conteudoUsuario.jsp" />
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right text-white">
+                    <li class="hidden">
+                        <a href="/Home/Index"></a>
+                    </li>
+                    <li><a href="/Home/Index"> <i class="fa fa-home"></i> Início </a></li>
+                    <li><a href="/Home/Index"> <i class="fa fa-bus"></i> Cadastrar Carona </a></li>
+                    <li><a href="/Home/Index"> <i class="fa fa-sign-out"></i> Sair </a></li>
+                </ul>
+                &nbsp;
+                &nbsp;
+        	</div>
+    </nav>
+
+    <div class="scroll-top page-scroll visible-xs visble-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+    
+    
+    <div class="footer-copyright" style="color: #FFFFFF; background-color: #2a80b9;	position:absolute; bottom:0; width:100%;">
+		<div class="container">
+			eCarona © 2015 Copyright Melquisedec Andrade, Sidney Pimentel
+			<a class="grey-text text-lighten-4 right" href="#!">Desenvolvedores</a>
+		</div>
 	</div>
-	
-<!-- 	<table border="" class="table table-striped table-hover table-custom"> -->
-<!-- 		<tr> -->
-<%-- 			<th id="sl"><spring:message code="home.user.id"/></th> --%>
-<%-- 			<th id="enterprise"><spring:message code="home.user.cpf"/></th> --%>
-<%-- 			<th id="action"><spring:message code="home.user.action"/></th> --%>
-<!-- 		</tr> -->
-<%-- 		<c:forEach items="${usuarioDomain.lstUsers}" var="user"> --%>
-<!-- 			<tr> -->
-<%-- 				<td headers="sl">${user.nome}</td> --%>
-<%-- 				<td headers="enterprise">${user.cpf}</td> --%>
-<%-- 				<td headers="action"><a href="#" onclick="openAjaxCallWOTimeout('${user.nome}');"><spring:message code="home.user.action.delete"/></a></td> --%>
-	
-<!-- 			</tr> -->
-<%-- 		</c:forEach> --%>
-<!-- 	</table> -->
 
-	<!-- Start JS Custom Page -->
-<script>
-
-function teste(){
-	alert("Funcao Funcionando");
-	return true;
-}
-
-</script>
-<script src="../js/views/home/home.js"
-		type="text/javascript" charset="utf-8"></script>
-	<!-- End JS Custom -->
 </body>
 </html>
+
+<style>
+html {
+    position: relative;
+    min-height: 100%;
+}
+footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 60px;
+    background-color: green;
+}
+
+</style>
