@@ -124,8 +124,9 @@ public class FacadeBusiness {
 		return gerenciadorDeSolicitacao.getSolicitacoesPendentes(idSessao, idCarona);
 	}
 	
-	public String getPontosSugeridos(String idSessao, String idCarona){
-		return null;
+	public String getPontosSugeridos(String idSessao, String idCarona) throws ECaronaException{
+		return gerenciadorDePontoDeEncontro.
+				getPontosSugeridos(idSessao, idCarona);
 	}
 	
 	

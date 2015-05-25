@@ -1,8 +1,5 @@
 package com.br.uepb.business;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;

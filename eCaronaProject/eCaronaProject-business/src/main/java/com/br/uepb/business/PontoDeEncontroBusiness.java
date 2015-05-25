@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import java.util.List;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
@@ -104,19 +106,54 @@ public class PontoDeEncontroBusiness {
 		
 		//TODO aceitar ponto de encontro deve definir o local da solicitacao do ponto de encontro
 		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().getSolicitacao(idSolicitacao);
+		SugestaoEncontroDomain sugestao = 
+				buscaSugestaoDeEncontro(solicitacao.getSugestoesDeEncontro(),
+						idSessao, solicitacao.getIdCarona());
+		
 		if(solicitacao.equals(null)){
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);		
 		}
 		else{
 			if(!solicitacao.foiAceita()){
 				CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
+				sugestao.foiAceita(true);
 				carona.setVagas(carona.getVagas()-1);
+				carona.setPontoDeEncontro(sugestao.getIdSugestao(), sugestao.getLocal().split(","));;
 				solicitacao.foiAceita(true);
+				persistenciaBD.getSugestaoEncontroBD().update(sugestao);				
 				persistenciaBD.getCaronaBD().update(carona);
-				solicitacao.foiAceita(true);
+				
 			}
 			else{throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);}			
 			
 		}			
 	}
+
+	public String getPontosSugeridos(String idSessao, String idCarona) throws ECaronaException {
+		List<SugestaoEncontroDomain> pontosDeEncontro = persistenciaBD.
+				getSugestaoEncontroBD().list();
+		
+		SugestaoEncontroDomain ponto = buscaSugestaoDeEncontro(pontosDeEncontro, idSessao, idCarona);
+		
+		if(ponto == null){
+			throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
+		}
+		else{
+			return ponto.getLocal();
+		}
+	}
+	
+	private SugestaoEncontroDomain buscaSugestaoDeEncontro
+	(List<SugestaoEncontroDomain> pontos, String idSessao, String idCarona){
+		
+		SugestaoEncontroDomain ponto = null;
+		for(SugestaoEncontroDomain p : pontos){
+			if(p.getIdSessao().equals(idSessao) && p.getIdCarona().equals(idCarona)){
+				ponto = p;
+				break;
+			}
+		}
+		return ponto;
+	}
+	
 }
