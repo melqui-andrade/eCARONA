@@ -19,9 +19,7 @@ import com.br.uepb.utilities.VerificadorString;
  */
 public class CaronaBusiness {
 
-	//Persistencia volatil [antiga]
-	private PersistenciaDAO persistencia;
-	//persistencia atraves de BD
+	
 	private Persistencia persistenciaBD;
 	private int sufixoIdCarona;
 
@@ -29,8 +27,7 @@ public class CaronaBusiness {
 	 * Construtor da classe, inicializa a entidade de persistência
 	 * @param persistencia Entidade responsavel em persistir os dados do sistema
 	 */
-	public CaronaBusiness(PersistenciaDAO persistencia) {
-		this.persistencia = persistencia;
+	public CaronaBusiness() {
 		this.persistenciaBD = new Persistencia();
 		sufixoIdCarona = 0;
 
@@ -61,10 +58,10 @@ public class CaronaBusiness {
 		if (idSessao == null || idSessao.equals(""))
 			throw new ECaronaException(MensagensDeErro.SESSAO_INVALIDA);
 
-		if (persistencia.getSessaoBD().containsKey(idSessao)) {
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
+		if (sessao != null) {
 			sufixoIdCarona++;
 			
-			SessaoDomain sessao = persistencia.getSessaoBD().get(idSessao);
 			
 			CaronaDomain carona = new CaronaDomain();
 
@@ -91,7 +88,7 @@ public class CaronaBusiness {
 			// System.out.println(identificadorCarona);
 			carona.setId(identificadorCarona);
 
-			persistencia.getCaronaBD().put(identificadorCarona, carona);
+			
 			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
@@ -111,7 +108,7 @@ public class CaronaBusiness {
 	public String localizarCaronaUsuarioPorIndex(String idSessao, String index){
 		
 		int valorIndex = Integer.parseInt(index);
-		SessaoDomain sessao = persistencia.getSessaoBD().get(idSessao);
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
 		ArrayList<CaronaDomain> caronas = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario()).getCaronas();
 		caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
 		return caronas.get(valorIndex-1).getId();
@@ -141,7 +138,7 @@ public class CaronaBusiness {
 				|| destino.equals("!?"))
 			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
 		
-		SessaoDomain sessao = persistencia.getSessaoBD().get(idSessao);
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
 
 		ArrayList<String> allID = new ArrayList<String>();
 		String idCarona = "{";

@@ -3,6 +3,8 @@ package com.br.uepb.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,9 +26,17 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 	@Override
 	public void save(SugestaoEncontroDomain sugestaoEncontro) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction t = session.beginTransaction();
-		session.save(sugestaoEncontro);
-		t.commit();
+		try{
+			Transaction t = session.beginTransaction();
+			session.save(sugestaoEncontro);
+			t.commit();
+		}
+		catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+		}
+		finally{
+			session.close();
+		}
 	}
 
 	@Override
@@ -39,7 +49,7 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 	public List<SugestaoEncontroDomain> list() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		List<SugestaoEncontroDomain> lista = session.createQuery("from sugestao_encontro_dao").list();
+		List<SugestaoEncontroDomain> lista = session.createQuery("from SugestaoEncontroDomain").list();
 		t.commit();
 		return lista;
 	}
@@ -47,17 +57,33 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 	@Override
 	public void remove(SugestaoEncontroDomain sugestaoEncontro) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction t = session.beginTransaction();
-		session.delete(sugestaoEncontro);
-		t.commit();
+		try{
+			Transaction t = session.beginTransaction();
+			session.delete(sugestaoEncontro);
+			t.commit();
+		}
+		catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+		}
+		finally{
+			session.close();
+		}
 	}
 
 	@Override
 	public void update(SugestaoEncontroDomain sugestaoEncontro) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction t = session.beginTransaction();
-		session.update(sugestaoEncontro);
-		t.commit();
+		try{
+			Transaction t = session.beginTransaction();
+			session.update(sugestaoEncontro);
+			t.commit();
+		}
+		catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+		}
+		finally{
+			session.close();
+		}
 	}
 	
 	@Override

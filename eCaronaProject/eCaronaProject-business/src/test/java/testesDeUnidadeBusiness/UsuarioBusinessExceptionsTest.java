@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import servicesBackup.PersistenciaDAO;
-
 import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
@@ -15,7 +13,6 @@ import com.br.uepb.constants.MensagensDeErro;
 
 public class UsuarioBusinessExceptionsTest {
 
-	private PersistenciaDAO persistencia = new PersistenciaDAO();
 	private UsuarioBusiness gerenciadorDeUsuario;
 	private SessaoBusiness gerenciadorDeSessao;
 	private CaronaBusiness gerenciadorDeCarona;
@@ -23,8 +20,8 @@ public class UsuarioBusinessExceptionsTest {
 	@Before
 	public void setUp() {
 		this.gerenciadorDeUsuario = new UsuarioBusiness();
-		this.gerenciadorDeSessao = new SessaoBusiness(persistencia);
-		this.gerenciadorDeCarona = new CaronaBusiness(persistencia);
+		this.gerenciadorDeSessao = new SessaoBusiness();
+		this.gerenciadorDeCarona = new CaronaBusiness();
 	}
 
 	// ERROS DO US01

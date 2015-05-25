@@ -1,8 +1,6 @@
 package com.br.uepb.business;
 
 import com.br.uepb.constants.ECaronaException;
-import com.br.uepb.constants.MensagensDeErro;
-import com.br.uepb.domain.UsuarioDomain;
 
 import servicesBackup.PersistenciaDAO;
 
@@ -126,6 +124,11 @@ public class FacadeBusiness {
 		return gerenciadorDeSolicitacao.getSolicitacoesPendentes(idSessao, idCarona);
 	}
 	
+	public String getPontosSugeridos(String idSessao, String idCarona) throws ECaronaException{
+		return gerenciadorDePontoDeEncontro.
+				getPontosSugeridos(idSessao, idCarona);
+	}
+	
 	
 	public String getAtributoPerfil(String login, String atributo) throws ECaronaException{
 	
@@ -140,10 +143,10 @@ public class FacadeBusiness {
 	public void zerarSistema() {
 		persistencia = new PersistenciaDAO();
 		gerenciadorDeUsuario = new UsuarioBusiness();
-		gerenciadorDeSessao = new SessaoBusiness(persistencia);
-		gerenciadorDeCarona = new CaronaBusiness(persistencia);
-		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
-		gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
+		gerenciadorDeSessao = new SessaoBusiness();
+		gerenciadorDeCarona = new CaronaBusiness();
+		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness();
+		gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		controladorPerfil = new VisualizadorPerfil();
 		gerenciadorDeUsuario.zerarBase();
 
@@ -166,17 +169,17 @@ public class FacadeBusiness {
 		}
 
 		if (gerenciadorDeSessao != null) {
-			gerenciadorDeSessao = new SessaoBusiness(persistencia);
+			gerenciadorDeSessao = new SessaoBusiness();
 		}
 
 		if (gerenciadorDeCarona != null) {
-			gerenciadorDeCarona = new CaronaBusiness(persistencia);
+			gerenciadorDeCarona = new CaronaBusiness();
 		}
 		if (gerenciadorDePontoDeEncontro != null) {
-			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness(persistencia);
+			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness();
 		}
 		if(gerenciadorDeSolicitacao != null){
-			gerenciadorDeSolicitacao = new SolicitacaoBusiness(persistencia);
+			gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		}
 		if(controladorPerfil != null){
 			controladorPerfil = new VisualizadorPerfil();

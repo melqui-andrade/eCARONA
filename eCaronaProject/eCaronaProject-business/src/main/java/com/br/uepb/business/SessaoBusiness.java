@@ -5,8 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import servicesBackup.PersistenciaDAO;
+import java.util.List;
 
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
@@ -22,7 +21,7 @@ import com.br.uepb.persistencia.Persistencia;
  */
 public class SessaoBusiness {
 
-	private PersistenciaDAO persistencia;
+	
 	private Persistencia persistenciaBD;
 	private ArrayList<SessaoDomain> sessoes;
 
@@ -30,8 +29,7 @@ public class SessaoBusiness {
 	 * Construtor da classe
 	 * @param persistencia Entidade responsavel em persistir os dados do sistema
 	 */
-	public SessaoBusiness(PersistenciaDAO persistencia){
-		this.persistencia = persistencia;
+	public SessaoBusiness(){
 		this.persistenciaBD = new Persistencia();
 		sessoes = new ArrayList<SessaoDomain>();
 	}
@@ -47,12 +45,14 @@ public class SessaoBusiness {
 		DateFormat formatoData = new SimpleDateFormat("yyyy/MM/dd");
 		DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
 		
-		SessaoDomain sessao = new SessaoDomain(id, usuario);
+		SessaoDomain sessao = new SessaoDomain();
 		
+		sessao.setIdUsuario(id);
 		sessao.setData(formatoData.format(data));
 		sessao.setHora(formatoHora.format(data));
-		sessao.setUsuario(usuario);
+		sessao.setEstaAtiva(true);
 		
+		persistenciaBD.getSessaoBD().save(sessao);
 		sessoes.add(sessao);
 	}
 
@@ -63,13 +63,8 @@ public class SessaoBusiness {
 	 * @return Uma sessão
 	 */
 	public SessaoDomain getSessao(String idSessao) {
-		SessaoDomain sessao = null;
-		for (SessaoDomain s : sessoes) {
-			if (s.getId() == idSessao) {
-				sessao = s;
-			}
-		}
-		return sessao;
+		
+		return persistenciaBD.getSessaoBD().getSessao(idSessao);
 	}
 
 	/**
@@ -83,12 +78,11 @@ public class SessaoBusiness {
 		if (idSessao == null || idSessao == "")
 			return false;
 
-		for (SessaoDomain s : sessoes) {
-			if (s.getId() == idSessao) {
-				return true;
-			}
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
+		if(sessao != null){
+			return true;
 		}
-		return false;
+		else return false;
 	}
 
 	/**
@@ -123,18 +117,18 @@ public class SessaoBusiness {
 		Date time = new Date();
 		String idSessao = Long.toString(time.getTime());
 		
-		SessaoDomain sessao = new SessaoDomain(idSessao, usuario);
+		SessaoDomain sessao = new SessaoDomain();
 		
 		Date data = new Date();
 		DateFormat formatoData = new SimpleDateFormat("yyyy/MM/dd");
 		DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
-		
+		sessao.setIdSessao(idSessao);
+		sessao.setIdUsuario(login);
 		sessao.setData(formatoData.format(data));
 		sessao.setHora(formatoHora.format(data));
-		sessao.setUsuario(usuario);
-		sessao.setIdUsuario(login);
+		sessao.setEstaAtiva(true);
 
-		persistencia.getSessaoBD().put(idSessao, sessao);
+		persistenciaBD.getSessaoBD().save(sessao);
 
 		return idSessao;
 	}
@@ -148,7 +142,7 @@ public class SessaoBusiness {
 	 */
 	public SessaoDomain getSessaoPorId(String idSessao) {
 
-		return persistencia.getSessaoBD().get(idSessao);
+		return persistenciaBD.getSessaoBD().getSessao(idSessao);
 	}
 
 	/**
@@ -157,8 +151,13 @@ public class SessaoBusiness {
 	 * @param idUsuario Identificador do usuário
 	 */
 	public void encerrarSessao(String idUsuario) {
-		
-			
+		List<SessaoDomain> sessoes = persistenciaBD.getSessaoBD().list(); 
+		for(SessaoDomain sessao : sessoes){
+			if(sessao.getIdUsuario().equals(idUsuario) && sessao.isEstaAtiva()){
+				sessao.setEstaAtiva(false);
+				persistenciaBD.getSessaoBD().update(sessao);
+			}
+		}
 		
 	}
 	

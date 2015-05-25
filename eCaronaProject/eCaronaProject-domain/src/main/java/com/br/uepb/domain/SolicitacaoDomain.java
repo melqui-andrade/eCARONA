@@ -1,8 +1,14 @@
 package com.br.uepb.domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +33,9 @@ public class SolicitacaoDomain {
 	
 	@Column(name="FOI_REJEITADA")
 	private boolean foiRejeitada;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Collection<SugestaoEncontroDomain> sugestoesDeEncontro = new ArrayList<SugestaoEncontroDomain>();
 	
 	
 	public String getId() {
@@ -54,6 +63,14 @@ public class SolicitacaoDomain {
 		this.idSessaoSolicitante = idSessaoSolicitante;
 	}
 	
+	public ArrayList<SugestaoEncontroDomain> getSugestoesDeEncontro(){
+		return new ArrayList<SugestaoEncontroDomain>(this.sugestoesDeEncontro);
+	}
+	
+	public void setSugestoesDeEncontro(Collection<SugestaoEncontroDomain> sugestoes){
+		this.sugestoesDeEncontro = sugestoes;
+	}
+	
 	public boolean foiAceita(){
 		return this.foiAceita;
 	}
@@ -68,5 +85,9 @@ public class SolicitacaoDomain {
 	
 	public void foiRejeitada(boolean foi){
 		this.foiRejeitada = foi;
+	}
+	
+	public void adicionarSugestao(SugestaoEncontroDomain sugestao){
+		this.sugestoesDeEncontro.add(sugestao);
 	}
 }

@@ -1,12 +1,11 @@
 package com.br.uepb.business;
 
-import java.util.ArrayList;
-
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SolicitacaoDomain;
+import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.persistencia.Persistencia;
 
@@ -18,11 +17,9 @@ import servicesBackup.PersistenciaDAO;
  */
 public class SolicitacaoBusiness {
 
-	private PersistenciaDAO persistencia;
 	private Persistencia persistenciaBD;
 
-	public SolicitacaoBusiness(PersistenciaDAO persistencia) {
-		this.persistencia = persistencia;
+	public SolicitacaoBusiness() {
 		this.persistenciaBD = new Persistencia();
 	}
 
@@ -43,6 +40,7 @@ public class SolicitacaoBusiness {
 			if (ponto.isEmpty())
 				throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
 		}
+		//TODO Nada implementado nesse método
 	}
 
 	/**
@@ -54,18 +52,25 @@ public class SolicitacaoBusiness {
 	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona,
 			String local) {
-		long instante = System.currentTimeMillis();
-		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
-		String idSolicitacao = idSessaoDoSolicitante.substring(0, 0)
-				+ idCarona.substring((idCarona.length() - 1)) + instante;
+		
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);		
+		String idSolicitacao = "solic" + (carona.getSolicitacoes().size() + 1);
 
+		SugestaoEncontroDomain sugestao = new SugestaoEncontroDomain();
+		sugestao.foiAceita(false);
+		sugestao.foiRejeitada(false);
+		sugestao.setIdCarona(idCarona);
+		sugestao.setIdSessao(idSessaoDoSolicitante);
+		sugestao.setLocal(local);
+		
+		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
 		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
 		novaSolicitacao.setId(idSolicitacao);
 		novaSolicitacao.setIdCarona(idCarona);
-		novaSolicitacao.setLocal(local);
+		novaSolicitacao.adicionarSugestao(sugestao);
 		novaSolicitacao.foiAceita(false);
-		persistencia.getSolicitacaoBD().put(idSolicitacao, novaSolicitacao);
-		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		novaSolicitacao.foiRejeitada(false);
+		
 		carona.adicionarSolicitacao(novaSolicitacao);
 		persistenciaBD.getCaronaBD().update(carona);
 
@@ -79,17 +84,20 @@ public class SolicitacaoBusiness {
 	 * @return ID da solicitação feita
 	 */
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona) {
-		long instante = System.currentTimeMillis();
-		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
-		String idSolicitacao = idSessaoDoSolicitante.substring(0, 0)
-				+ idCarona.substring((idCarona.length() - 1)) + instante;
+		
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		String idSolicitacao = "solic" + (carona.getSolicitacoes().size() + 1);
 
+		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
 		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
 		novaSolicitacao.setId(idSolicitacao);
 		novaSolicitacao.setIdCarona(idCarona);
 		novaSolicitacao.foiAceita(false);
-		persistencia.getSolicitacaoBD().put(idSolicitacao, novaSolicitacao);
-
+		novaSolicitacao.foiRejeitada(false);
+		
+		carona.adicionarSolicitacao(novaSolicitacao);
+		persistenciaBD.getCaronaBD().update(carona);
+		
 		return idSolicitacao;
 	}
 
@@ -103,18 +111,21 @@ public class SolicitacaoBusiness {
 	public void aceitarSolicitacao(String idSessao, String idSolicitacao)
 			throws ECaronaException {
 
-		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(
-				idSolicitacao);
+		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().
+				getSolicitacao(idSolicitacao);
 		if (solicitacao.equals(null)) {
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);
 		} else {
-			if (!solicitacao.foiAceita()) {
+			if (!solicitacao.foiAceita()) {				
 				CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(
 						solicitacao.getIdCarona());
+				
 				carona.setVagas(carona.getVagas() - 1);
 			
 				solicitacao.foiAceita(true);
+				
 				carona.adicionarSolicitacao(solicitacao);
+				
 				persistenciaBD.getCaronaBD().update(carona);
 			} else {
 				throw new ECaronaException(
@@ -134,11 +145,12 @@ public class SolicitacaoBusiness {
 	public void rejeitarSolicitacao(String idSessao, String idSolicitacao)
 			throws ECaronaException {
 
-		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(
-				idSolicitacao);
+		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().
+				getSolicitacao(idSolicitacao);
 
 		if (!solicitacao.foiRejeitada()) {
 			solicitacao.foiRejeitada(true);
+			
 		} else {
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);
 		}
@@ -152,7 +164,6 @@ public class SolicitacaoBusiness {
 	 */
 	public String getSolicitacoesPendentes(String idSessao, String idCarona){
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
-		ArrayList<SolicitacaoDomain> solicitacoes = carona.getSolicitacoes();
 		StringBuilder saidaSolicitacoes = new StringBuilder();
 		saidaSolicitacoes.append("{");
 		for(SolicitacaoDomain solicitacao : carona.getSolicitacoes()){
@@ -177,12 +188,13 @@ public class SolicitacaoBusiness {
 	public String getSolicitacoesConfirmadas(String idSessao, String idCarona) {		
 		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
-		ArrayList<SolicitacaoDomain> solicitacoes = carona.getSolicitacoes();
 		StringBuilder saidaSolicitacoes = new StringBuilder();
 		saidaSolicitacoes.append("{");
 		for(SolicitacaoDomain solicitacao : carona.getSolicitacoes()){
-			saidaSolicitacoes.append(solicitacao.getId());
-			saidaSolicitacoes.append("},");
+			if(solicitacao.foiAceita()){
+				saidaSolicitacoes.append(solicitacao.getId());
+				saidaSolicitacoes.append("},");
+			}
 		}
 		saidaSolicitacoes.deleteCharAt(saidaSolicitacoes.length()-1);	
 		
@@ -200,13 +212,13 @@ public class SolicitacaoBusiness {
 	 */
 	public void desistirRequisicao(String idSessao, String idCarona,
 			String idSolicitacao) throws ECaronaException {
-		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(
-				idSolicitacao);
+		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().
+				getSolicitacao(idSolicitacao);
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(
 				solicitacao.getIdCarona());
 
 		carona.setVagas(carona.getVagas() + 1);
-		solicitacao.foiAceita(false);
+		solicitacao.foiRejeitada(true);
 		persistenciaBD.getCaronaBD().update(carona);
 	}
 
@@ -220,24 +232,24 @@ public class SolicitacaoBusiness {
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo)
 			throws ECaronaException {
 
-		SolicitacaoDomain solicitacao = persistencia.getSolicitacaoBD().get(
-				idSolicitacao);
+		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().
+				getSolicitacao(idSolicitacao);
 
 		if (atributo == "" || atributo.equals(null)) {
 			throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
 		}
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(
 				solicitacao.getIdCarona());
-		SessaoDomain sessaoDono = persistencia.getSessaoBD().get(
-				carona.getIdSessao());
-		SessaoDomain sessaoSolicitante = persistencia.getSessaoBD().get(
-				solicitacao.getIdSessaoSolicitante());
-		UsuarioDomain dono = persistenciaBD.getUsuarioBD().getUsuario(
-				sessaoDono.getIdUsuario());
-		UsuarioDomain caroneiro = persistenciaBD.getUsuarioBD().getUsuario(
-				sessaoSolicitante.getIdUsuario());
+		SessaoDomain sessaoDono = persistenciaBD.getSessaoBD().
+				getSessao(carona.getIdSessao());
+		SessaoDomain sessaoSolicitante = persistenciaBD.getSessaoBD().
+				getSessao(solicitacao.getIdSessaoSolicitante());
+		UsuarioDomain dono = persistenciaBD.getUsuarioBD().
+				getUsuario(sessaoDono.getIdUsuario());
+		UsuarioDomain caroneiro = persistenciaBD.getUsuarioBD().
+				getUsuario(sessaoSolicitante.getIdUsuario());
 
-		if (persistencia.getSolicitacaoBD().containsKey(idSolicitacao)) {
+		if (solicitacao != null) {
 			switch (atributo) {
 
 			case "origem":
