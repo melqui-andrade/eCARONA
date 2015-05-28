@@ -1,8 +1,11 @@
 package com.br.uepb.business;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
-import servicesBackup.PersistenciaDAO;
+import org.apache.commons.beanutils.BeanComparator;
 
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
@@ -13,19 +16,21 @@ import com.br.uepb.persistencia.Persistencia;
 import com.br.uepb.utilities.VerificadorString;
 
 /**
- * Implementação das regras de negócio de CaronaDomain
- * Todas as ações relacionadas ao gerenciamento de caronas se encontram nessa classe
+ * Implementação das regras de negócio de CaronaDomain Todas as ações
+ * relacionadas ao gerenciamento de caronas se encontram nessa classe
+ * 
  * @see CaronaDomain
  */
 public class CaronaBusiness {
 
-	
 	private Persistencia persistenciaBD;
 	private int sufixoIdCarona;
 
 	/**
 	 * Construtor da classe, inicializa a entidade de persistência
-	 * @param persistencia Entidade responsavel em persistir os dados do sistema
+	 * 
+	 * @param persistencia
+	 *            Entidade responsavel em persistir os dados do sistema
 	 */
 	public CaronaBusiness() {
 		this.persistenciaBD = new Persistencia();
@@ -36,12 +41,19 @@ public class CaronaBusiness {
 	/**
 	 * Cadastra uma nova carona de determinado usuário
 	 * 
-	 * @param idSessao Sessão do usuário que está cadastrando a carona
-	 * @param origem Local de onde o usuário vai sair
-	 * @param destino Local para onde o usuário pretende ir
-	 * @param data Dia, mês, ano no formato: "dd/mm/aaaa" que o trajeto será realizado
-	 * @param hora Hora e minutos no formato "hh:mm" que o usuário vai partir
-	 * @param vagas Quantidade de acentos disponíveis para carona
+	 * @param idSessao
+	 *            Sessão do usuário que está cadastrando a carona
+	 * @param origem
+	 *            Local de onde o usuário vai sair
+	 * @param destino
+	 *            Local para onde o usuário pretende ir
+	 * @param data
+	 *            Dia, mês, ano no formato: "dd/mm/aaaa" que o trajeto será
+	 *            realizado
+	 * @param hora
+	 *            Hora e minutos no formato "hh:mm" que o usuário vai partir
+	 * @param vagas
+	 *            Quantidade de acentos disponíveis para carona
 	 * @return Id da carona
 	 * @throws Exception
 	 *             caso os campos sejam nulos ou vazios, o id da sessão não seja
@@ -61,8 +73,7 @@ public class CaronaBusiness {
 		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
 		if (sessao != null) {
 			sufixoIdCarona++;
-			
-			
+
 			CaronaDomain carona = new CaronaDomain();
 
 			carona.setOrigem(origem);
@@ -70,17 +81,17 @@ public class CaronaBusiness {
 			carona.setDestino(destino);
 
 			carona.setData(data);
-			
+
 			carona.setIdSessao(idSessao);
 
 			carona.setVagas(Integer.valueOf(vagas));
 
 			carona.setHora(hora);
-			
+
 			carona.setUsuarioLogin(sessao.getIdUsuario());
-			
+
 			carona.foiConcluida(false);
-			
+
 			carona.foiTranquila(false);
 
 			String identificadorCarona = "carona"
@@ -88,8 +99,8 @@ public class CaronaBusiness {
 			// System.out.println(identificadorCarona);
 			carona.setId(identificadorCarona);
 
-			
-			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario());
+			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(
+					sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
 			return carona.getId();
@@ -98,20 +109,26 @@ public class CaronaBusiness {
 		}
 
 	}
-	
+
 	/**
-	 * Localizar uma carona do usuário, através do índice da carona no conjunto de caronas  
-	 * @param idSessao ID da sessão do usuário que se deseja obter a carona
-	 * @param index i-ésima posição do elemento carona no conjunto de caronas
+	 * Localizar uma carona do usuário, através do índice da carona no conjunto
+	 * de caronas
+	 * 
+	 * @param idSessao
+	 *            ID da sessão do usuário que se deseja obter a carona
+	 * @param index
+	 *            i-ésima posição do elemento carona no conjunto de caronas
 	 * @return ID da carona solicitada
 	 */
-	public String localizarCaronaUsuarioPorIndex(String idSessao, String index){
-		
+	public String localizarCaronaUsuarioPorIndex(String idSessao, String index) {
+
 		int valorIndex = Integer.parseInt(index);
 		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
-		ArrayList<CaronaDomain> caronas = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario()).getCaronas();
-		caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
-		return caronas.get(valorIndex-1).getId();
+		ArrayList<CaronaDomain> caronas = persistenciaBD.getUsuarioBD()
+				.getUsuario(sessao.getIdUsuario()).getCaronas();
+		//caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
+		
+		return caronas.get(valorIndex - 1).getId();
 	}
 
 	/**
@@ -137,14 +154,15 @@ public class CaronaBusiness {
 		if (destino.equals(".") || destino.equals("()") || destino.equals("!")
 				|| destino.equals("!?"))
 			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
-		
+
 		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
 
 		ArrayList<String> allID = new ArrayList<String>();
 		String idCarona = "{";
 		// System.out.println(caronaBD.values().);
 		if (origem.equals("") && destino.equals("")) {
-			for (CaronaDomain carona : persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario()).getCaronas()) {
+			for (CaronaDomain carona : persistenciaBD.getUsuarioBD()
+					.getUsuario(sessao.getIdUsuario()).getCaronas()) {
 				allID.add(carona.getId());
 			}
 
@@ -190,10 +208,14 @@ public class CaronaBusiness {
 	/**
 	 * Pegar um atributo específico de uma carona
 	 * 
-	 * @param idCarona ID da carona
-	 * @param atributoCarona Atributos válidos: origem | destino | data | vagas
+	 * @param idCarona
+	 *            ID da carona
+	 * @param atributoCarona
+	 *            Atributos válidos: origem | destino | data | vagas
 	 * @return O valor do atributo especificado
-	 * @throws Exception caso a carona não exista na base ou o atributo não seja válido
+	 * @throws Exception
+	 *             caso a carona não exista na base ou o atributo não seja
+	 *             válido
 	 */
 	public String getAtributoCarona(String idCarona, String atributoCarona)
 			throws ECaronaException {
@@ -242,7 +264,8 @@ public class CaronaBusiness {
 	 * 
 	 * @param idCarona
 	 * @return mensagem no formato: "origem - destino" da carona
-	 * @throws Exception caso os campos sejam nulos ou vazios, caso o id da carona não
+	 * @throws Exception
+	 *             caso os campos sejam nulos ou vazios, caso o id da carona não
 	 *             exista
 	 */
 	public String getTrajetoCarona(String idCarona) throws ECaronaException {

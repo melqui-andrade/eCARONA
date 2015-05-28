@@ -2,18 +2,14 @@ package com.br.uepb.business;
 
 import com.br.uepb.constants.ECaronaException;
 
-import servicesBackup.PersistenciaDAO;
-
 public class FacadeBusiness {
 
-	private PersistenciaDAO persistencia = new PersistenciaDAO();
 	private UsuarioBusiness gerenciadorDeUsuario;
 	private SessaoBusiness gerenciadorDeSessao;
 	private CaronaBusiness gerenciadorDeCarona;
 	private PontoDeEncontroBusiness gerenciadorDePontoDeEncontro;
 	private SolicitacaoBusiness gerenciadorDeSolicitacao;
 	private VisualizadorPerfil controladorPerfil;
-
 
 	public void criarUsuario(String login, String senha, String nome,
 			String endereco, String email) throws Exception {
@@ -55,12 +51,15 @@ public class FacadeBusiness {
 	public String getCarona(String idCarona) throws Exception {
 		return gerenciadorDeCarona.getCaronaInfo(idCarona);
 	}
-	
-	public String getCaronaUsuario(String idSessao, String indexCarona) throws ECaronaException{
-		return gerenciadorDeCarona.localizarCaronaUsuarioPorIndex(idSessao, indexCarona);
+
+	public String getCaronaUsuario(String idSessao, String indexCarona)
+			throws ECaronaException {
+		return gerenciadorDeCarona.localizarCaronaUsuarioPorIndex(idSessao,
+				indexCarona);
 	}
-	
-	public String getTodasCaronasUsuario(String idSessao) throws ECaronaException{
+
+	public String getTodasCaronasUsuario(String idSessao)
+			throws ECaronaException {
 		return gerenciadorDeCarona.localizarCarona(idSessao, "", "");
 	}
 
@@ -69,79 +68,91 @@ public class FacadeBusiness {
 	}
 
 	public void sugerirPontoEncontro(String idSessao, String idCarona,
-			String pontos)throws ECaronaException {		
-		
+			String pontos) throws ECaronaException {
+
 		String[] pontosSugeridos = pontos.split(";");
 		gerenciadorDePontoDeEncontro.sugerirPontoEncontro(idSessao, idCarona,
 				pontosSugeridos);
 	}
-	
-	public String solicitarVaga(String idSessao, String idCarona){
+
+	public String solicitarVaga(String idSessao, String idCarona) {
 		return gerenciadorDeSolicitacao.solicitarVaga(idSessao, idCarona);
 	}
 
 	public String solicitarVagaPontoEncontro(String idSessao, String idCarona,
 			String ponto) {
-		return gerenciadorDeSolicitacao.solicitarVaga(idSessao, idCarona, ponto);
+		return gerenciadorDeSolicitacao
+				.solicitarVaga(idSessao, idCarona, ponto);
 	}
 
 	public void responderSugestaoPontoEncontro(String idSessao,
-			String idCarona, String idSegestao, String pontos) throws ECaronaException {		
+			String idCarona, String idSegestao, String pontos)
+			throws ECaronaException {
 
 		String[] pontosSugeridos = pontos.split(";");
-		gerenciadorDePontoDeEncontro.responderSugestaoPontoEncontro(idSessao, idCarona, idSegestao, pontosSugeridos);
+		gerenciadorDePontoDeEncontro.responderSugestaoPontoEncontro(idSessao,
+				idCarona, idSegestao, pontosSugeridos);
 	}
 
-	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws ECaronaException {
-		return gerenciadorDeSolicitacao.getAtributoSolicitacao(idSolicitacao, atributo);
+	public String getAtributoSolicitacao(String idSolicitacao, String atributo)
+			throws ECaronaException {
+		return gerenciadorDeSolicitacao.getAtributoSolicitacao(idSolicitacao,
+				atributo);
 	}
 
-	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws ECaronaException{
+	public void aceitarSolicitacao(String idSessao, String idSolicitacao)
+			throws ECaronaException {
 		gerenciadorDeSolicitacao.aceitarSolicitacao(idSessao, idSolicitacao);
 	}
-	
-	
+
 	public void aceitarSolicitacaoPontoEncontro(String idSessao,
 			String idSolicitacao) throws ECaronaException {
-		
-		gerenciadorDePontoDeEncontro.aceitarPontoDeEncontro(idSessao, idSolicitacao);
+
+		gerenciadorDePontoDeEncontro.aceitarPontoDeEncontro(idSessao,
+				idSolicitacao);
 	}
-	
-	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws ECaronaException{
+
+	public void rejeitarSolicitacao(String idSessao, String idSolicitacao)
+			throws ECaronaException {
 		gerenciadorDeSolicitacao.rejeitarSolicitacao(idSessao, idSolicitacao);
 	}
-	
-	public void desistirRequisicao(String idSessao, String idCarona, String idSolicitacao) throws ECaronaException{
-		
-		gerenciadorDeSolicitacao.desistirRequisicao(idSessao, idCarona, idSolicitacao);
+
+	public void desistirRequisicao(String idSessao, String idCarona,
+			String idSolicitacao) throws ECaronaException {
+
+		gerenciadorDeSolicitacao.desistirRequisicao(idSessao, idCarona,
+				idSolicitacao);
 	}
-	
-	public String getSolicitacoesConfirmadas(String idSessao, String idCarona){
-		return gerenciadorDeSolicitacao.getSolicitacoesConfirmadas(idSessao, idCarona);
+
+	public String getSolicitacoesConfirmadas(String idSessao, String idCarona) {
+		return gerenciadorDeSolicitacao.getSolicitacoesConfirmadas(idSessao,
+				idCarona);
 	}
-	
-	public String getSolicitacoesPendentes(String idSessao, String idCarona){
-		return gerenciadorDeSolicitacao.getSolicitacoesPendentes(idSessao, idCarona);
+
+	public String getSolicitacoesPendentes(String idSessao, String idCarona) {
+		return gerenciadorDeSolicitacao.getSolicitacoesPendentes(idSessao,
+				idCarona);
 	}
-	
-	public String getPontosSugeridos(String idSessao, String idCarona) throws ECaronaException{
-		return gerenciadorDePontoDeEncontro.
-				getPontosSugeridos(idSessao, idCarona);
+
+	public String getPontosSugeridos(String idSessao, String idCarona)
+			throws ECaronaException {
+		return gerenciadorDePontoDeEncontro.getPontosSugeridos(idSessao,
+				idCarona);
 	}
-	
-	
-	public String getAtributoPerfil(String login, String atributo) throws ECaronaException{
-	
+
+	public String getAtributoPerfil(String login, String atributo)
+			throws ECaronaException {
+
 		return controladorPerfil.getAtributoPerfil(login, atributo);
 	}
-	
-	public String visualizarPerfil(String idSessao, String login) throws ECaronaException{
-		
-		return controladorPerfil.visualizarPerfil(idSessao, login);		
+
+	public String visualizarPerfil(String idSessao, String login)
+			throws ECaronaException {
+
+		return controladorPerfil.visualizarPerfil(idSessao, login);
 	}
 
 	public void zerarSistema() {
-		persistencia = new PersistenciaDAO();
 		gerenciadorDeUsuario = new UsuarioBusiness();
 		gerenciadorDeSessao = new SessaoBusiness();
 		gerenciadorDeCarona = new CaronaBusiness();
@@ -150,19 +161,13 @@ public class FacadeBusiness {
 		controladorPerfil = new VisualizadorPerfil();
 		gerenciadorDeUsuario.zerarBase();
 
-
 	}
-	
-	public void reiniciarSistema(){
+
+	public void reiniciarSistema() {
 		encerrarSistema();
 	}
 
 	public void encerrarSistema() {
-
-		if (persistencia != null) {
-			persistencia = new PersistenciaDAO();
-			
-		}
 
 		if (gerenciadorDeUsuario != null) {
 			gerenciadorDeUsuario = new UsuarioBusiness();
@@ -178,10 +183,10 @@ public class FacadeBusiness {
 		if (gerenciadorDePontoDeEncontro != null) {
 			gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness();
 		}
-		if(gerenciadorDeSolicitacao != null){
+		if (gerenciadorDeSolicitacao != null) {
 			gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		}
-		if(controladorPerfil != null){
+		if (controladorPerfil != null) {
 			controladorPerfil = new VisualizadorPerfil();
 		}
 

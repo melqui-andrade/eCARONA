@@ -1,10 +1,7 @@
 package com.br.uepb.dao;
 
 import java.util.List;
-
-import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
-import com.br.uepb.domain.UsuarioDomain;
 
 public interface ISessaoDAO {
 

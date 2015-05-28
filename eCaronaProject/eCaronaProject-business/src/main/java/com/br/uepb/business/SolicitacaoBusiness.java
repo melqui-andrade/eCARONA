@@ -9,8 +9,6 @@ import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.persistencia.Persistencia;
 
-import servicesBackup.PersistenciaDAO;
-
 /**
  * Implementação das regras de negócio de SolicitacaoDomain
  * Todas as ações relacionadas ao gerenciamento de solicitações se encontram nessa classe

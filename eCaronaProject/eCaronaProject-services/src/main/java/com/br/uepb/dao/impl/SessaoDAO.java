@@ -6,7 +6,6 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import com.br.uepb.dao.ISessaoDAO;
 import com.br.uepb.domain.SessaoDomain;
-import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.utilities.HibernateUtil;
 
 @Repository

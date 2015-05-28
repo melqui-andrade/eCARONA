@@ -3,19 +3,11 @@ package com.br.uepb.dao.impl;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.br.uepb.dao.ICaronaDAO;
-import com.br.uepb.dao.IUsuarioDAO;
 import com.br.uepb.domain.CaronaDomain;
-import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.utilities.HibernateUtil;
 
 @Repository

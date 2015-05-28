@@ -1,9 +1,7 @@
 package testesDeAceitacaoBusiness;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.br.uepb.business.FacadeBusiness;
-
 import easyaccept.*;
 /**
  * Classe responsável por rodar todas as users stories do sistema
