@@ -21,6 +21,7 @@ public class HibernateUtil {
 				ac.addAnnotatedClass(Usuario.class);
 				sessionFactory = ac.configure().buildSessionFactory();*/
 				sessionFactory = new AnnotationConfiguration()
+				//TODO depreceateded
                 .configure().buildSessionFactory();
 			} catch (Throwable ex) {
 				// Log the exception.

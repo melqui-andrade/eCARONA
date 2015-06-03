@@ -52,7 +52,7 @@ public class PontoDeEncontroBusiness {
 		
 		for(String local : pontosSugeridos){
 			locais.append(local);
-			locais.append(",");
+			locais.append(";");
 		}
 		locais.deleteCharAt(locais.length()-1);
 		pontoDeEncontro.setLocal(locais.toString());
@@ -104,11 +104,9 @@ public class PontoDeEncontroBusiness {
 	public void aceitarPontoDeEncontro(String idSessao, String idSolicitacao) throws ECaronaException {
 
 		
-		//TODO aceitar ponto de encontro deve definir o local da solicitacao do ponto de encontro
+		
 		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().getSolicitacao(idSolicitacao);
-		SugestaoEncontroDomain sugestao = 
-				buscaSugestaoDeEncontro(solicitacao.getSugestoesDeEncontro(),
-						idSessao, solicitacao.getIdCarona());
+		SugestaoEncontroDomain sugestao = buscaPontoDeEncontro(solicitacao.getIdSessaoSolicitante(), solicitacao.getIdCarona());
 		
 		if(solicitacao.equals(null)){
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);		
@@ -116,11 +114,14 @@ public class PontoDeEncontroBusiness {
 		else{
 			if(!solicitacao.foiAceita()){
 				CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
-				sugestao.foiAceita(true);
+				if(sugestao != null){
+					sugestao.foiAceita(true);
+					persistenciaBD.getSugestaoEncontroBD().update(sugestao);				
+				}
 				carona.setVagas(carona.getVagas()-1);
 				carona.setPontoDeEncontro(sugestao.getIdSugestao(), sugestao.getLocal().split(","));;
 				solicitacao.foiAceita(true);
-				persistenciaBD.getSugestaoEncontroBD().update(sugestao);				
+				persistenciaBD.getSolicitacaoBD().update(solicitacao);
 				persistenciaBD.getCaronaBD().update(carona);
 				
 			}
@@ -128,32 +129,69 @@ public class PontoDeEncontroBusiness {
 			
 		}			
 	}
+	
+	public void zerarBase(){
+		persistenciaBD.getSugestaoEncontroBD().excluirTudo();
+	}
 
 	public String getPontosSugeridos(String idSessao, String idCarona) throws ECaronaException {
 		List<SugestaoEncontroDomain> pontosDeEncontro = persistenciaBD.
 				getSugestaoEncontroBD().list();
 		
-		SugestaoEncontroDomain ponto = buscaSugestaoDeEncontro(pontosDeEncontro, idSessao, idCarona);
+		String locais = buscaSugestaoDeEncontro(pontosDeEncontro, idSessao, idCarona);
 		
-		if(ponto == null){
+		if(locais.length() < 2){
 			throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
 		}
 		else{
-			return ponto.getLocal();
+			return locais;
 		}
 	}
 	
-	private SugestaoEncontroDomain buscaSugestaoDeEncontro
+	private String buscaSugestaoDeEncontro
 	(List<SugestaoEncontroDomain> pontos, String idSessao, String idCarona){
 		
-		SugestaoEncontroDomain ponto = null;
+		StringBuilder locais = new StringBuilder();
+		locais.append("[");
 		for(SugestaoEncontroDomain p : pontos){
+			if(p.getIdCarona().equals(idCarona)){
+				locais.append(p.getLocal());
+				locais.append(";");
+			}
+		}
+		locais.deleteCharAt(locais.length()-1);
+		locais.append("]");
+		return locais.toString();
+	}
+	
+	private SugestaoEncontroDomain buscaPontoDeEncontro(String idSessao, String idCarona){
+		SugestaoEncontroDomain ponto = null;
+		for(SugestaoEncontroDomain p : persistenciaBD.getSugestaoEncontroBD().list()){
 			if(p.getIdSessao().equals(idSessao) && p.getIdCarona().equals(idCarona)){
 				ponto = p;
 				break;
 			}
 		}
+		
 		return ponto;
 	}
+
+	public String getPontosConfirmados(String idSessao, String idCarona) {
+		
+		List<SugestaoEncontroDomain> pontosDeEncontro = persistenciaBD.
+				getSugestaoEncontroBD().list();
+		StringBuilder locais = new StringBuilder();
+		locais.append("[");
+		for(SugestaoEncontroDomain p : pontosDeEncontro){
+			if(p.getIdCarona().equals(idCarona) && p.foiAceita()){
+				locais.append(p.getLocal());
+				locais.append(";");
+			}
+		}
+		locais.deleteCharAt(locais.length()-1);
+		locais.append("]");
+		return locais.toString();
+	}
+	
 	
 }

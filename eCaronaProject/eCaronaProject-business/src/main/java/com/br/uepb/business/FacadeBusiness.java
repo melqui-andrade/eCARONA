@@ -139,6 +139,10 @@ public class FacadeBusiness {
 		return gerenciadorDePontoDeEncontro.getPontosSugeridos(idSessao,
 				idCarona);
 	}
+	
+	public String getPontosEncontro(String idSessao, String idCarona){
+		return gerenciadorDePontoDeEncontro.getPontosConfirmados(idSessao, idCarona);
+	}
 
 	public String getAtributoPerfil(String login, String atributo)
 			throws ECaronaException {
@@ -151,6 +155,40 @@ public class FacadeBusiness {
 
 		return controladorPerfil.visualizarPerfil(idSessao, login);
 	}
+	
+	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review){
+		controladorPerfil.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);
+	}
+	
+	public void reviewCarona(String idSessao, String idCarona, String review){
+		
+	}
+	
+	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino,
+			String cidade, String data, String hora, String vagas){
+		
+		return "";
+	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String cidade){
+		return "";
+	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem,
+			String destino){
+		
+		return "";
+	}
+	
+	public String cadastrarInteresse(String idSessao, String origem, String destino,
+			String data, String horaInicio, String horaFim){
+		
+		return "";
+	}
+	
+	public void verificarMensagensPerfil(String idSessao){
+		
+	}
 
 	public void zerarSistema() {
 		gerenciadorDeUsuario = new UsuarioBusiness();
@@ -160,6 +198,8 @@ public class FacadeBusiness {
 		gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		controladorPerfil = new VisualizadorPerfil();
 		gerenciadorDeUsuario.zerarBase();
+		gerenciadorDeSessao.zerarBase();
+		gerenciadorDePontoDeEncontro.zerarBase();
 
 	}
 

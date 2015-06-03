@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
@@ -52,7 +54,7 @@ public class SolicitacaoBusiness {
 			String local) {
 		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);		
-		String idSolicitacao = "solic" + (carona.getSolicitacoes().size() + 1);
+		String idSolicitacao = "solic" + (getSolicitacoes().size() + 1);
 
 		SugestaoEncontroDomain sugestao = new SugestaoEncontroDomain();
 		sugestao.foiAceita(false);
@@ -84,7 +86,7 @@ public class SolicitacaoBusiness {
 	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona) {
 		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
-		String idSolicitacao = "solic" + (carona.getSolicitacoes().size() + 1);
+		String idSolicitacao = "solic" + (getSolicitacoes().size() + 1);
 
 		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
 		novaSolicitacao.setSessaoSolicitante(idSessaoDoSolicitante);
@@ -97,6 +99,16 @@ public class SolicitacaoBusiness {
 		persistenciaBD.getCaronaBD().update(carona);
 		
 		return idSolicitacao;
+	}
+	
+	private ArrayList<SolicitacaoDomain> getSolicitacoes(){
+		ArrayList<SolicitacaoDomain> solicitacoes = new ArrayList<SolicitacaoDomain>();
+		
+		for(SolicitacaoDomain solicitacao : persistenciaBD.getSolicitacaoBD().list()){
+			solicitacoes.add(solicitacao);
+		}
+		
+		return solicitacoes;
 	}
 
 	/**
@@ -111,19 +123,28 @@ public class SolicitacaoBusiness {
 
 		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().
 				getSolicitacao(idSolicitacao);
+		SugestaoEncontroDomain sugestao = null;
+		for(SugestaoEncontroDomain s : persistenciaBD.getSugestaoEncontroBD().list()){
+			if(s.getIdSessao().equals(solicitacao.getIdSessaoSolicitante()) && s.getIdCarona().equals(solicitacao.getIdCarona())){
+				sugestao = s;
+				break;
+			}
+		}
 		if (solicitacao.equals(null)) {
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);
 		} else {
 			if (!solicitacao.foiAceita()) {				
 				CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(
 						solicitacao.getIdCarona());
-				
+				if(sugestao != null){
+					sugestao.foiAceita(true);
+					persistenciaBD.getSugestaoEncontroBD().update(sugestao);
+				}
 				carona.setVagas(carona.getVagas() - 1);
 			
 				solicitacao.foiAceita(true);
 				
-				carona.adicionarSolicitacao(solicitacao);
-				
+				persistenciaBD.getSolicitacaoBD().update(solicitacao);
 				persistenciaBD.getCaronaBD().update(carona);
 			} else {
 				throw new ECaronaException(

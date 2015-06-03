@@ -161,5 +161,9 @@ public class SessaoBusiness {
 		
 	}
 	
+	public void zerarBase(){
+		persistenciaBD.getSessaoBD().excluirTudo();
+	}
+	
 	
 }

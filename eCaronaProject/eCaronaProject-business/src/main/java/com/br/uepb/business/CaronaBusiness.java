@@ -126,7 +126,7 @@ public class CaronaBusiness {
 		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
 		ArrayList<CaronaDomain> caronas = persistenciaBD.getUsuarioBD()
 				.getUsuario(sessao.getIdUsuario()).getCaronas();
-		//caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
+		caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
 		
 		return caronas.get(valorIndex - 1).getId();
 	}

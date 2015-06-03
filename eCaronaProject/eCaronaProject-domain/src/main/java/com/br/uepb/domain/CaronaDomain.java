@@ -257,17 +257,13 @@ public class CaronaDomain {
 	}
 	
 	public ArrayList<SolicitacaoDomain> getSolicitacoes() {
-		return  new ArrayList<SolicitacaoDomain>(solicitacoes);
+		return new ArrayList<SolicitacaoDomain>(solicitacoes);
 	}
+	
 
 	public void adicionarSolicitacao(SolicitacaoDomain solicitacao){
-		for(SolicitacaoDomain s : solicitacoes){
-			if(s.getId().equals(solicitacao.getId())){
-				solicitacoes.remove(s);
-				break;
-			}
-		}
 		solicitacoes.add(solicitacao);
+		
 	}
 
 	

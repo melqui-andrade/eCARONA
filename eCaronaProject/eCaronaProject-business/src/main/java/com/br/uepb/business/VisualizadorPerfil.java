@@ -1,8 +1,13 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SessaoDomain;
+import com.br.uepb.domain.SolicitacaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.persistencia.Persistencia;
 
@@ -81,6 +86,7 @@ public class VisualizadorPerfil {
 	private String historicoCarona(UsuarioDomain usuario){
 		String historico = "[";
 		for(CaronaDomain carona : usuario.getCaronas()){
+			
 			historico += carona.getIdCarona();
 			historico += ",";
 		}
@@ -95,10 +101,17 @@ public class VisualizadorPerfil {
 	private String historicoDeVagas(UsuarioDomain usuario){
 		
 		String historico = "[";
-		for(CaronaDomain carona : usuario.getCaronas()){
-			if(carona.foiConcluida()){
-				historico += carona.getVagas();
-				historico += ",";
+		List<CaronaDomain> caronas = persistenciaBD.getCaronaBD().list();
+		List<SessaoDomain> sessoes = persistenciaBD.getSessaoBD().list();
+		List<SolicitacaoDomain> solicitacoes = persistenciaBD.getSolicitacaoBD().list();
+		List<CaronaDomain> caronasDoUsuario = new ArrayList<CaronaDomain>() {
+		};
+		for(CaronaDomain carona : persistenciaBD.getCaronaBD().list()){
+			if(carona.getUsuarioLogin().equals(usuario.getLogin())){
+				if (carona.foiConcluida()) {
+					historico += carona.getVagas();
+					historico += ",";
+				}
 			}
 		}
 		if(historico.length() > 1) {
@@ -118,6 +131,12 @@ public class VisualizadorPerfil {
 			}
 		}
 		return String.valueOf(total);
+	}
+
+	public void reviewVagaEmCarona(String idSessao, String idCarona,
+			String loginCaroneiro, String review) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

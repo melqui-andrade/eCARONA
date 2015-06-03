@@ -128,8 +128,8 @@ public class UsuarioBusiness {
 	}
 	
 	/**
-	 * Limpar todos os valores persistidos. Como usuário é o elemento raiz, quando deletado
-	 * todos os demais elementos são deletados em cascata
+	 * Limpar todos os registros de Usuario. Como usuário é o elemento raiz de Carona, quando deletado
+	 * todos os registros de carona são deletados em cascata
 	 */
 	public void zerarBase(){
 		persistenciaBD.getUsuarioBD().excluirTudo();
