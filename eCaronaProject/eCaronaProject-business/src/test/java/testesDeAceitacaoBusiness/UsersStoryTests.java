@@ -22,10 +22,10 @@ public class UsersStoryTests {
 		//arquivos.add("./src/test/resources/easyAcceptFiles/US05.txt");
 		//arquivos.add("./src/test/resources/easyAcceptFiles/US06.txt");
 		arquivos.add("./src/test/resources/easyAcceptFiles/US07.txt");
-		arquivos.add("./src/test/resources/easyAcceptFiles/US08.txt");
-		arquivos.add("./src/test/resources/easyAcceptFiles/US09.txt");
-		arquivos.add("./src/test/resources/easyAcceptFiles/US10.txt");
-		arquivos.add("./src/test/resources/easyAcceptFiles/US11.txt");
+		//arquivos.add("./src/test/resources/easyAcceptFiles/US08.txt");
+		//arquivos.add("./src/test/resources/easyAcceptFiles/US09.txt");
+		//arquivos.add("./src/test/resources/easyAcceptFiles/US10.txt");
+		//arquivos.add("./src/test/resources/easyAcceptFiles/US11.txt");
 		
 		FacadeBusiness facadeBusiness = new FacadeBusiness();
 		

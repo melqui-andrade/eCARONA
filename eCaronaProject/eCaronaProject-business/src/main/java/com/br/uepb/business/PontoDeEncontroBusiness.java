@@ -56,7 +56,34 @@ public class PontoDeEncontroBusiness {
 		}
 		locais.deleteCharAt(locais.length()-1);
 		pontoDeEncontro.setLocal(locais.toString());
+		SolicitacaoDomain solicitacao = buscaSolicitacao(idCarona, idSessao);
+		if(solicitacao != null){
+		solicitacao.adicionarSugestao(pontoDeEncontro);
+		persistenciaBD.getSolicitacaoBD().update(solicitacao);
 		persistenciaBD.getSugestaoEncontroBD().save(pontoDeEncontro);
+		}
+		else{
+			solicitacao = new SolicitacaoDomain();
+			String idSolicitacao = "solic" + (persistenciaBD.getSolicitacaoBD().list().size() + 1);
+			solicitacao.setId(idSolicitacao);
+			solicitacao.setIdCarona(idCarona);
+			solicitacao.foiAceita(false);
+			solicitacao.foiRejeitada(false);
+			solicitacao.adicionarSugestao(pontoDeEncontro);
+			persistenciaBD.getSolicitacaoBD().save(solicitacao);
+		}		
+	}
+	
+	private SolicitacaoDomain buscaSolicitacao(String idCarona, String idSolicitante){
+		
+		
+		for(SolicitacaoDomain s : persistenciaBD.getSolicitacaoBD().list()){
+			if(s.getIdSessaoSolicitante().equals(idSolicitante) &&
+					s.getIdCarona().equals(idCarona)){
+				return s;
+			}
+		}
+		return null;
 	}
 	
 	/**

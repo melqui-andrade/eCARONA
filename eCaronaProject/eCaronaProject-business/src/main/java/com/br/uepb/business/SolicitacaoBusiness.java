@@ -123,8 +123,10 @@ public class SolicitacaoBusiness {
 
 		SolicitacaoDomain solicitacao = persistenciaBD.getSolicitacaoBD().
 				getSolicitacao(idSolicitacao);
+		
 		SugestaoEncontroDomain sugestao = null;
-		for(SugestaoEncontroDomain s : persistenciaBD.getSugestaoEncontroBD().list()){
+		
+		for(SugestaoEncontroDomain s : solicitacao.getSugestoesDeEncontro()){
 			if(s.getIdSessao().equals(solicitacao.getIdSessaoSolicitante()) && s.getIdCarona().equals(solicitacao.getIdCarona())){
 				sugestao = s;
 				break;
@@ -293,6 +295,9 @@ public class SolicitacaoBusiness {
 			throw new ECaronaException(MensagensDeErro.ITEM_INEXISTENTE);
 		}
 
+	}
+	public void zerarBase(){
+		persistenciaBD.getSolicitacaoBD().excluirTudo();
 	}
 
 }

@@ -75,7 +75,8 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 	}
 	
 	@Override
-	public void excluirTudo() {  
+	public void excluirTudo() {
+		//Session session = HibernateUtil.getSessionFactory().openSession();		
         List<SugestaoEncontroDomain> list = list();
         for(SugestaoEncontroDomain sugestaoEncontro:list){
         	remove(sugestaoEncontro);

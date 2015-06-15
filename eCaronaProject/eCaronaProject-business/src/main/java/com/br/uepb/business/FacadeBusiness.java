@@ -199,6 +199,7 @@ public class FacadeBusiness {
 		controladorPerfil = new VisualizadorPerfil();
 		gerenciadorDeUsuario.zerarBase();
 		gerenciadorDeSessao.zerarBase();
+		gerenciadorDeSolicitacao.zerarBase();
 		gerenciadorDePontoDeEncontro.zerarBase();
 
 	}
