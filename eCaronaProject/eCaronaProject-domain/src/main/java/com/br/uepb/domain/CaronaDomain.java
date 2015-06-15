@@ -265,6 +265,16 @@ public class CaronaDomain {
 		solicitacoes.add(solicitacao);
 		
 	}
+	
+	public void atualizarSolicitacao(SolicitacaoDomain atualizacao){
+		for(SolicitacaoDomain s : this.solicitacoes){
+			if(s.getId().equals(atualizacao.getId())){
+				s.foiAceita(atualizacao.foiAceita());
+				s.foiRejeitada(atualizacao.foiRejeitada());
+				break;
+			}
+		}
+	}
 
 	
 }

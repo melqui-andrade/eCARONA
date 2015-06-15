@@ -22,7 +22,7 @@ public class SessaoDAO implements ISessaoDAO {
 	@Override
 	public SessaoDomain getSessao(String id) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		return (SessaoDomain) session.load(SessaoDomain.class, id);
+		return (SessaoDomain) session.get(SessaoDomain.class, id);
 	}
 
 	@Override
