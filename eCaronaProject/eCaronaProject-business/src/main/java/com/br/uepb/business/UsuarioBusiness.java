@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import org.springframework.stereotype.Component;
+
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.UsuarioDomain;
@@ -12,6 +14,7 @@ import com.br.uepb.persistencia.Persistencia;
  * @see UsuarioDomain
  *
  */
+@Component
 public class UsuarioBusiness {
 
 	
