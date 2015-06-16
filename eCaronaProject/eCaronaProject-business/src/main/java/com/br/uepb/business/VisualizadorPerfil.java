@@ -58,11 +58,12 @@ public class VisualizadorPerfil {
 		case "caronas que não funcionaram":
 			return "0";
 		case "faltas em vagas de caronas":
-			return getTotalFaltas(idUsuario);
+			return getTotalFaltas(idUsuario);			
 		case "presenças em vagas de caronas":
-			return "0";
+			return getTotalPresencas(idUsuario);
+		default:
+			throw new ECaronaException(MensagensDeErro.OPCAO_INVALIDA);
 		}
-		return "";
 	}
 
 	/**
@@ -143,9 +144,23 @@ public class VisualizadorPerfil {
 		}
 		return String.valueOf(total);
 	}
+	
+	private String getTotalPresencas(String idUsuario){
+		int total = 0;
+		for(SolicitacaoDomain solicitacao : persistenciaBD.getSolicitacaoBD().list()){
+			SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(solicitacao.getIdSessaoSolicitante());
+			if(sessao.getIdUsuario().equals(idUsuario) && !solicitacao.isFaltou()){
+				CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
+				if(carona.foiConcluida()){
+					total++;
+				}
+			}
+		}
+		return String.valueOf(total);
+	}
 
 	public void reviewVagaEmCarona(String idSessao, String idCarona,
-			String loginCaroneiro, String review) {
+			String loginCaroneiro, String review) throws ECaronaException {
 		
 		SolicitacaoDomain solicitacao = null;
 		
@@ -159,6 +174,10 @@ public class VisualizadorPerfil {
 			}
 		}
 		if (solicitacao != null) {
+			CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+			carona.foiConcluida(true);
+			persistenciaBD.getCaronaBD().update(carona);
+			
 			switch (review) {
 
 			case "faltou":
@@ -166,11 +185,20 @@ public class VisualizadorPerfil {
 				persistenciaBD.getSolicitacaoBD().update(solicitacao);
 				break;
 
-			case "nao faltou":
+			case "não faltou":
 				solicitacao.setFaltou(false);
 				persistenciaBD.getSolicitacaoBD().update(solicitacao);
 				break;
+			case "nao funcionou":
+				
+				break;
+				
+			default:
+				throw new ECaronaException(MensagensDeErro.OPCAO_INVALIDA);
 			}
+		}
+		else{
+			throw new ECaronaException(MensagensDeErro.USUARIO_CLADESTINO);
 		}
 	}
 

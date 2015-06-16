@@ -44,6 +44,8 @@ public class MensagensDeErro {
 		public static String PONTO_INVALIDO = "Ponto Inválido";
 		
 		
-	// ERROS DA CLASSE 
+	// ERROS DA CLASSE VIZUALIZADORPERFIL
+		public static String OPCAO_INVALIDA = "Opção inválida.";
+		public static String USUARIO_CLADESTINO = "Usuário não possui vaga na carona.";
 
 }

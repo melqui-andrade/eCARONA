@@ -156,7 +156,8 @@ public class FacadeBusiness {
 		return controladorPerfil.visualizarPerfil(idSessao, login);
 	}
 	
-	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review){
+	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review) 
+			throws ECaronaException{
 		controladorPerfil.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);
 	}
 	
