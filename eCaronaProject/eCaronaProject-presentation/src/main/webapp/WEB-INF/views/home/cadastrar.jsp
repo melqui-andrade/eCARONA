@@ -24,8 +24,12 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav nav-wrapper navbar-left">
 					<li class="hidden"><a href="/Home/Index"></a></li>
+
 					<li><a href="apresentacao.html"> <i class="fa fa-home"></i>&nbsp;
 							Início
+					</a></li>
+					<li><a href="login.html"> <i class="fa fa-sign-in"></i>&nbsp;
+							Login
 					</a></li>
 
 				</ul>
@@ -34,12 +38,23 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
-	<div class="container">
-		<div class="row">
-			<div id="divCenter">
-				<img src="../images/eCarona_logo.png" class="img-responsive" alt="" />
-				<form:form modelAttribute="model" method="post">
+
+	<section id="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center" style="padding-top: 6px;">
+					<center>
+						<h1>Cadastro</h1>
+					</center>
+
+				</div>
+			</div>
+
+			<form:form modelAttribute="model" method="post">
+				<div class="row col-md-6">
+
 					<div class="input-field">
+						<label> Login</label>
 						<div class='input-group'>
 							<span class="input-group-addon"><span class="fa fa-user"></span></span>
 							<form:input path="login" type="text" class="form-control"
@@ -49,6 +64,7 @@
 					</div>
 					<p></p>
 					<div class="input-field">
+						<label> Senha </label>
 						<div class='input-group'>
 							<span class="input-group-addon"><span class="fa fa-lock"></span></span>
 							<form:input path="senha" type="password" class="form-control"
@@ -56,17 +72,58 @@
 						</div>
 						<p></p>
 					</div>
+					<p></p>
+					<div class="input-field">
+						<label> Nome </label>
+						<div class='input-group'>
+							<span class="input-group-addon"> <span
+								class="fa fa-pencil-square-o"></span>
+							</span>
+							<form:input path="nome" type="text" class="form-control"
+								placeholder="Nome" />
+						</div>
+						<p></p>
+					</div>
+					<p></p>
+					<div class="input-field">
+						<label> Endereço </label>
+						<div class='input-group'>
+							<span class="input-group-addon"><span class="fa fa-road"></span></span>
+							<form:input path="endereco" type="text" class="form-control"
+								placeholder="Endereço" />
+						</div>
+						<p></p>
+					</div>
+					<p></p>
+					<div class="input-field">
+						<label> E-mail </label>
+						<div class='input-group'>
+							<span class="input-group-addon"><span
+								class="fa fa-envelope"></span></span>
+							<form:input path="email" type="text" class="form-control"
+								placeholder="E-mail" />
+						</div>
+						<p></p>
+					</div>
+
 					<button type="submit" class="btn btn-primary btn-block">
 						<span class="fa fa-sign-in fa-lg" aria-hidden="true"></span>&nbsp;
-						Login
+						Cadastrar
 					</button>
-				</form:form>
-				<p></p>
+				</div>
+			</form:form>
+			<div class="col-md-6"
+				style="color: #2a80b9; padding-top: 10%; padding-left: 15%; font-size: 32px;">
+				&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+					class="fa fa-user-plus fa-5x"></i>
+				<div class="alert alert-info" role="alert">
+					<form:label path="mensagem" ></form:label>
 
-				<a href="#">Esqueceu a senha ?</a>
+				</div>
 			</div>
 		</div>
-	</div>
+	</section>
+
 	<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
 	<div class="scroll-top page-scroll visible-xs visble-sm">
 		<a class="btn btn-primary" href="#page-top"><i
