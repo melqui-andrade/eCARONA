@@ -33,7 +33,11 @@ public class SolicitacaoDomain {
 	
 	@Column(name="FOI_REJEITADA")
 	private boolean foiRejeitada;
+
+	@Column(name="FALTOU")
+	private boolean faltou;
 	
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<SugestaoEncontroDomain> sugestoesDeEncontro = new ArrayList<SugestaoEncontroDomain>();
 	
@@ -85,6 +89,14 @@ public class SolicitacaoDomain {
 	
 	public void foiRejeitada(boolean foi){
 		this.foiRejeitada = foi;
+	}
+	
+	public boolean isFaltou() {
+		return faltou;
+	}
+	
+	public void setFaltou(boolean faltou) {
+		this.faltou = faltou;
 	}
 	
 	public void adicionarSugestao(SugestaoEncontroDomain sugestao){

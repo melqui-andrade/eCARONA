@@ -72,6 +72,7 @@ public class SolicitacaoBusiness {
 		novaSolicitacao.adicionarSugestao(sugestao);
 		novaSolicitacao.foiAceita(false);
 		novaSolicitacao.foiRejeitada(false);
+		novaSolicitacao.setFaltou(false);
 		
 		carona.adicionarSolicitacao(novaSolicitacao);
 		persistenciaBD.getCaronaBD().update(carona);
@@ -98,6 +99,7 @@ public class SolicitacaoBusiness {
 		novaSolicitacao.setIdCarona(idCarona);
 		novaSolicitacao.foiAceita(false);
 		novaSolicitacao.foiRejeitada(false);
+		novaSolicitacao.setFaltou(false);
 		
 		for(SugestaoEncontroDomain sugest : persistenciaBD.getSugestaoEncontroBD().list()){
 			SessaoDomain umaSessao = persistenciaBD.getSessaoBD().getSessao(sugest.getIdSessao());

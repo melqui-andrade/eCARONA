@@ -58,7 +58,7 @@ public class VisualizadorPerfil {
 		case "caronas que não funcionaram":
 			return "0";
 		case "faltas em vagas de caronas":
-			return "0";
+			return getTotalFaltas(idUsuario);
 		case "presenças em vagas de caronas":
 			return "0";
 		}
@@ -102,9 +102,7 @@ public class VisualizadorPerfil {
 		
 		String historico = "[";
 		List<CaronaDomain> caronas = persistenciaBD.getCaronaBD().list();
-		//List<SessaoDomain> sessoes = persistenciaBD.getSessaoBD().list();
 		List<SolicitacaoDomain> solicitacoes = persistenciaBD.getSolicitacaoBD().list();
-		List<CaronaDomain> caronasDoUsuario = new ArrayList<CaronaDomain>();
 		for(CaronaDomain carona : caronas){
 			for(SolicitacaoDomain solicitacao : solicitacoes){
 				if(solicitacao.getIdCarona().equals(carona.getId())){
@@ -134,11 +132,46 @@ public class VisualizadorPerfil {
 		}
 		return String.valueOf(total);
 	}
+	
+	private String getTotalFaltas(String idUsuario){
+		int total = 0;
+		for(SolicitacaoDomain solicitacao : persistenciaBD.getSolicitacaoBD().list()){
+			SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(solicitacao.getIdSessaoSolicitante());
+			if(sessao.getIdUsuario().equals(idUsuario) && solicitacao.isFaltou()){
+				total++;
+			}
+		}
+		return String.valueOf(total);
+	}
 
 	public void reviewVagaEmCarona(String idSessao, String idCarona,
 			String loginCaroneiro, String review) {
-		// TODO Auto-generated method stub
 		
+		SolicitacaoDomain solicitacao = null;
+		
+		for(SolicitacaoDomain s : persistenciaBD.getSolicitacaoBD().list()){
+			if(s.getIdCarona().equals(idCarona)){
+				SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(s.getIdSessaoSolicitante());
+				if(sessao.getIdUsuario().equals(loginCaroneiro)){
+					solicitacao = s;
+					break;
+				}
+			}
+		}
+		if (solicitacao != null) {
+			switch (review) {
+
+			case "faltou":
+				solicitacao.setFaltou(true);
+				persistenciaBD.getSolicitacaoBD().update(solicitacao);
+				break;
+
+			case "nao faltou":
+				solicitacao.setFaltou(false);
+				persistenciaBD.getSolicitacaoBD().update(solicitacao);
+				break;
+			}
+		}
 	}
 
 }
