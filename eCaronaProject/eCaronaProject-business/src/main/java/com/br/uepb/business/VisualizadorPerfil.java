@@ -74,6 +74,7 @@ public class VisualizadorPerfil {
 	 */
 	public String visualizarPerfil(String idSessao, String login) throws ECaronaException {
 		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(login);
+		List<CaronaDomain> caronas = persistenciaBD.getCaronaBD().list();
 		if(usuario == null) throw new ECaronaException(MensagensDeErro.USUARIO_INEXISTENTE);
 		return usuario.getNome();
 	}
@@ -86,7 +87,6 @@ public class VisualizadorPerfil {
 	private String historicoCarona(UsuarioDomain usuario){
 		String historico = "[";
 		for(CaronaDomain carona : usuario.getCaronas()){
-			
 			historico += carona.getIdCarona();
 			historico += ",";
 		}
@@ -102,15 +102,17 @@ public class VisualizadorPerfil {
 		
 		String historico = "[";
 		List<CaronaDomain> caronas = persistenciaBD.getCaronaBD().list();
-		List<SessaoDomain> sessoes = persistenciaBD.getSessaoBD().list();
+		//List<SessaoDomain> sessoes = persistenciaBD.getSessaoBD().list();
 		List<SolicitacaoDomain> solicitacoes = persistenciaBD.getSolicitacaoBD().list();
-		List<CaronaDomain> caronasDoUsuario = new ArrayList<CaronaDomain>() {
-		};
-		for(CaronaDomain carona : persistenciaBD.getCaronaBD().list()){
-			if(carona.getUsuarioLogin().equals(usuario.getLogin())){
-				if (carona.foiConcluida()) {
-					historico += carona.getVagas();
-					historico += ",";
+		List<CaronaDomain> caronasDoUsuario = new ArrayList<CaronaDomain>();
+		for(CaronaDomain carona : caronas){
+			for(SolicitacaoDomain solicitacao : solicitacoes){
+				if(solicitacao.getIdCarona().equals(carona.getId())){
+					SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(solicitacao.getIdSessaoSolicitante());
+					if(sessao.getIdUsuario().equals(usuario.getLogin())){
+						historico = historico + carona.getId() + ",";
+						break;
+					}
 				}
 			}
 		}
