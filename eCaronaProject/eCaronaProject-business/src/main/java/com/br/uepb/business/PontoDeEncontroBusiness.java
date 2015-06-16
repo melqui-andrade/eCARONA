@@ -31,7 +31,7 @@ public class PontoDeEncontroBusiness {
 	 * @param pontosSugeridos Locais de encontro sugeridos pelo usuário solicitante
 	 * @throws ECaronaException caso pontosSugeridos seja nulo ou vazio
 	 */
-	public void sugerirPontoEncontro(String idSessao, String idCarona,
+	public String sugerirPontoEncontro(String idSessao, String idCarona,
 			String[] pontosSugeridos) throws ECaronaException {
 		
 		if(pontosSugeridos.length == 0 || pontosSugeridos.equals(null)){
@@ -57,22 +57,7 @@ public class PontoDeEncontroBusiness {
 		locais.deleteCharAt(locais.length()-1);
 		pontoDeEncontro.setLocal(locais.toString());
 		persistenciaBD.getSugestaoEncontroBD().save(pontoDeEncontro);
-//		SolicitacaoDomain solicitacao = buscaSolicitacao(idCarona, idSessao);
-//		if(solicitacao != null){
-//		solicitacao.adicionarSugestao(pontoDeEncontro);
-//		persistenciaBD.getSolicitacaoBD().update(solicitacao);
-//		}
-//		else{
-//			solicitacao = new SolicitacaoDomain();
-//			String idSolicitacao = "solic" + (persistenciaBD.getSolicitacaoBD().list().size() + 1);
-//			solicitacao.setId(idSolicitacao);
-//			solicitacao.setIdCarona(idCarona);
-//			solicitacao.setSessaoSolicitante(idSessao);
-//			solicitacao.foiAceita(false);
-//			solicitacao.foiRejeitada(false);
-//			solicitacao.adicionarSugestao(pontoDeEncontro);
-//			persistenciaBD.getSolicitacaoBD().save(solicitacao);
-//		}		
+		return pontoDeEncontro.getIdSugestao();
 	}
 	
 	private SolicitacaoDomain buscaSolicitacao(String idCarona, String idSolicitante){
@@ -105,8 +90,10 @@ public class PontoDeEncontroBusiness {
 			if(ponto.isEmpty()) throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
 		}
 		SugestaoEncontroDomain sugestaoAntiga = persistenciaBD.getSugestaoEncontroBD().getSugestaoEncontro(idSugestao);
+		String idPontoSeEncontro = idSessao + "IN" + String.valueOf(System.currentTimeMillis());
 		sugestaoAntiga.foiRejeitada(true);
 		SugestaoEncontroDomain sugestaoNova = new SugestaoEncontroDomain();
+		sugestaoNova.setIdSugestao(idPontoSeEncontro);
 		sugestaoNova.foiAceita(false);
 		sugestaoNova.foiRejeitada(false);
 		sugestaoNova.setIdCarona(idCarona);
@@ -119,6 +106,7 @@ public class PontoDeEncontroBusiness {
 		}
 		locais.deleteCharAt(locais.length()-1);
 		sugestaoNova.setLocal(locais.toString());
+		persistenciaBD.getSugestaoEncontroBD().update(sugestaoAntiga);
 		persistenciaBD.getSugestaoEncontroBD().save(sugestaoNova);		
 		
 	}
@@ -149,6 +137,7 @@ public class PontoDeEncontroBusiness {
 				carona.setVagas(carona.getVagas()-1);
 				carona.setPontoDeEncontro(sugestao.getIdSugestao(), sugestao.getLocal().split(","));;
 				solicitacao.foiAceita(true);
+				solicitacao.setLocal(sugestao.getLocal());
 				persistenciaBD.getSolicitacaoBD().update(solicitacao);
 				persistenciaBD.getCaronaBD().update(carona);
 				

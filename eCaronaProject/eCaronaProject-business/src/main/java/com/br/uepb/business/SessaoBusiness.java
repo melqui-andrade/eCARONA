@@ -23,7 +23,6 @@ public class SessaoBusiness {
 
 	
 	private Persistencia persistenciaBD;
-	private ArrayList<SessaoDomain> sessoes;
 
 	/**
 	 * Construtor da classe
@@ -31,7 +30,6 @@ public class SessaoBusiness {
 	 */
 	public SessaoBusiness(){
 		this.persistenciaBD = new Persistencia();
-		sessoes = new ArrayList<SessaoDomain>();
 	}
 
 	/**
@@ -44,16 +42,17 @@ public class SessaoBusiness {
 		Calendar data = Calendar.getInstance();
 		DateFormat formatoData = new SimpleDateFormat("yyyy/MM/dd");
 		DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+		Date time = new Date();
+		String idSessao = Long.toString(time.getTime());
 		
 		SessaoDomain sessao = new SessaoDomain();
-		
+		sessao.setIdSessao(idSessao);
 		sessao.setIdUsuario(id);
 		sessao.setData(formatoData.format(data));
 		sessao.setHora(formatoHora.format(data));
 		sessao.setEstaAtiva(true);
 		
 		persistenciaBD.getSessaoBD().save(sessao);
-		sessoes.add(sessao);
 	}
 
 	/**

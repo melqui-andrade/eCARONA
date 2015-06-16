@@ -30,7 +30,7 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 	@Override
 	public SugestaoEncontroDomain getSugestaoEncontro(String id) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		return (SugestaoEncontroDomain) session.load(SugestaoEncontroDomain.class, id);
+		return (SugestaoEncontroDomain) session.get(SugestaoEncontroDomain.class, id);
 	}
 
 	@Override

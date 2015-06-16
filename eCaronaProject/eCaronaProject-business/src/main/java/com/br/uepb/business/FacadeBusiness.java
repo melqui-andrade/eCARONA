@@ -67,11 +67,11 @@ public class FacadeBusiness {
 		gerenciadorDeSessao.encerrarSessao(loginUsuario);
 	}
 
-	public void sugerirPontoEncontro(String idSessao, String idCarona,
+	public String sugerirPontoEncontro(String idSessao, String idCarona,
 			String pontos) throws ECaronaException {
 
 		String[] pontosSugeridos = pontos.split(";");
-		gerenciadorDePontoDeEncontro.sugerirPontoEncontro(idSessao, idCarona,
+		return gerenciadorDePontoDeEncontro.sugerirPontoEncontro(idSessao, idCarona,
 				pontosSugeridos);
 	}
 

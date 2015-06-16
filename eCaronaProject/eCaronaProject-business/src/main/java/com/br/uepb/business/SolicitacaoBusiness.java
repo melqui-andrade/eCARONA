@@ -55,8 +55,10 @@ public class SolicitacaoBusiness {
 		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);		
 		String idSolicitacao = "solic" + (getSolicitacoes().size() + 1);
-
+		
 		SugestaoEncontroDomain sugestao = new SugestaoEncontroDomain();
+		String idPontoSeEncontro = idSessaoDoSolicitante + "IN" + String.valueOf(System.currentTimeMillis());
+		sugestao.setIdSugestao(idPontoSeEncontro);
 		sugestao.foiAceita(false);
 		sugestao.foiRejeitada(false);
 		sugestao.setIdCarona(idCarona);
@@ -143,7 +145,7 @@ public class SolicitacaoBusiness {
 				break;
 			}
 		}
-		if (solicitacao.equals(null)) {
+		if (solicitacao == null) {
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);
 		} else {
 			if (!solicitacao.foiAceita()) {				
@@ -158,6 +160,9 @@ public class SolicitacaoBusiness {
 				
 				if(sugestao != null){
 					sugestao.foiAceita(true);
+					solicitacao.setLocal(sugestao.getLocal());
+					persistenciaBD.getSolicitacaoBD().update(solicitacao);
+					persistenciaBD.getCaronaBD().update(carona);
 					persistenciaBD.getSugestaoEncontroBD().update(sugestao);					
 				}
 			} else {
@@ -183,6 +188,7 @@ public class SolicitacaoBusiness {
 
 		if (!solicitacao.foiRejeitada()) {
 			solicitacao.foiRejeitada(true);
+			persistenciaBD.getSolicitacaoBD().update(solicitacao);
 			
 		} else {
 			throw new ECaronaException(MensagensDeErro.SOLICITACAO_INEXISTENTE);
@@ -269,7 +275,8 @@ public class SolicitacaoBusiness {
 
 		if (atributo == "" || atributo.equals(null)) {
 			throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
-		}
+		}	
+		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(
 				solicitacao.getIdCarona());
 		SessaoDomain sessaoDono = persistenciaBD.getSessaoBD().
