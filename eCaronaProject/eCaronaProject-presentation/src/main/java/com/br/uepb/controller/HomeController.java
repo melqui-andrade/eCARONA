@@ -16,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.br.uepb.Model.CadastrarModel;
 import com.br.uepb.Model.LoginModel;
+import com.br.uepb.Model.UsuarioModel;
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
+import com.br.uepb.domain.UsuarioDomain;
 
 @Controller
 public class HomeController {
@@ -26,7 +28,7 @@ public class HomeController {
 
 	@Autowired
 	private UsuarioBusiness gerenciadorDeUsuario;
-	
+
 	private SessaoBusiness gerenciadorDeSessao;
 
 	@RequestMapping(value = "/home/home.html", method = RequestMethod.GET)
@@ -35,6 +37,8 @@ public class HomeController {
 		LOG.debug("Iniciada a execucao do metodo: homeGet");
 
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/home/home");
+		//modelAndView.addObject("modelUsuario", new UsuarioModel());
 
 		LOG.debug("Finalizada a execucao do metodo: homeGet");
 
@@ -48,13 +52,13 @@ public class HomeController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/home/login");
-		modelAndView.addObject("model",new LoginModel());
+		modelAndView.addObject("model", new LoginModel());
 
 		LOG.debug("Finalizada a execucao do metodo: loginGet");
 
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/home/login.html", method = RequestMethod.POST)
 	public ModelAndView loginPost(
 			@ModelAttribute("model") @Valid LoginModel model,
@@ -71,8 +75,17 @@ public class HomeController {
 		}
 
 		gerenciadorDeSessao = new SessaoBusiness();
+		gerenciadorDeUsuario = new UsuarioBusiness();
 		try {
-			gerenciadorDeSessao.abrirSessao(model.getLogin(),model.getSenha());
+			gerenciadorDeSessao.abrirSessao(model.getLogin(), model.getSenha());
+			UsuarioModel userModel = new UsuarioModel();
+			userModel.setNome(gerenciadorDeUsuario.getAtributoUsuario(
+					model.getLogin(), "nome"));
+			userModel.setEndereco(gerenciadorDeUsuario.getAtributoUsuario(
+					model.getLogin(), "endereco"));
+			userModel.setEmail(gerenciadorDeUsuario.getAtributoUsuario(
+					model.getLogin(), "email"));
+			modelAndView.addObject("modelUsuario", userModel);
 			modelAndView.setViewName("/home/home");
 		} catch (Exception e) {
 			modelAndView.addObject("model", new LoginModel());
@@ -82,7 +95,6 @@ public class HomeController {
 		LOG.debug("Finalizada a execucao do metodo: loginPost");
 		return modelAndView;
 	}
-	
 
 	@RequestMapping(value = "/home/apresentacao.html", method = RequestMethod.GET)
 	public ModelAndView apresentacaoGet(HttpServletRequest request) {
@@ -104,7 +116,7 @@ public class HomeController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/home/cadastrar");
 		modelAndView.addObject("model", new CadastrarModel());
-		modelAndView.addObject("mensagem","");
+		modelAndView.addObject("mensagem", "");
 
 		LOG.debug("Finalizada a execucao do metodo: cadastrarGet");
 
@@ -131,10 +143,11 @@ public class HomeController {
 			gerenciadorDeUsuario.criarUsuario(model.getLogin(),
 					model.getSenha(), model.getNome(), model.getEndereco(),
 					model.getEmail());
-			modelAndView.addObject("mensagem","Cadastro realizado com sucesso!");
+			modelAndView.addObject("mensagem",
+					"Cadastro realizado com sucesso!");
 		} catch (Exception e) {
 			modelAndView.addObject("model", new CadastrarModel());
-			modelAndView.addObject("mensagem",e.getMessage());
+			modelAndView.addObject("mensagem", e.getMessage());
 			return modelAndView;
 		}
 
