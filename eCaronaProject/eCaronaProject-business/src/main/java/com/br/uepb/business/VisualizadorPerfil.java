@@ -230,17 +230,17 @@ public class VisualizadorPerfil {
 		if (solicitacao != null) {
 			carona.foiConcluida(true);
 			persistenciaBD.getCaronaBD().update(carona);
-			//TODO remover a carona antiga da lista de caronas do usuario
+			
 			switch (review) {
 
 			case "não funcionou":
-				usuario.getCaronas().remove(carona);
+				removeCarona(carona, usuario);
 				carona.setNaoFuncionou(carona.getNaoFuncionou() + 1);
 				usuario.adicionarCarona(carona);
 				persistenciaBD.getCaronaBD().update(carona);
 				break;
 			case "segura e tranquila":
-				usuario.getCaronas().remove(carona);
+				removeCarona(carona, usuario);
 				carona.foiTranquila(true);
 				usuario.adicionarCarona(carona);
 				persistenciaBD.getCaronaBD().update(carona);
@@ -255,5 +255,14 @@ public class VisualizadorPerfil {
 		}
 		
 		
+	}
+
+	private void removeCarona(CaronaDomain carona, UsuarioDomain usuario) {
+		for(CaronaDomain c : usuario.getCaronas()){
+			if(c.getId().equals(carona.getId())){
+				usuario.getCaronas().remove(c);
+				break;
+			}
+		}
 	}
 }
