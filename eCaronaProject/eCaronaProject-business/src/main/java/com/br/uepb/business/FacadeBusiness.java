@@ -161,8 +161,9 @@ public class FacadeBusiness {
 		controladorPerfil.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);
 	}
 	
-	public void reviewCarona(String idSessao, String idCarona, String review){
-		
+	public void reviewCarona(String idSessao, String idCarona, String review)
+			throws ECaronaException{
+		controladorPerfil.reviewCarona(idSessao, idCarona, review);
 	}
 	
 	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino,

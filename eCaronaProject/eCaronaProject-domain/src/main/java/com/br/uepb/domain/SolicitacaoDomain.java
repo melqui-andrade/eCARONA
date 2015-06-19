@@ -35,8 +35,7 @@ public class SolicitacaoDomain {
 	private boolean foiRejeitada;
 
 	@Column(name="FALTOU")
-	private boolean faltou;
-	
+	private boolean faltou;	
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<SugestaoEncontroDomain> sugestoesDeEncontro = new ArrayList<SugestaoEncontroDomain>();

@@ -56,7 +56,7 @@ public class VisualizadorPerfil {
 		case "caronas seguras e tranquilas":
 			return getTotalCaronaTranquilas(usuario);
 		case "caronas que não funcionaram":
-			return "0";
+			return getTotalCaronasRuim(usuario.getCaronas());
 		case "faltas em vagas de caronas":
 			return getTotalFaltas(idUsuario);			
 		case "presenças em vagas de caronas":
@@ -64,6 +64,16 @@ public class VisualizadorPerfil {
 		default:
 			throw new ECaronaException(MensagensDeErro.OPCAO_INVALIDA);
 		}
+	}
+
+	private String getTotalCaronasRuim(List<CaronaDomain> caronas) {
+		int total = 0;
+		for(CaronaDomain carona : caronas){
+			if(carona.getNaoFuncionou() > 0){
+				total++;
+			}
+		}
+		return String.valueOf(total);
 	}
 
 	/**
@@ -189,9 +199,6 @@ public class VisualizadorPerfil {
 				solicitacao.setFaltou(false);
 				persistenciaBD.getSolicitacaoBD().update(solicitacao);
 				break;
-			case "nao funcionou":
-				
-				break;
 				
 			default:
 				throw new ECaronaException(MensagensDeErro.OPCAO_INVALIDA);
@@ -202,4 +209,51 @@ public class VisualizadorPerfil {
 		}
 	}
 
+	public void reviewCarona(String idSessao, String idCarona, String review)
+		throws ECaronaException{
+		
+		SolicitacaoDomain solicitacao = null;
+		SessaoDomain sessaoPassageiro = persistenciaBD.getSessaoBD().getSessao(idSessao);
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(carona.getUsuarioLogin());
+		
+		for(SolicitacaoDomain s : persistenciaBD.getSolicitacaoBD().list()){
+			if(s.getIdCarona().equals(idCarona)){
+				SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(s.getIdSessaoSolicitante());
+				if(sessao.getIdUsuario().equals(sessaoPassageiro.getIdUsuario())){
+					solicitacao = s;
+					break;
+				}
+			}
+		}
+		
+		if (solicitacao != null) {
+			carona.foiConcluida(true);
+			persistenciaBD.getCaronaBD().update(carona);
+			//TODO remover a carona antiga da lista de caronas do usuario
+			switch (review) {
+
+			case "não funcionou":
+				usuario.getCaronas().remove(carona);
+				carona.setNaoFuncionou(carona.getNaoFuncionou() + 1);
+				usuario.adicionarCarona(carona);
+				persistenciaBD.getCaronaBD().update(carona);
+				break;
+			case "segura e tranquila":
+				usuario.getCaronas().remove(carona);
+				carona.foiTranquila(true);
+				usuario.adicionarCarona(carona);
+				persistenciaBD.getCaronaBD().update(carona);
+				break;
+
+			default:
+				throw new ECaronaException(MensagensDeErro.OPCAO_INVALIDA);
+			}
+		}
+		else{
+			throw new ECaronaException(MensagensDeErro.USUARIO_CLADESTINO);
+		}
+		
+		
+	}
 }

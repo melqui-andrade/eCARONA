@@ -93,6 +93,8 @@ public class CaronaBusiness {
 			carona.foiConcluida(false);
 
 			carona.foiTranquila(false);
+			
+			carona.setNaoFuncionou(0);
 
 			String identificadorCarona = "carona"
 					+ String.valueOf(sufixoIdCarona);
@@ -247,6 +249,12 @@ public class CaronaBusiness {
 
 			case "vagas":
 				return Integer.toString(carona.getVagas());
+				
+			case "foi concluida":
+				return Boolean.toString(carona.foiConcluida());
+				
+			case "nao funcionou":
+				return Integer.toString(carona.getNaoFuncionou());
 
 			default:
 				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INEXISTENTE);

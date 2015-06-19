@@ -59,6 +59,9 @@ public class CaronaDomain {
 	@Column(name="FOI_TRANQUILA")
 	private boolean foiTranquila;
 	
+	@Column(name="NAO_FUNCIONOU")
+	private int naoFuncionou;
+	
 	@Column(name="PASSAGEIROS_PRESENTES")
 	int passageirosPresentes;
 	
@@ -231,6 +234,14 @@ public class CaronaDomain {
 
 	public void foiTranquila(boolean foi) {
 		this.foiTranquila = foi;
+	}	
+
+	public int getNaoFuncionou() {
+		return naoFuncionou;
+	}
+
+	public void setNaoFuncionou(int naoFuncionou) {
+		this.naoFuncionou = naoFuncionou;
 	}
 
 	public int getPassageirosPresentes() {
