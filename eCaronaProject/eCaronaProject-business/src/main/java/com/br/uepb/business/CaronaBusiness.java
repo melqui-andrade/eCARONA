@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -251,6 +252,10 @@ public class CaronaBusiness {
 					sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
+			
+			//Notificar carona municipal [ainda não testado]
+			//notificarCarona(data, carona);
+			
 			return carona.getId();
 		} else {
 			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
@@ -529,6 +534,49 @@ public class CaronaBusiness {
 			throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
 		return carona.toString();
 
+	}
+	/**
+	 * Listar todas as caronas registradas no sistema
+	 * @return Lista de CaronaDomain
+	 */
+	public List<CaronaDomain> getTodasCaronas(){
+		List<CaronaDomain> caronas = persistenciaBD.getCaronaBD().list();
+		return caronas;
+	}
+	
+	/**
+	 * Buscar Caronas no banco de dados, que contenham a palavra chave
+	 * @param palavraChave critério da busca
+	 * @param filtro onde buscar: origem, destino, intermunicipal, municipal. Caso
+	 * seja vazio, a função procura a palavra chave em todos os campos de cada carona
+	 * @return Uma lista de carona que satisfaz a pesquisa
+	 */
+	public List<CaronaDomain> getCaronasPorFiltro(String palavraChave, String filtro){
+		List<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
+		
+		switch(filtro){
+		case "origem":
+			break;
+		case "destino":
+			break;
+		case "intermunicipal":
+			break;
+		case "municipal":
+			break;
+		default:
+			for(CaronaDomain carona : persistenciaBD.getCaronaBD().list()){
+				if(carona.getOrigem().equals(palavraChave)){
+					caronas.add(carona);
+				}
+				else if(carona.getDestino().equals(palavraChave)){
+					caronas.add(carona);
+				}
+				else if(carona.getData().equals(palavraChave)){
+					caronas.add(carona);
+				}				
+			}
+		}		
+		return caronas;
 	}
 
 }
