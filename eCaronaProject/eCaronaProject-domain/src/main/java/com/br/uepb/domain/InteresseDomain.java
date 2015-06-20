@@ -7,12 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name="INTERESSE_BD")
 public class InteresseDomain {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GenericGenerator(name="gen", strategy = "increment")
+	@GeneratedValue(generator="gen")
 	@Column(name="ID_INTERESSE")
 	private int idInteresse;
 	
@@ -33,6 +36,9 @@ public class InteresseDomain {
 	
 	@Column(name="HORAIO_FIM")
 	private String horarioFim;
+	
+	@Column(name="NOTIFICACAO_CARONA")
+	private String notificacaoCarona;
 
 	public int getIdInteresse() {
 		return idInteresse;
@@ -40,6 +46,10 @@ public class InteresseDomain {
 
 	public void setIdInteresse(int idInteresse) {
 		this.idInteresse = idInteresse;
+	}
+
+	public void setIdSessao(String idSessao) {
+		this.idSessao = idSessao;
 	}
 
 	public String getOrigem() {
@@ -85,4 +95,22 @@ public class InteresseDomain {
 	public String getIdSessao() {
 		return idSessao;
 	}
+
+	public String getNotificacaoCarona() {
+		return notificacaoCarona;
+	}
+
+	public void setNotificacaoCarona(String notificacaoCarona) {
+		this.notificacaoCarona = notificacaoCarona;
+	}
+
+	public void adcionaNotificacao(String id) {
+		if(this.notificacaoCarona.isEmpty()){
+			this.notificacaoCarona = this.notificacaoCarona + id;
+		}
+		else{
+			this.notificacaoCarona = this.notificacaoCarona + ", " + id;
+		}
+	}
+	
 }

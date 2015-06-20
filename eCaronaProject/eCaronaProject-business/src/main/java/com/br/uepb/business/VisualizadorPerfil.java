@@ -265,4 +265,9 @@ public class VisualizadorPerfil {
 			}
 		}
 	}
+
+	public String verificarMensagensPerfil(String idSessao) {
+		InteresseBusiness gerenciadorInteresse = new InteresseBusiness();
+		return gerenciadorInteresse.verificarNotificacoes(idSessao);
+	}
 }

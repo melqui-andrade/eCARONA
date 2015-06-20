@@ -9,6 +9,7 @@ public class FacadeBusiness {
 	private CaronaBusiness gerenciadorDeCarona;
 	private PontoDeEncontroBusiness gerenciadorDePontoDeEncontro;
 	private SolicitacaoBusiness gerenciadorDeSolicitacao;
+	private InteresseBusiness gerenciadorDeInteresse;
 	private VisualizadorPerfil controladorPerfil;
 
 	public void criarUsuario(String login, String senha, String nome,
@@ -185,13 +186,14 @@ public class FacadeBusiness {
 	}
 	
 	public String cadastrarInteresse(String idSessao, String origem, String destino,
-			String data, String horaInicio, String horaFim){
+			String data, String horaInicio, String horaFim) throws ECaronaException{
 		
-		return "";
+		return gerenciadorDeInteresse.cadastrarInteresse(idSessao, origem, destino, 
+				data, horaInicio, horaFim);
 	}
 	
-	public void verificarMensagensPerfil(String idSessao){
-		
+	public String verificarMensagensPerfil(String idSessao){
+		return controladorPerfil.verificarMensagensPerfil(idSessao);
 	}
 
 	public void zerarSistema() {
@@ -200,7 +202,9 @@ public class FacadeBusiness {
 		gerenciadorDeCarona = new CaronaBusiness();
 		gerenciadorDePontoDeEncontro = new PontoDeEncontroBusiness();
 		gerenciadorDeSolicitacao = new SolicitacaoBusiness();
+		gerenciadorDeInteresse = new InteresseBusiness();
 		controladorPerfil = new VisualizadorPerfil();
+		gerenciadorDeInteresse.zerarBase();
 		gerenciadorDeUsuario.zerarBase();
 		gerenciadorDeSessao.zerarBase();
 		gerenciadorDeSolicitacao.zerarBase();
@@ -231,10 +235,12 @@ public class FacadeBusiness {
 		if (gerenciadorDeSolicitacao != null) {
 			gerenciadorDeSolicitacao = new SolicitacaoBusiness();
 		}
+		if(gerenciadorDeInteresse != null){
+			gerenciadorDeInteresse = new InteresseBusiness();
+		}
 		if (controladorPerfil != null) {
 			controladorPerfil = new VisualizadorPerfil();
 		}
-
 	}
 
 }

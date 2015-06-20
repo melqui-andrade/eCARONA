@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanComparator;
 
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.InteresseDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.persistencia.Persistencia;
@@ -109,11 +112,93 @@ public class CaronaBusiness {
 					sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
+			
+			notificarCarona(data, carona);
+			
 			return carona.getId();
 		} else {
 			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
 		}
 
+	}
+
+	private void notificarCarona(String data, CaronaDomain carona) {
+		for(InteresseDomain interesse : persistenciaBD.getInteresseBD().list()){
+			if(interesse.getOrigem().equals(carona.getOrigem()) && 
+					interesse.getDestino().equals(carona.getDestino())){
+				if(interesse.getData().isEmpty()){
+					if(interesse.getHorarioInicio().isEmpty() &&
+							interesse.getHorarioFim().isEmpty()){
+						interesse.adcionaNotificacao(carona.getId());
+					}
+					else if(interesse.getHorarioFim().isEmpty()){
+						String[] horaInicio = interesse.getHorarioInicio().split(":");
+						String[] horaCarona = carona.getHora().split(":");
+						if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
+								Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1])){
+							interesse.adcionaNotificacao(carona.getId());
+						}
+					}
+					else if(interesse.getHorarioInicio().isEmpty()){
+						String[] horaFim = interesse.getHorarioFim().split(":");
+						String[] horaCarona = carona.getHora().split(":");
+						if(Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
+								Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
+							interesse.adcionaNotificacao(carona.getId());
+						}
+					}
+					else{
+						String[] horaInicio = interesse.getHorarioInicio().split(":");
+						String[] horaCarona = carona.getHora().split(":");
+						String[] horaFim = interesse.getHorarioFim().split(":");
+						if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
+						   Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1]) &&
+						   Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
+						   Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
+							
+							interesse.adcionaNotificacao(carona.getId());			
+						}
+					}
+				}
+				else{
+					if(interesse.getData().equals(data)){
+						if(interesse.getHorarioInicio().isEmpty() &&
+								interesse.getHorarioFim().isEmpty()){
+							interesse.adcionaNotificacao(carona.getId());
+						}
+						else if(interesse.getHorarioFim().isEmpty()){
+							String[] horaInicio = interesse.getHorarioInicio().split(":");
+							String[] horaCarona = carona.getHora().split(":");
+							if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
+									Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1])){
+								interesse.adcionaNotificacao(carona.getId());
+							}
+						}
+						else if(interesse.getHorarioInicio().isEmpty()){
+							String[] horaFim = interesse.getHorarioFim().split(":");
+							String[] horaCarona = carona.getHora().split(":");
+							if(Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
+									Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
+								interesse.adcionaNotificacao(carona.getId());
+							}
+						}
+						else{
+							String[] horaInicio = interesse.getHorarioInicio().split(":");
+							String[] horaCarona = carona.getHora().split(":");
+							String[] horaFim = interesse.getHorarioFim().split(":");
+							if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
+							   Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1]) &&
+							   Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
+							   Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
+								
+								interesse.adcionaNotificacao(carona.getId());			
+							}
+						}
+					}
+				}
+				persistenciaBD.getInteresseBD().update(interesse);
+			}
+		}
 	}
 	
 	public String cadastrarCaronaMunicipal(String idSessao, String origem,
