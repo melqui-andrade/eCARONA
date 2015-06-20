@@ -1,5 +1,8 @@
 package com.br.uepb.controller;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -17,8 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.br.uepb.Model.CadastrarModel;
 import com.br.uepb.Model.LoginModel;
 import com.br.uepb.Model.UsuarioModel;
+import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
+import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 @Controller
@@ -30,44 +35,74 @@ public class HomeController {
 	private UsuarioBusiness gerenciadorDeUsuario;
 
 	private SessaoBusiness gerenciadorDeSessao;
+	
+	private CaronaBusiness gerenciadorDeCaronas;
 
 	@RequestMapping(value = "/home/home.html", method = RequestMethod.GET)
 	public ModelAndView homeGet(HttpServletRequest request) {
 
 		LOG.debug("Iniciada a execucao do metodo: homeGet");
-
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/home/home");
-		//modelAndView.addObject("modelUsuario", new UsuarioModel());
+		
+		UsuarioModel usuarioModel = new UsuarioModel();
+		gerenciadorDeUsuario = new UsuarioBusiness();
+		String login = (String)request.getSession().getAttribute("login");
+		String idSessao = (String)request.getSession().getAttribute("idSessao");
+		LOG.debug("Login:" + login);
+		gerenciadorDeCaronas = new CaronaBusiness();
+		
+		try{
+			usuarioModel.setNome(gerenciadorDeUsuario.getAtributoUsuario(login, "nome"));
+			usuarioModel.setEndereco(gerenciadorDeUsuario.getAtributoUsuario(login, "endereco"));
+			usuarioModel.setEmail(gerenciadorDeUsuario.getAtributoUsuario(login, "email"));
+			String allCaronas = gerenciadorDeCaronas.localizarCarona(idSessao, "", "");
+			String[] listIDCaronas = allCaronas.split(",");
+			ArrayList todasCaronas = new ArrayList();
+			for(int i=0; i< listIDCaronas.length;i++){
+								
+				todasCaronas.add(gerenciadorDeCaronas.getCaronaInfo(listIDCaronas[i]));
+			}						
+			modelAndView.addObject("allCaronas", allCaronas);
+			modelAndView.addObject("todasCaronas", todasCaronas);
+		}catch(Exception e){
+			LOG.debug("Ocorreu um erro no login:" + e.getMessage());
+			modelAndView.addObject("modelUsuario", new UsuarioModel());
+			return modelAndView;
+		}		
+		System.out.println(usuarioModel.getNome());
+		modelAndView.addObject("modelUsuario",usuarioModel);
 
 		LOG.debug("Finalizada a execucao do metodo: homeGet");
 
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/home/login.html", method = RequestMethod.GET)
-	public ModelAndView loginGet(HttpServletRequest request) {
+
+	@RequestMapping(value = "/home/apresentacao.html", method = RequestMethod.GET)
+	public ModelAndView apresentacaoGet(HttpServletRequest request) {
 
 		LOG.debug("Iniciada a execucao do metodo: loginGet");
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/login");
 		modelAndView.addObject("model", new LoginModel());
+		request.getSession().removeAttribute("login");
 
 		LOG.debug("Finalizada a execucao do metodo: loginGet");
 
 		return modelAndView;
 	}
-
-	@RequestMapping(value = "/home/login.html", method = RequestMethod.POST)
-	public ModelAndView loginPost(
+	
+	@RequestMapping(value = "/home/apresentacao.html", method = RequestMethod.POST)
+	public ModelAndView apresentacaoPost(
 			@ModelAttribute("model") @Valid LoginModel model,
 			BindingResult bindingResult, HttpServletRequest request) {
 
 		LOG.debug("Iniciada a execucao do metodo: loginPost");
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/login");
+		modelAndView.setViewName("/home/apresentacao");
 
 		if (bindingResult.hasErrors()) {
 			modelAndView.addObject("model", new LoginModel());
@@ -76,36 +111,20 @@ public class HomeController {
 
 		gerenciadorDeSessao = new SessaoBusiness();
 		gerenciadorDeUsuario = new UsuarioBusiness();
+		gerenciadorDeCaronas = new CaronaBusiness();
 		try {
 			gerenciadorDeSessao.abrirSessao(model.getLogin(), model.getSenha());
-			UsuarioModel userModel = new UsuarioModel();
-			userModel.setNome(gerenciadorDeUsuario.getAtributoUsuario(
-					model.getLogin(), "nome"));
-			userModel.setEndereco(gerenciadorDeUsuario.getAtributoUsuario(
-					model.getLogin(), "endereco"));
-			userModel.setEmail(gerenciadorDeUsuario.getAtributoUsuario(
-					model.getLogin(), "email"));
-			modelAndView.addObject("modelUsuario", userModel);
-			modelAndView.setViewName("/home/home");
+			request.getSession().setAttribute("login", model.getLogin());
+			request.getSession().setAttribute("idSessao", gerenciadorDeSessao.abrirSessao(model.getLogin(), model.getSenha()));
+			//request.setAttribute("login", model.getLogin());
+						
 		} catch (Exception e) {
 			modelAndView.addObject("model", new LoginModel());
 			return modelAndView;
 		}
 
 		LOG.debug("Finalizada a execucao do metodo: loginPost");
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/home/apresentacao.html", method = RequestMethod.GET)
-	public ModelAndView apresentacaoGet(HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: loginGet");
-
-		ModelAndView modelAndView = new ModelAndView();
-
-		LOG.debug("Finalizada a execucao do metodo: loginGet");
-
-		return modelAndView;
+		return new ModelAndView("redirect:/home/home.html");
 	}
 
 	@RequestMapping(value = "/home/cadastrar.html", method = RequestMethod.GET)
@@ -134,7 +153,7 @@ public class HomeController {
 		modelAndView.setViewName("/home/cadastrar");
 
 		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("model", new CadastrarModel());
+			modelAndView.addObject("model", model);
 			return modelAndView;
 		}
 
@@ -146,7 +165,7 @@ public class HomeController {
 			modelAndView.addObject("mensagem",
 					"Cadastro realizado com sucesso!");
 		} catch (Exception e) {
-			modelAndView.addObject("model", new CadastrarModel());
+			modelAndView.addObject("model", model);
 			modelAndView.addObject("mensagem", e.getMessage());
 			return modelAndView;
 		}

@@ -14,4 +14,10 @@
 		<put-attribute name="body" value="/WEB-INF/views/home/home.jsp" />
 	</definition>
 
+	<definition name="login" extends="base.layout">
+		<put-attribute name="body" value="/WEB-INF/views/login/login.jsp" />
+	</definition>
+
+
+
 </tiles-definitions>
