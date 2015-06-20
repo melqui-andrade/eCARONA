@@ -60,7 +60,7 @@
 			<div class="row">
 				<div class="col-lg-12 text-center" style="padding-top: 6px;">
 					<center>
-						<h1>Cadastro</h1>
+						<h1>Cadastrar Carona</h1>
 					</center>
 
 				</div>
@@ -129,9 +129,9 @@
 				</div>
 			</form:form>
 			<div class="col-md-6"
-				style="color: #2a80b9; padding-top: 8%; padding-left: 15%; font-size: 32px;">
-				&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <center><i
-					class="fa fa-user-plus fa-5x"></i></center>
+				style="color: #2a80b9; padding-top: 10%; padding-left: 15%; font-size: 32px;">
+				&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+					class="fa fa-user-plus fa-5x"></i>
 				<div class="alert alert-info" role="alert">
 					<label>${mensagem}</label>
 				</div>
