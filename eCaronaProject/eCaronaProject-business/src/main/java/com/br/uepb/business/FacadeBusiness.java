@@ -167,19 +167,21 @@ public class FacadeBusiness {
 	}
 	
 	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino,
-			String cidade, String data, String hora, String vagas){
+			String cidade, String data, String hora, String vagas) 
+					throws ECaronaException{
 		
-		return "";
+		return gerenciadorDeCarona.cadastrarCaronaMunicipal(idSessao, origem, destino, cidade, data, hora, vagas);
 	}
 	
-	public String localizarCaronaMunicipal(String idSessao, String cidade){
-		return "";
+	public String localizarCaronaMunicipal(String idSessao, String cidade) 
+			throws ECaronaException{
+		return gerenciadorDeCarona.localizarCaronaMunicipal(idSessao, "", "", cidade);
 	}
 	
 	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem,
-			String destino){
+			String destino) throws ECaronaException{
 		
-		return "";
+		return gerenciadorDeCarona.localizarCaronaMunicipal(idSessao, origem, destino, cidade);
 	}
 	
 	public String cadastrarInteresse(String idSessao, String origem, String destino,

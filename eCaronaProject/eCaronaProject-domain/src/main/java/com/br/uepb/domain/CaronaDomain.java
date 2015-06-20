@@ -63,7 +63,13 @@ public class CaronaDomain {
 	private int naoFuncionou;
 	
 	@Column(name="PASSAGEIROS_PRESENTES")
-	int passageirosPresentes;
+	private int passageirosPresentes;
+	
+	@Column(name="MUNICIPAL")
+	private boolean ehMunicipal;
+	
+	@Column(name="CIDADE")
+	private String cidade;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<SolicitacaoDomain> solicitacoes = new ArrayList<SolicitacaoDomain>();
@@ -104,7 +110,6 @@ public class CaronaDomain {
 	public void setUsuarioLogin(String usuarioLogin) {
 		this.usuarioLogin = usuarioLogin;
 	}
-
 
 	private HashMap<String , String[] > pontos;
 
@@ -148,6 +153,14 @@ public class CaronaDomain {
 
 	public String getData() {
 		return data;
+	}	
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 
 	public void setData(String data) throws ECaronaException {
@@ -246,12 +259,19 @@ public class CaronaDomain {
 
 	public int getPassageirosPresentes() {
 		return passageirosPresentes;
+	}	
+
+	public boolean ehMunicipal() {
+		return ehMunicipal;
+	}
+
+	public void ehMunicipal(boolean ehMunicipal) {
+		this.ehMunicipal = ehMunicipal;
 	}
 
 	public void setPassageirosPresentes(int passageirosPresentes) {
 		this.passageirosPresentes = passageirosPresentes;
 	}
-
 	
 	@Override
 	/**

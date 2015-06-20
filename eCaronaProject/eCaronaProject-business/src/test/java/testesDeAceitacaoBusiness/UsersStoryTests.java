@@ -23,18 +23,15 @@ public class UsersStoryTests {
 		//arquivos.add("./src/test/resources/easyAcceptFiles/US06.txt");
 		//arquivos.add("./src/test/resources/easyAcceptFiles/US07.txt");
 		//arquivos.add("./src/test/resources/easyAcceptFiles/US08.txt");
-		arquivos.add("./src/test/resources/easyAcceptFiles/US09.txt");
+		//arquivos.add("./src/test/resources/easyAcceptFiles/US09.txt");
 		//arquivos.add("./src/test/resources/easyAcceptFiles/US10.txt");
-		//arquivos.add("./src/test/resources/easyAcceptFiles/US11.txt");
+		arquivos.add("./src/test/resources/easyAcceptFiles/US11.txt");
 		
 		FacadeBusiness facadeBusiness = new FacadeBusiness();
-		
+		//facadeBusiness.zerarSistema();
 		EasyAcceptFacade eaFacade = new EasyAcceptFacade(facadeBusiness, arquivos);
-		eaFacade.executeTests();
-		
+		eaFacade.executeTests();		
 		System.out.println(eaFacade.getCompleteResults());
 		System.exit(0);
-
 	}
-
 }

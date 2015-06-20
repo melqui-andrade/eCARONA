@@ -79,6 +79,8 @@ public class CaronaBusiness {
 			carona.setOrigem(origem);
 
 			carona.setDestino(destino);
+			
+			carona.setCidade(null);
 
 			carona.setData(data);
 
@@ -95,6 +97,65 @@ public class CaronaBusiness {
 			carona.foiTranquila(false);
 			
 			carona.setNaoFuncionou(0);
+			
+			carona.ehMunicipal(false);
+
+			String identificadorCarona = "carona"
+					+ String.valueOf(sufixoIdCarona);
+			// System.out.println(identificadorCarona);
+			carona.setId(identificadorCarona);
+
+			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(
+					sessao.getIdUsuario());
+			usuario.adicionarCarona(carona);
+			persistenciaBD.getUsuarioBD().update(usuario);
+			return carona.getId();
+		} else {
+			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
+		}
+
+	}
+	
+	public String cadastrarCaronaMunicipal(String idSessao, String origem,
+			String destino, String cidade, String data, String hora, String vagas)
+			throws ECaronaException {
+		if (vagas == null || vagas.equals(""))
+			throw new ECaronaException(MensagensDeErro.VAGA_INVALIDA);
+		if (VerificadorString.ContemLetra(vagas))
+			throw new ECaronaException(MensagensDeErro.VAGA_INVALIDA);
+
+		if (idSessao == null || idSessao.equals(""))
+			throw new ECaronaException(MensagensDeErro.SESSAO_INVALIDA);
+
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
+		if (sessao != null) {
+			sufixoIdCarona++;
+
+			CaronaDomain carona = new CaronaDomain();
+
+			carona.setOrigem(origem);
+
+			carona.setDestino(destino);
+			
+			carona.setCidade(cidade);
+
+			carona.setData(data);
+
+			carona.setIdSessao(idSessao);
+
+			carona.setVagas(Integer.valueOf(vagas));
+
+			carona.setHora(hora);
+
+			carona.setUsuarioLogin(sessao.getIdUsuario());
+
+			carona.foiConcluida(false);
+
+			carona.foiTranquila(false);
+			
+			carona.setNaoFuncionou(0);
+			
+			carona.ehMunicipal(true);
 
 			String identificadorCarona = "carona"
 					+ String.valueOf(sufixoIdCarona);
@@ -206,6 +267,77 @@ public class CaronaBusiness {
 
 		return idCarona + "}";
 	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String origem, String destino, String cidade)
+			throws ECaronaException {
+
+		if (origem.equals("-") || origem.equals("()") || origem.equals("!")
+				|| origem.equals("!?"))
+			throw new ECaronaException(MensagensDeErro.ORIGEM_INVALIDA);
+		if (destino.equals(".") || destino.equals("()") || destino.equals("!")
+				|| destino.equals("!?"))
+			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
+		if(cidade == null || cidade.isEmpty())
+			throw new ECaronaException(MensagensDeErro.CIDADE_INEXISTENTE);
+
+		ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
+		ArrayList<String> allID = new ArrayList<String>();
+		String idCarona = "{";
+		
+		for(CaronaDomain carona : persistenciaBD.getCaronaBD().list()){
+			if (carona.getCidade() != null) {
+				if (carona.getCidade().equals(cidade)) {
+					caronas.add(carona);
+				}
+			}
+		}
+		if (caronas.size() > 0) {
+			if (origem.equals("") && destino.equals("")) {
+				for (CaronaDomain carona : caronas) {					
+					allID.add(carona.getId());				
+				}
+
+				allID.sort(null);
+				idCarona = allID.toString();
+
+				idCarona = idCarona.substring(1, idCarona.length() - 1);
+				idCarona = "{" + idCarona;
+				idCarona = idCarona.replace(" ", "");
+
+			} else if (origem.equals("")) {
+				for (CaronaDomain carona : caronas) {
+					if (carona.getDestino().equals(destino)) {
+						idCarona += carona.getId();
+						idCarona += ",";
+					}
+				}
+				idCarona = idCarona.substring(0, idCarona.length() - 1);
+			} else if (destino.equals("")) {
+				for (CaronaDomain carona : caronas) {
+					if (carona.getOrigem().equals(origem)) {
+						idCarona += carona.getId();
+						idCarona += ",";
+					}
+				}
+				idCarona = idCarona.substring(0, idCarona.length() - 1);
+			} else {
+				for (CaronaDomain carona : caronas) {
+					if (carona.getOrigem().equals(origem)
+							&& carona.getDestino().equals(destino)) {
+						idCarona += carona.getId();
+						idCarona += ",";
+					}
+				}
+				if (idCarona.length() > 2)
+					idCarona = idCarona.substring(0, idCarona.length() - 1);				
+			}
+		}
+		else{
+			throw new ECaronaException(MensagensDeErro.CIDADE_INEXISTENTE);
+		}
+
+		return idCarona + "}";
+	}
 
 	/**
 	 * Pegar um atributo específico de uma carona
@@ -255,6 +387,9 @@ public class CaronaBusiness {
 				
 			case "nao funcionou":
 				return Integer.toString(carona.getNaoFuncionou());
+			
+			case "ehMunicipal":
+				return Boolean.toString(carona.ehMunicipal());
 
 			default:
 				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INEXISTENTE);
