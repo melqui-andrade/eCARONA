@@ -6,7 +6,7 @@ import com.br.uepb.domain.CaronaDomain;
 public interface ICaronaDAO {
 
 	public void save(CaronaDomain carona);
-	public CaronaDomain getCarona(String login);
+	public CaronaDomain getCarona(String id);
 	public List<CaronaDomain> list();
 	public void remove(CaronaDomain carona);
 	public void update(CaronaDomain carona);

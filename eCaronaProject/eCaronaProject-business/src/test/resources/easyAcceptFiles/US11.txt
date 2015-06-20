@@ -9,7 +9,7 @@ zerarSistema
 #Criar usuário.
 criarUsuario login="zezyt0" senha="z3z1t0" nome="Jose de zito" endereco="Rua belarmina pereira 452, João Pessoa" email="zezyto@gmail.com"
 criarUsuario login="manelito" senha="w4n3l1t0" nome="Manel da Silva" endereco="Rua adamastor pitaco 24, João Pessoa" email="manel@yahoo.com.br"
-criarUsuario login="jucaPeroba" senha="juqinha" nome="Juca Peroba" endereco="Rua 13 de maio, Caruaru" email="jucaPeroba@gmail.com"
+criarUsuario login="jucaperoba" senha="juqinha" nome="Juca Peroba" endereco="Rua 13 de maio, Caruaru" email="jucaperoba@gmail.com"
 criarUsuario login="mariano0ab" senha="mariozinho" nome="Mariano Silva" endereco="Rua 27 de maio, Campina Grande" email="marianoAdvogado@gmail.com"
 criarUsuario login="caba" senha="Marcin" nome="Marcio Sarvai" endereco="Rua 21 de maio, Campina Grande" email="marcioSarvai@gmail.com"
 
@@ -22,7 +22,7 @@ sessaoManelito=abrirSessao login="manelito" senha="w4n3l1t0"
 expect "Manel da Silva" getAtributoUsuario login="manelito" atributo="nome" 
 expect "Rua adamastor pitaco 24, João Pessoa" getAtributoUsuario login="manelito" atributo="endereco"
 
-sessaoJuca=abrirSessao login="jucaPeroba" senha="juqinha"
+sessaoJuca=abrirSessao login="jucaperoba" senha="juqinha"
 sessaoMariano=abrirSessao login="mariano0ab" senha="mariozinho"
 sessaoMarcio=abrirSessao login="caba" senha="Marcin"
 
@@ -50,7 +50,7 @@ carona1ID=cadastrarCarona idSessao=${sessaoMariano} origem="João Pessoa" destin
 #Verificar perfil.
 expect "[]" verificarMensagensPerfil idSessao=${sessaoZezito}
 expect "[]" verificarMensagensPerfil idSessao=${sessaoManelito}
-expect "[Carona cadastrada no dia 23/06/2013, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMariano}
-expect "[Carona cadastrada no dia 23/06/2013, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMarcio}
+expect "[Carona cadastrada no dia 23/06/2013, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaperoba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMariano}
+expect "[Carona cadastrada no dia 23/06/2013, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaperoba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMarcio}
 encerrarSistema
 quit
