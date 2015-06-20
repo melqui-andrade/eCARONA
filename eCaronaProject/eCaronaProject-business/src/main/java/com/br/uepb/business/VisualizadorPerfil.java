@@ -3,6 +3,7 @@ package com.br.uepb.business;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.br.uepb.business.utilities.CorreioEletronico;
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
 import com.br.uepb.domain.CaronaDomain;
@@ -269,5 +270,20 @@ public class VisualizadorPerfil {
 	public String verificarMensagensPerfil(String idSessao) {
 		InteresseBusiness gerenciadorInteresse = new InteresseBusiness();
 		return gerenciadorInteresse.verificarNotificacoes(idSessao);
+	}
+	
+	public boolean enviarEmail(String idSessao, String emailDestino, String mensagem){
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(sessao.getIdUsuario());
+		String assunto = "[Notificação ECarona]";
+		
+		CorreioEletronico correio = new CorreioEletronico();
+		try {
+			correio.enviaEmail(usuario.getEmail(), emailDestino, assunto, mensagem);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}		
 	}
 }

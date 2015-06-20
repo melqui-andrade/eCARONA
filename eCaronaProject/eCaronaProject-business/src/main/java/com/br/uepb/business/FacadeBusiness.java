@@ -150,6 +150,10 @@ public class FacadeBusiness {
 
 		return controladorPerfil.getAtributoPerfil(login, atributo);
 	}
+	
+	public String enviarEmail(String idSessao, String emailDestino, String mensagem){
+		return String.valueOf(controladorPerfil.enviarEmail(idSessao, emailDestino, mensagem));
+	}
 
 	public String visualizarPerfil(String idSessao, String login)
 			throws ECaronaException {
