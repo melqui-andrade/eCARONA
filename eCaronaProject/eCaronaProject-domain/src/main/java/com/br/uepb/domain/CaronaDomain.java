@@ -41,10 +41,10 @@ public class CaronaDomain {
 	@Column(name="DESTINO")
 	private String destino;
 	
-	@Column(name="DATA_")
+	@Column(name="DATA")
 	private String data;
 	
-	@Column(name="HORA_")
+	@Column(name="HORA")
 	private String hora;
 	
 	@Column(name="VAGAS")
@@ -57,10 +57,10 @@ public class CaronaDomain {
 	private boolean foiConcluida;
 
 	@Column(name="FOI_TRANQUILA")
-	private boolean foiTranquila;
+	private String foiTranquila;
 	
 	@Column(name="NAO_FUNCIONOU")
-	private int naoFuncionou;
+	private String naoFuncionou;
 	
 	@Column(name="PASSAGEIROS_PRESENTES")
 	private int passageirosPresentes;
@@ -70,6 +70,9 @@ public class CaronaDomain {
 	
 	@Column(name="CIDADE")
 	private String cidade;
+	
+	@Column(name="PREFERENCIAL")
+	private boolean preferencial;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<SolicitacaoDomain> solicitacoes = new ArrayList<SolicitacaoDomain>();
@@ -241,19 +244,19 @@ public class CaronaDomain {
 		this.foiConcluida = foi;
 	}
 	
-	public boolean foiTranquila() {
+	public String getTranquila() {
 		return foiTranquila;
 	}
 
-	public void foiTranquila(boolean foi) {
-		this.foiTranquila = foi;
+	public void setTranquila(String idPassageiro) {
+		this.foiTranquila = idPassageiro;
 	}	
 
-	public int getNaoFuncionou() {
+	public String getNaoFuncionou() {
 		return naoFuncionou;
 	}
 
-	public void setNaoFuncionou(int naoFuncionou) {
+	public void setNaoFuncionou(String naoFuncionou) {
 		this.naoFuncionou = naoFuncionou;
 	}
 
@@ -273,6 +276,14 @@ public class CaronaDomain {
 		this.passageirosPresentes = passageirosPresentes;
 	}
 	
+	public boolean isPreferencial() {
+		return preferencial;
+	}
+
+	public void setPreferencial(boolean preferencial) {
+		this.preferencial = preferencial;
+	}
+
 	@Override
 	/**
 	 * Mensagem no formato: this.origem + " para " + this.destino + ", no dia " + this.data + ", as " + this.hora

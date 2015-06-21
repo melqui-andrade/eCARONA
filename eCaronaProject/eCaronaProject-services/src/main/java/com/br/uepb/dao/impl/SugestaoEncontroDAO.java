@@ -1,10 +1,13 @@
 package com.br.uepb.dao.impl;
 
 import java.util.List;
+
 import javax.swing.JOptionPane;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+
 import com.br.uepb.dao.ISugestaoEncontroDAO;
 import com.br.uepb.domain.SugestaoEncontroDomain;
 import com.br.uepb.utilities.HibernateUtil;
@@ -20,7 +23,7 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 			t.commit();
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+			System.out.println("Erro ao salvar o registro" + e.getMessage());
 		}
 		finally{
 			session.close();
@@ -51,7 +54,7 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 			t.commit();
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+			System.out.println("Erro ao salvar o registro" + e.getMessage());
 		}
 		finally{
 			session.close();
@@ -67,7 +70,7 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 			t.commit();
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+			System.out.println("Erro ao salvar o registro" + e.getMessage());
 		}
 		finally{
 			session.close();

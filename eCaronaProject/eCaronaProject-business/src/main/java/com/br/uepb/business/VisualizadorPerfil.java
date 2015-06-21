@@ -70,8 +70,10 @@ public class VisualizadorPerfil {
 	private String getTotalCaronasRuim(List<CaronaDomain> caronas) {
 		int total = 0;
 		for(CaronaDomain carona : caronas){
-			if(carona.getNaoFuncionou() > 0){
-				total++;
+			if(carona.getNaoFuncionou() != null){
+				if(carona.getNaoFuncionou().split(",").length > 0){
+					total++;
+				}
 			}
 		}
 		return String.valueOf(total);
@@ -138,8 +140,11 @@ public class VisualizadorPerfil {
 	private String getTotalCaronaTranquilas(UsuarioDomain usuario){
 		int total = 0;
 		for(CaronaDomain carona : usuario.getCaronas()){
-			if(carona.foiConcluida() && carona.foiTranquila()){
-				total++;
+			if(carona.foiConcluida()){
+				if(carona.getTranquila() != null)
+					if(carona.getTranquila().split(",").length > 0){
+						total++;
+					}
 			}
 		}
 		return String.valueOf(total);
@@ -236,13 +241,23 @@ public class VisualizadorPerfil {
 
 			case "não funcionou":
 				removeCarona(carona, usuario);
-				carona.setNaoFuncionou(carona.getNaoFuncionou() + 1);
+				if(carona.getNaoFuncionou() == null){
+					carona.setNaoFuncionou(sessaoPassageiro.getId());
+				}
+				else{
+					carona.setNaoFuncionou(carona.getNaoFuncionou() + ", "  + sessaoPassageiro.getId());
+				}
 				usuario.adicionarCarona(carona);
 				persistenciaBD.getCaronaBD().update(carona);
 				break;
 			case "segura e tranquila":
 				removeCarona(carona, usuario);
-				carona.foiTranquila(true);
+				if(carona.getNaoFuncionou() == null){
+					carona.setTranquila(sessaoPassageiro.getId());
+				}
+				else{
+				carona.setTranquila(carona.getTranquila() + ", "  + sessaoPassageiro.getId());
+				}
 				usuario.adicionarCarona(carona);
 				persistenciaBD.getCaronaBD().update(carona);
 				break;

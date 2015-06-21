@@ -98,11 +98,11 @@ public class CaronaBusiness {
 
 			carona.foiConcluida(false);
 
-			carona.foiTranquila(false);
-
-			carona.setNaoFuncionou(0);
-
 			carona.ehMunicipal(false);
+			
+			carona.setTranquila("");
+			
+			carona.setPreferencial(false);
 
 			String identificadorCarona = "carona"
 					+ String.valueOf(sufixoIdCarona);
@@ -252,11 +252,13 @@ public class CaronaBusiness {
 
 			carona.foiConcluida(false);
 
-			carona.foiTranquila(false);
+			carona.setTranquila("");
 
-			carona.setNaoFuncionou(0);
+			carona.setNaoFuncionou("");
 
 			carona.ehMunicipal(true);
+			
+			carona.setPreferencial(false);
 
 			String identificadorCarona = "carona"
 					+ String.valueOf(sufixoIdCarona);
@@ -490,7 +492,7 @@ public class CaronaBusiness {
 				return Boolean.toString(carona.foiConcluida());
 
 			case "nao funcionou":
-				return Integer.toString(carona.getNaoFuncionou());
+				return String.valueOf(carona.getNaoFuncionou().split(",").length);
 
 			case "ehMunicipal":
 				return Boolean.toString(carona.ehMunicipal());
@@ -622,7 +624,76 @@ public class CaronaBusiness {
 		}
 
 		return allCaronas;
-
 	}
+	
+	public void adicionarQualificacao(CaronaDomain carona, String idPassageiro, String classificacao){
+		switch(classificacao){
+		case "positiva":
+			if(carona.getTranquila() == null){
+				carona.setTranquila(idPassageiro);
+			}
+			else{
+				carona.setTranquila(carona.getTranquila() + ", "  + idPassageiro);
+			}
+			break;
+		case "negativa":
+			if(carona.getNaoFuncionou() == null){
+				carona.setNaoFuncionou(idPassageiro);
+			}
+			else{
+				carona.setNaoFuncionou(carona.getNaoFuncionou() + ", "  + idPassageiro);
+			}
+			break;
+		}
+		persistenciaBD.getCaronaBD().update(carona);
+	}
+	
+	public void definirCaronaPreferencial(String idCarona) {
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		carona.setPreferencial(true);
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(carona.getUsuarioLogin());
+		removeCarona(carona, usuario);
+		usuario.adicionarCarona(carona);
+		persistenciaBD.getCaronaBD().update(carona);
+		
+	}
+	
+	public boolean isCaronaPreferencial(String idCarona){
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		return carona.isPreferencial();
+	}
+	
+	public String getUsuariosPreferenciaisCarona(String idCarona){
+		String idUsuarios = "[";		
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(carona.getUsuarioLogin());
+		
+		if(carona.isPreferencial()){
+			for(CaronaDomain c : usuario.getCaronas()){
+				if(c.foiConcluida() && c.getTranquila().length() > 0){
+					if(!idUsuarios.contains(c.getTranquila())){ 
+						idUsuarios += c.getTranquila();
+					}
+				}
+			}
+		}
+		idUsuarios = idUsuarios.replaceAll(" ", "");
+		idUsuarios += "]";
+		return idUsuarios;
+	}
+	
+	public void zerarBase(){
+		persistenciaBD.getCaronaBD().excluirTudo();
+	}
+	
+	private void removeCarona(CaronaDomain carona, UsuarioDomain usuario) {
+		for(CaronaDomain c : usuario.getCaronas()){
+			if(c.getId().equals(carona.getId())){
+				usuario.getCaronas().remove(c);
+				break;
+			}
+		}
+	}
+
 
 }

@@ -38,6 +38,18 @@ public class FacadeBusiness {
 			throws Exception {
 		return gerenciadorDeCarona.localizarCarona(sessao, origem, destino);
 	}
+	
+	public void definirCaronaPreferencial(String idCarona){
+		gerenciadorDeCarona.definirCaronaPreferencial(idCarona);
+	}
+	
+	public String isCaronaPreferencial(String idCarona){
+		return String.valueOf(gerenciadorDeCarona.isCaronaPreferencial(idCarona));
+	}
+	
+	public String getUsuariosPreferenciaisCarona(String idCarona){
+		return gerenciadorDeCarona.getUsuariosPreferenciaisCarona(idCarona);
+	}
 
 	public String getAtributoCarona(String idCarona, String atributoCarona)
 			throws Exception {
@@ -210,8 +222,9 @@ public class FacadeBusiness {
 		controladorPerfil = new VisualizadorPerfil();
 		gerenciadorDeInteresse.zerarBase();
 		gerenciadorDeUsuario.zerarBase();
-		gerenciadorDeSessao.zerarBase();
+		gerenciadorDeCarona.zerarBase();
 		gerenciadorDeSolicitacao.zerarBase();
+		gerenciadorDeSessao.zerarBase();
 		gerenciadorDePontoDeEncontro.zerarBase();
 
 	}

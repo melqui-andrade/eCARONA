@@ -23,7 +23,7 @@ public class InteresseDAO implements IInteresseDAO {
 		t.commit();
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+			System.out.println("Erro ao salvar o registro" + e.getMessage());
 		}
 		finally{
 			session.close();
@@ -48,7 +48,7 @@ public class InteresseDAO implements IInteresseDAO {
 			t.commit();
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+			System.out.println("Erro ao salvar o registro" + e.getMessage());
 		}
 		finally{
 			session.close();
@@ -65,7 +65,7 @@ public class InteresseDAO implements IInteresseDAO {
 			t.commit();
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Erro ao salvar o registro" + e.getMessage());
+			System.out.println("Erro ao salvar o registro" + e.getMessage());
 		}
 		finally{
 			session.close();
