@@ -26,6 +26,7 @@ import com.br.uepb.Model.LoginModel;
 import com.br.uepb.Model.UsuarioModel;
 import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.SessaoBusiness;
+import com.br.uepb.business.SolicitacaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
@@ -42,8 +43,12 @@ public class HomeController {
 
 	private CaronaBusiness gerenciadorDeCaronas;
 
+	private SolicitacaoBusiness gerenciadorDeSolicitacoes;
+
 	@RequestMapping(value = "/home/home.html", method = RequestMethod.GET)
-	public ModelAndView homeGet(HttpServletRequest request) {
+	public ModelAndView homeGet(
+			@RequestParam(required = false) String idCarona,
+			HttpServletRequest request) {
 
 		LOG.debug("Iniciada a execucao do metodo: homeGet");
 
@@ -55,9 +60,23 @@ public class HomeController {
 		String login = (String) request.getSession().getAttribute("login");
 		String idSessao = (String) request.getSession()
 				.getAttribute("idSessao");
-		LOG.debug("Login:" + login);
+		
 		gerenciadorDeCaronas = new CaronaBusiness();
 		modelAndView.addObject("modelIdCarona", new CaronaModel());
+		LOG.debug("\n-------------------------------"+idCarona+"--------------------------------------\n");
+		if (idCarona != null) {
+			gerenciadorDeSolicitacoes = new SolicitacaoBusiness();
+			try {
+				CaronaDomain carona = gerenciadorDeCaronas.getCarona(idCarona);
+				gerenciadorDeSolicitacoes.aceitarSolicitacao(idSessao, gerenciadorDeSolicitacoes.solicitarVaga(idSessao, idCarona));
+				//gerenciadorDeCaronas.cadastrarCarona(idSessao, carona.getOrigem(), carona.getDestino(),carona.getData(), carona.getHora(), String.valueOf(carona.getVagas()));
+
+			} catch (Exception e) {
+				modelAndView.addObject("mensagemErro", e.getMessage());
+				modelAndView.addObject("status", "erro");
+
+			}			
+		}
 
 		try {
 			usuarioModel.setNome(gerenciadorDeUsuario.getAtributoUsuario(login,
@@ -85,42 +104,6 @@ public class HomeController {
 		LOG.debug("Finalizada a execucao do metodo: homeGet");
 
 		return modelAndView;
-	}
-
-	@RequestMapping(value = "/home/home.html", method = RequestMethod.POST)
-	public ModelAndView homePost(
-			@ModelAttribute("idCarona") @Valid CaronaModel caronaModel,
-			BindingResult bindingResult, HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: loginPost");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/home");
-
-		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("idSessao", new String());
-			return modelAndView;
-		}
-		String idSessao = (String) request.getSession()
-				.getAttribute("idSessao");
-		gerenciadorDeSessao = new SessaoBusiness();
-		gerenciadorDeUsuario = new UsuarioBusiness();
-		gerenciadorDeCaronas = new CaronaBusiness();
-		try {
-			CaronaDomain carona = gerenciadorDeCaronas.getCarona(caronaModel.getIdCarona());
-			gerenciadorDeCaronas.cadastrarCarona(idSessao, carona.getOrigem(),
-					carona.getDestino(), carona.getData(), carona.getHora(),
-					String.valueOf(carona.getVagas()));
-			return new ModelAndView("redirect:/home/home.html");
-
-		} catch (Exception e) {
-			modelAndView.addObject("mensagemErro", e.getMessage());
-			modelAndView.addObject("status", "erro");
-
-		}
-
-		LOG.debug("Finalizada a execucao do metodo: loginPost");
-		return new ModelAndView("redirect:/home/home.html");
 	}
 
 	@RequestMapping(value = "/home/apresentacao.html", method = RequestMethod.GET)

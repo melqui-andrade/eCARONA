@@ -89,93 +89,89 @@
 						<c:set var="flag" value="2" />
 						<div class="timeline" style="margin-top: 14%;">
 							<dl>
-								<form:form modelAttribute="modelIdCarona" method="post">
-									<c:forEach items="${todasCaronas}" var="carona">
-										<!-- 									<dt>Apr 2014</dt> -->
-										<c:choose>
-											<c:when test="${flag >1}">
-												<dd class="pos-right clearfix">
-													<div class="circ"></div>
-													<!-- 										<div class="time">Apr 14</div> -->
-													<div class="events">
-														<div class="pull-left">
-															<img class="events-object img-rounded"
-																src="../img_theme/photo-1.jpg">
-														</div>
-														<div class="events-body">
-															<!-- 												<h4 class="events-heading">CARONA 001</h4> -->
-															<p>
-																Origem: ${carona.origem} <br> Destino:
-																${carona.destino} <br> Data: ${carona.data} <br>
-																Horário: ${carona.hora}h <br> Quantidade de vagas:
-																${carona.vagas} <br>
-															</p>
-															<c:choose>
-																<c:when test="${carona.vagas >0}">
-																	<form:input path="idCarona" type="text" class="hidden" />
-																	<c:set var="idCarona" value="${carona.idCarona}" />
-
-																	<button type="submit" class="btn btn-success btn-block">
-																		<span class="fa fa-check" aria-hidden="true"></span>&nbsp;
-																		Quero esta carona!
-																	</button>
-
-																</c:when>
-																<c:otherwise>
-																	<a class="btn btn-warning btn-block" href="#"> <span
-																		class="fa fa-remove" aria-hidden="true"></span>&nbsp;
-																		Caronas indisponíveis
-																	</a>
-																</c:otherwise>
-															</c:choose>
-															<p></p>
-														</div>
+								<c:forEach items="${todasCaronas}" var="carona">
+									<!-- 									<dt>Apr 2014</dt> -->
+									<c:choose>
+										<c:when test="${flag >1}">
+											<dd class="pos-right clearfix">
+												<div class="circ"></div>
+												<!-- 										<div class="time">Apr 14</div> -->
+												<div class="events">
+													<div class="pull-left">
+														<img class="events-object img-rounded"
+															src="../img_theme/photo-1.jpg">
 													</div>
-												</dd>
-												<c:set var="flag" value="1" />
-											</c:when>
-											<c:otherwise>
-												<dd class="pos-left clearfix">
-													<div class="circ"></div>
-													<!-- 										<div class="time">Apr 10</div> -->
-													<div class="events">
-														<div class="pull-left">
-															<img class="events-object img-rounded"
-																src="../img_theme/photo-2.jpg">
-														</div>
-														<div class="events-body">
-															<!-- 												<h4 class="events-heading">CARONA 002</h4> -->
-															<p>
-																Origem: ${carona.origem} <br> Destino:
-																${carona.destino} <br> Data: ${carona.data} <br>
-																Horário: ${carona.hora}h <br> Quantidade de vagas:
-																${carona.vagas}
-															</p>
-															<c:choose>
-																<c:when test="${carona.vagas >0}">
-																	<form:input path="idCarona" type="text" class="hidden" />
-																	<c:set var="idCarona" value="${carona.idCarona}" />
-																	<button type="submit" class="btn btn-success btn-block">
-																		<span class="fa fa-check" aria-hidden="true"></span>&nbsp;
-																		Quero esta carona!
-																	</button>
-																</c:when>
-																<c:otherwise>
-																	<a class="btn btn-warning btn-block" href="#"> <span
-																		class="fa fa-remove" aria-hidden="true"></span>&nbsp;
-																		Caronas indisponíveis
-																	</a>
-																</c:otherwise>
-															</c:choose>
-															<p></p>
-														</div>
+													<div class="events-body">
+														<!-- 												<h4 class="events-heading">CARONA 001</h4> -->
+														<p>
+															Origem: ${carona.origem} <br> Destino:
+															${carona.destino} <br> Data: ${carona.data} <br>
+															Horário: ${carona.hora}h <br> Quantidade de vagas:
+															${carona.vagas} <br>
+														</p>
+														<c:choose>
+															<c:when test="${carona.vagas >0}">
+
+																<a class="btn btn-success btn-block"
+																	href='<spring:url value="home.html?idCarona=${carona.idCarona}"></spring:url>'>
+																	<span class="fa fa-check" aria-hidden="true"></span>&nbsp;
+																	Quero esta carona!
+																</a>
+
+															</c:when>
+															<c:otherwise>
+																<a class="btn btn-warning btn-block" href="#"> <span
+																	class="fa fa-remove" aria-hidden="true"></span>&nbsp;
+																	Caronas indisponíveis
+																</a>
+															</c:otherwise>
+														</c:choose>
+														<p></p>
 													</div>
-												</dd>
-												<c:set var="flag" value="2" />
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</form:form>
+												</div>
+											</dd>
+											<c:set var="flag" value="1" />
+										</c:when>
+										<c:otherwise>
+											<dd class="pos-left clearfix">
+												<div class="circ"></div>
+												<!-- 										<div class="time">Apr 10</div> -->
+												<div class="events">
+													<div class="pull-left">
+														<img class="events-object img-rounded"
+															src="../img_theme/photo-2.jpg">
+													</div>
+													<div class="events-body">
+														<!-- 												<h4 class="events-heading">CARONA 002</h4> -->
+														<p>
+															Origem: ${carona.origem} <br> Destino:
+															${carona.destino} <br> Data: ${carona.data} <br>
+															Horário: ${carona.hora}h <br> Quantidade de vagas:
+															${carona.vagas}
+														</p>
+														<c:choose>
+															<c:when test="${carona.vagas >0}">
+																<a class="btn btn-success btn-block"
+																	href='<spring:url value="home.html?idCarona=${carona.idCarona}"></spring:url>'>
+																	<span class="fa fa-check" aria-hidden="true"></span>&nbsp;
+																	Quero esta carona!
+																</a>
+															</c:when>
+															<c:otherwise>
+																<a class="btn btn-warning btn-block" href="#"> <span
+																	class="fa fa-remove" aria-hidden="true"></span>&nbsp;
+																	Caronas indisponíveis
+																</a>
+															</c:otherwise>
+														</c:choose>
+														<p></p>
+													</div>
+												</div>
+											</dd>
+											<c:set var="flag" value="2" />
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
 							</dl>
 						</div>
 					</div>
