@@ -4,12 +4,15 @@
 <html>
 <body style="background-color: #f1f2f6;">
 
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+		style="position: relative;">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<p></p>
-				<a class="navbar-brand" href="#">ECARONA</a>
+				<a href="home.html"><br> <img
+					src="../images/logo_header.png" class="img-responsive" alt=""
+					height="50%" width="50%" /> </a>
+
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
@@ -18,23 +21,32 @@
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
 
-						<li><a href="home.html"> <i class="btn btn-primary"
-								data-toggle="tooltip" data-placement="bottom" title="Início"><i
-									class="fa fa-home" ></i>&nbsp;</i>
+						<li style="color: #ffffff;"><br> Bem vindo(a)
+							${modelUsuario.nome}!</li>
+						<li><a href="home.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Início"><i class="fa fa-home"></i>&nbsp;</i>
 						</a></li>
-						<li><a href="home.html"> <i class="btn btn-primary"
-								data-toggle="tooltip" data-placement="bottom" title="Perfil">
-									<i class="glyphicon glyphicon-user" ></i>&nbsp;
+						<li><a href="perfil.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Perfil"> <i
+									class="glyphicon glyphicon-user"></i>&nbsp;
 							</i>
 						</a></li>
-						<li><a href="cadastrarCarona.html"> <i class="btn btn-primary"
-								data-toggle="tooltip" data-placement="bottom"
-								title="Cadastrar Carona"><i class="fa fa-car"></i>&nbsp;</i>
+						<li><a href="visualizarCaronas.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Minhas Caronas"><i
+									class="fa fa-child"></i>&nbsp;</i>
+						</a></li>
+						<li><a href="cadastrarCarona.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Cadastrar Carona"><i
+									class="fa fa-car"></i>&nbsp;</i>
 						</a></li>
 						<li><a href="apresentacao.html"> <i
-								class="btn btn-primary" data-toggle="tooltip"
+								class="btn btn-primary btn-block" data-toggle="tooltip"
 								data-placement="bottom" title="Sair"> <i
-									class="fa fa-sign-out" ></i>&nbsp;
+									class="fa fa-sign-out"></i>&nbsp;
 							</i>
 						</a></li>
 
@@ -47,97 +59,123 @@
 	</nav>
 
 
-	<section id="about" style="margin-top: 8%;">
-		<div class="container" style="margin-top: 2%;">
-
-			<div class="col-md-4">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h2 class="panel-title">Bem vindo ${modelUsuario.nome}!</h2>
-						<h3 class="panel-title">${allCaronas}!</h3>
-					</div>
-				</div>
-
-
-			</div>
-			<br>
-		</div>
-
+	<section>
 		<div class="container">
-
 			<!--TimeLine
       ================================================== -->
 			<div class="example">
-				<h1>Caronas</h1>
-
 				<div class="row">
 					<div class="col-md-12">
 						<div class="col-md-12">
-							<label>Pesquisar caronas</label>
+							<h2>Caronas</h2>
+							<c:if test="${status=='erro'}">
+								<div class="alert alert-danger" role="alert">
+									${mensagemErro}</div>
+
+							</c:if>
+							<!-- 							<label>Pesquisar caronas</label> -->
 						</div>
 						<p></p>
-						<div class="col-md-10">
-							<input type="text" class="form-control"
-								placeholder="digite aqui a sua busca">
-						</div>
-						<div class="col-md-2">
-							<a class="btn btn-success" href="cadastrar.html"> <span
-								class="fa fa-search" aria-hidden="true"></span>&nbsp; 
-							</a>
-						</div>
-						<p></p>
+						<!-- 						<div class="col-md-10"> -->
+						<!-- 							<input type="text" class="form-control" -->
+						<!-- 								placeholder="digite aqui a sua busca"> -->
+						<!-- 						</div> -->
+						<!-- 						<div class="col-md-2"> -->
+						<!-- 							<a class="btn btn-success" href="cadastrar.html"> <span -->
+						<!-- 								class="fa fa-search" aria-hidden="true"></span>&nbsp; -->
+						<!-- 							</a> -->
+						<!-- 						</div> -->
+						<!-- 						<p></p> -->
 						<c:set var="flag" value="2" />
-						<div class="timeline" style="margin-top: 6%;">
+						<div class="timeline" style="margin-top: 14%;">
 							<dl>
-								<c:forEach items="${todasCaronas}" var="carona">
-									<!-- 									<dt>Apr 2014</dt> -->
-									<c:choose>
-										<c:when test="${flag >1}">
-											<dd class="pos-right clearfix">
-												<div class="circ"></div>
-												<!-- 										<div class="time">Apr 14</div> -->
-												<div class="events">
-													<div class="pull-left">
-														<img class="events-object img-rounded"
-															src="../img_theme/photo-1.jpg">
+								<form:form modelAttribute="modelIdCarona" method="post">
+									<c:forEach items="${todasCaronas}" var="carona">
+										<!-- 									<dt>Apr 2014</dt> -->
+										<c:choose>
+											<c:when test="${flag >1}">
+												<dd class="pos-right clearfix">
+													<div class="circ"></div>
+													<!-- 										<div class="time">Apr 14</div> -->
+													<div class="events">
+														<div class="pull-left">
+															<img class="events-object img-rounded"
+																src="../img_theme/photo-1.jpg">
+														</div>
+														<div class="events-body">
+															<!-- 												<h4 class="events-heading">CARONA 001</h4> -->
+															<p>
+																Origem: ${carona.origem} <br> Destino:
+																${carona.destino} <br> Data: ${carona.data} <br>
+																Horário: ${carona.hora}h <br> Quantidade de vagas:
+																${carona.vagas} <br>
+															</p>
+															<c:choose>
+																<c:when test="${carona.vagas >0}">
+																	<form:input path="idCarona" type="text" class="hidden" />
+																	<c:set var="idCarona" value="${carona.idCarona}" />
+
+																	<button type="submit" class="btn btn-success btn-block">
+																		<span class="fa fa-check" aria-hidden="true"></span>&nbsp;
+																		Quero esta carona!
+																	</button>
+
+																</c:when>
+																<c:otherwise>
+																	<a class="btn btn-warning btn-block" href="#"> <span
+																		class="fa fa-remove" aria-hidden="true"></span>&nbsp;
+																		Caronas indisponíveis
+																	</a>
+																</c:otherwise>
+															</c:choose>
+															<p></p>
+														</div>
 													</div>
-													<div class="events-body">
-														<!-- 												<h4 class="events-heading">CARONA 001</h4> -->
-														<p>${carona}</p>
-														<a class="btn btn-success" href="cadastrar.html"> <span
-															class="fa fa-check" aria-hidden="true"></span>&nbsp;
-															Quero esta carona!
-														</a>
-														<p></p>
+												</dd>
+												<c:set var="flag" value="1" />
+											</c:when>
+											<c:otherwise>
+												<dd class="pos-left clearfix">
+													<div class="circ"></div>
+													<!-- 										<div class="time">Apr 10</div> -->
+													<div class="events">
+														<div class="pull-left">
+															<img class="events-object img-rounded"
+																src="../img_theme/photo-2.jpg">
+														</div>
+														<div class="events-body">
+															<!-- 												<h4 class="events-heading">CARONA 002</h4> -->
+															<p>
+																Origem: ${carona.origem} <br> Destino:
+																${carona.destino} <br> Data: ${carona.data} <br>
+																Horário: ${carona.hora}h <br> Quantidade de vagas:
+																${carona.vagas}
+															</p>
+															<c:choose>
+																<c:when test="${carona.vagas >0}">
+																	<form:input path="idCarona" type="text" class="hidden" />
+																	<c:set var="idCarona" value="${carona.idCarona}" />
+																	<button type="submit" class="btn btn-success btn-block">
+																		<span class="fa fa-check" aria-hidden="true"></span>&nbsp;
+																		Quero esta carona!
+																	</button>
+																</c:when>
+																<c:otherwise>
+																	<a class="btn btn-warning btn-block" href="#"> <span
+																		class="fa fa-remove" aria-hidden="true"></span>&nbsp;
+																		Caronas indisponíveis
+																	</a>
+																</c:otherwise>
+															</c:choose>
+															<p></p>
+														</div>
 													</div>
-												</div>
-											</dd>
-											<c:set var="flag" value="1" />
-										</c:when>
-										<c:otherwise>
-											<dd class="pos-left clearfix">
-												<div class="circ"></div>
-												<!-- 										<div class="time">Apr 10</div> -->
-												<div class="events">
-													<div class="pull-left">
-														<img class="events-object img-rounded"
-															src="../img_theme/photo-2.jpg">
-													</div>
-													<div class="events-body">
-														<!-- 												<h4 class="events-heading">CARONA 002</h4> -->
-														<p>${carona}</p>
-														<a class="btn btn-success" href="cadastrar.html"> <span
-															class="fa fa-check" aria-hidden="true"></span>&nbsp;
-															Quero esta carona!
-														</a>
-														<p></p>
-													</div>
-												</div>
-											</dd>
-											<c:set var="flag" value="2" />
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
+												</dd>
+												<c:set var="flag" value="2" />
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</form:form>
 							</dl>
 						</div>
 					</div>

@@ -5,48 +5,21 @@
 <body style="background-color: #f1f2f6;">
 
 
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+		style="position: relative;">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<p></p>
-				<a class="navbar-brand" href="#">ECARONA</a>
+				<a href="apresentacao.html"><br> <img
+					src="../images/logo_header.png" class="img-responsive" alt=""
+					height="50%" width="50%" /> </a>
+					<p></p>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 
-				<form:form modelAttribute="model" method="post"
-					class="navbar-form navbar-right">
-					<p></p>
-					<div class="col-md-4">
-						<div class='input-group'>
-							<span class="input-group-addon"
-								style="background-color: #A0D468;"><span
-								class="glyphicon glyphicon-user"></span></span>
-							<form:input path="login" type="text" class="form-control"
-								placeholder="Login" />
-						</div>
-					</div>
-
-					<div class="col-md-4">
-						<div class='input-group'>
-							<span class="input-group-addon"
-								style="background-color: #A0D468;"><span
-								class="glyphicon glyphicon-lock"></span></span>
-							<form:input path="senha" type="password" class="form-control"
-								placeholder="Senha" />
-						</div>
-					</div>
-					<div class="col-md-4">
-						<button type="submit" class="btn btn-success btn-block">
-							<span class="fa fa-sign-in fa-lg" aria-hidden="true"></span>&nbsp;
-							Entrar
-						</button>
-					</div>
-
-					<p></p>
-				</form:form>
+				
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -54,8 +27,7 @@
 	</nav>
 
 
-
-	<section id="about" style="margin-top: 4%;">
+	<section>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center" style="padding-top: 6px;">
@@ -72,7 +44,8 @@
 					<div class="input-field">
 						<label> Login</label>
 						<div class='input-group'>
-							<span class="input-group-addon"><span class="fa fa-user"></span></span>
+							<span class="input-group-addon"><span
+								class="glyphicon glyphicon-user"></span></span>
 							<form:input path="login" type="text" class="form-control"
 								placeholder="Login" />
 						</div>
@@ -82,7 +55,8 @@
 					<div class="input-field">
 						<label> Senha </label>
 						<div class='input-group'>
-							<span class="input-group-addon"><span class="fa fa-lock"></span></span>
+							<span class="input-group-addon"><span
+								class="glyphicon glyphicon-lock"></span></span>
 							<form:input path="senha" type="password" class="form-control"
 								placeholder="Senha" />
 						</div>
@@ -129,12 +103,25 @@
 				</div>
 			</form:form>
 			<div class="col-md-6"
-				style="color: #2a80b9; padding-top: 8%; padding-left: 15%; font-size: 32px;">
-				&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <center><i
-					class="fa fa-user-plus fa-5x"></i></center>
-				<div class="alert alert-info" role="alert">
-					<label>${mensagem}</label>
-				</div>
+				style="color: #2a80b9; padding-top: 2%; padding-left: 15%; font-size: 32px;">
+				&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<center>
+					<i class="fa fa-user-plus fa-5x"></i>
+				</center>
+				<c:choose>
+					<c:when test="${status == 'positivo'}">
+						<div class="alert alert-success" role="alert">
+							${mensagem}
+						</div>
+					</c:when>
+					<c:otherwise>
+						<c:if test="${status == 'negativo'}">
+							<div class="alert alert-danger" role="alert">
+								${mensagem}
+							</div>
+						</c:if>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</section>

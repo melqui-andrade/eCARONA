@@ -83,7 +83,7 @@ public class CaronaBusiness {
 			carona.setOrigem(origem);
 
 			carona.setDestino(destino);
-			
+
 			carona.setCidade(null);
 
 			carona.setData(data);
@@ -99,9 +99,9 @@ public class CaronaBusiness {
 			carona.foiConcluida(false);
 
 			carona.foiTranquila(false);
-			
+
 			carona.setNaoFuncionou(0);
-			
+
 			carona.ehMunicipal(false);
 
 			String identificadorCarona = "carona"
@@ -113,9 +113,9 @@ public class CaronaBusiness {
 					sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
-			
+
 			notificarCarona(data, carona);
-			
+
 			return carona.getId();
 		} else {
 			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
@@ -124,75 +124,90 @@ public class CaronaBusiness {
 	}
 
 	private void notificarCarona(String data, CaronaDomain carona) {
-		for(InteresseDomain interesse : persistenciaBD.getInteresseBD().list()){
-			if(interesse.getOrigem().equals(carona.getOrigem()) && 
-					interesse.getDestino().equals(carona.getDestino())){
-				if(interesse.getData().isEmpty()){
-					if(interesse.getHorarioInicio().isEmpty() &&
-							interesse.getHorarioFim().isEmpty()){
+		for (InteresseDomain interesse : persistenciaBD.getInteresseBD().list()) {
+			if (interesse.getOrigem().equals(carona.getOrigem())
+					&& interesse.getDestino().equals(carona.getDestino())) {
+				if (interesse.getData().isEmpty()) {
+					if (interesse.getHorarioInicio().isEmpty()
+							&& interesse.getHorarioFim().isEmpty()) {
 						interesse.adcionaNotificacao(carona.getId());
-					}
-					else if(interesse.getHorarioFim().isEmpty()){
-						String[] horaInicio = interesse.getHorarioInicio().split(":");
+					} else if (interesse.getHorarioFim().isEmpty()) {
+						String[] horaInicio = interesse.getHorarioInicio()
+								.split(":");
 						String[] horaCarona = carona.getHora().split(":");
-						if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
-								Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1])){
+						if (Integer.parseInt(horaInicio[0]) <= Integer
+								.parseInt(horaCarona[0])
+								&& Integer.parseInt(horaInicio[1]) <= Integer
+										.parseInt(horaCarona[1])) {
 							interesse.adcionaNotificacao(carona.getId());
 						}
-					}
-					else if(interesse.getHorarioInicio().isEmpty()){
+					} else if (interesse.getHorarioInicio().isEmpty()) {
 						String[] horaFim = interesse.getHorarioFim().split(":");
 						String[] horaCarona = carona.getHora().split(":");
-						if(Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
-								Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
+						if (Integer.parseInt(horaFim[0]) >= Integer
+								.parseInt(horaCarona[0])
+								&& Integer.parseInt(horaFim[1]) <= Integer
+										.parseInt(horaCarona[1])) {
 							interesse.adcionaNotificacao(carona.getId());
 						}
-					}
-					else{
-						String[] horaInicio = interesse.getHorarioInicio().split(":");
+					} else {
+						String[] horaInicio = interesse.getHorarioInicio()
+								.split(":");
 						String[] horaCarona = carona.getHora().split(":");
 						String[] horaFim = interesse.getHorarioFim().split(":");
-						if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
-						   Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1]) &&
-						   Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
-						   Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
-							
-							interesse.adcionaNotificacao(carona.getId());			
-						}
-					}
-				}
-				else{
-					if(interesse.getData().equals(data)){
-						if(interesse.getHorarioInicio().isEmpty() &&
-								interesse.getHorarioFim().isEmpty()){
+						if (Integer.parseInt(horaInicio[0]) <= Integer
+								.parseInt(horaCarona[0])
+								&& Integer.parseInt(horaInicio[1]) <= Integer
+										.parseInt(horaCarona[1])
+								&& Integer.parseInt(horaFim[0]) >= Integer
+										.parseInt(horaCarona[0])
+								&& Integer.parseInt(horaFim[1]) <= Integer
+										.parseInt(horaCarona[1])) {
+
 							interesse.adcionaNotificacao(carona.getId());
 						}
-						else if(interesse.getHorarioFim().isEmpty()){
-							String[] horaInicio = interesse.getHorarioInicio().split(":");
+					}
+				} else {
+					if (interesse.getData().equals(data)) {
+						if (interesse.getHorarioInicio().isEmpty()
+								&& interesse.getHorarioFim().isEmpty()) {
+							interesse.adcionaNotificacao(carona.getId());
+						} else if (interesse.getHorarioFim().isEmpty()) {
+							String[] horaInicio = interesse.getHorarioInicio()
+									.split(":");
 							String[] horaCarona = carona.getHora().split(":");
-							if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
-									Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1])){
+							if (Integer.parseInt(horaInicio[0]) <= Integer
+									.parseInt(horaCarona[0])
+									&& Integer.parseInt(horaInicio[1]) <= Integer
+											.parseInt(horaCarona[1])) {
 								interesse.adcionaNotificacao(carona.getId());
 							}
-						}
-						else if(interesse.getHorarioInicio().isEmpty()){
-							String[] horaFim = interesse.getHorarioFim().split(":");
+						} else if (interesse.getHorarioInicio().isEmpty()) {
+							String[] horaFim = interesse.getHorarioFim().split(
+									":");
 							String[] horaCarona = carona.getHora().split(":");
-							if(Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
-									Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
+							if (Integer.parseInt(horaFim[0]) >= Integer
+									.parseInt(horaCarona[0])
+									&& Integer.parseInt(horaFim[1]) <= Integer
+											.parseInt(horaCarona[1])) {
 								interesse.adcionaNotificacao(carona.getId());
 							}
-						}
-						else{
-							String[] horaInicio = interesse.getHorarioInicio().split(":");
+						} else {
+							String[] horaInicio = interesse.getHorarioInicio()
+									.split(":");
 							String[] horaCarona = carona.getHora().split(":");
-							String[] horaFim = interesse.getHorarioFim().split(":");
-							if(Integer.parseInt(horaInicio[0]) <= Integer.parseInt(horaCarona[0]) &&
-							   Integer.parseInt(horaInicio[1]) <= Integer.parseInt(horaCarona[1]) &&
-							   Integer.parseInt(horaFim[0]) >= Integer.parseInt(horaCarona[0]) &&
-							   Integer.parseInt(horaFim[1]) <= Integer.parseInt(horaCarona[1])){
-								
-								interesse.adcionaNotificacao(carona.getId());			
+							String[] horaFim = interesse.getHorarioFim().split(
+									":");
+							if (Integer.parseInt(horaInicio[0]) <= Integer
+									.parseInt(horaCarona[0])
+									&& Integer.parseInt(horaInicio[1]) <= Integer
+											.parseInt(horaCarona[1])
+									&& Integer.parseInt(horaFim[0]) >= Integer
+											.parseInt(horaCarona[0])
+									&& Integer.parseInt(horaFim[1]) <= Integer
+											.parseInt(horaCarona[1])) {
+
+								interesse.adcionaNotificacao(carona.getId());
 							}
 						}
 					}
@@ -201,10 +216,10 @@ public class CaronaBusiness {
 			}
 		}
 	}
-	
+
 	public String cadastrarCaronaMunicipal(String idSessao, String origem,
-			String destino, String cidade, String data, String hora, String vagas)
-			throws ECaronaException {
+			String destino, String cidade, String data, String hora,
+			String vagas) throws ECaronaException {
 		if (vagas == null || vagas.equals(""))
 			throw new ECaronaException(MensagensDeErro.VAGA_INVALIDA);
 		if (VerificadorString.ContemLetra(vagas))
@@ -222,7 +237,7 @@ public class CaronaBusiness {
 			carona.setOrigem(origem);
 
 			carona.setDestino(destino);
-			
+
 			carona.setCidade(cidade);
 
 			carona.setData(data);
@@ -238,9 +253,9 @@ public class CaronaBusiness {
 			carona.foiConcluida(false);
 
 			carona.foiTranquila(false);
-			
+
 			carona.setNaoFuncionou(0);
-			
+
 			carona.ehMunicipal(true);
 
 			String identificadorCarona = "carona"
@@ -252,10 +267,10 @@ public class CaronaBusiness {
 					sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
-			
-			//Notificar carona municipal [ainda não testado]
-			//notificarCarona(data, carona);
-			
+
+			// Notificar carona municipal [ainda não testado]
+			// notificarCarona(data, carona);
+
 			return carona.getId();
 		} else {
 			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
@@ -279,8 +294,8 @@ public class CaronaBusiness {
 		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
 		ArrayList<CaronaDomain> caronas = persistenciaBD.getUsuarioBD()
 				.getUsuario(sessao.getIdUsuario()).getCaronas();
-		//caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
-		
+		// caronas.sort((p1, p2) -> p1.getId().compareTo(p2.getId()));
+
 		return caronas.get(valorIndex - 1).getId();
 	}
 
@@ -357,9 +372,9 @@ public class CaronaBusiness {
 
 		return idCarona + "}";
 	}
-	
-	public String localizarCaronaMunicipal(String idSessao, String origem, String destino, String cidade)
-			throws ECaronaException {
+
+	public String localizarCaronaMunicipal(String idSessao, String origem,
+			String destino, String cidade) throws ECaronaException {
 
 		if (origem.equals("-") || origem.equals("()") || origem.equals("!")
 				|| origem.equals("!?"))
@@ -367,14 +382,14 @@ public class CaronaBusiness {
 		if (destino.equals(".") || destino.equals("()") || destino.equals("!")
 				|| destino.equals("!?"))
 			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
-		if(cidade == null || cidade.isEmpty())
+		if (cidade == null || cidade.isEmpty())
 			throw new ECaronaException(MensagensDeErro.CIDADE_INEXISTENTE);
 
 		ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
 		ArrayList<String> allID = new ArrayList<String>();
 		String idCarona = "{";
-		
-		for(CaronaDomain carona : persistenciaBD.getCaronaBD().list()){
+
+		for (CaronaDomain carona : persistenciaBD.getCaronaBD().list()) {
 			if (carona.getCidade() != null) {
 				if (carona.getCidade().equals(cidade)) {
 					caronas.add(carona);
@@ -383,8 +398,8 @@ public class CaronaBusiness {
 		}
 		if (caronas.size() > 0) {
 			if (origem.equals("") && destino.equals("")) {
-				for (CaronaDomain carona : caronas) {					
-					allID.add(carona.getId());				
+				for (CaronaDomain carona : caronas) {
+					allID.add(carona.getId());
 				}
 
 				allID.sort(null);
@@ -419,10 +434,9 @@ public class CaronaBusiness {
 					}
 				}
 				if (idCarona.length() > 2)
-					idCarona = idCarona.substring(0, idCarona.length() - 1);				
+					idCarona = idCarona.substring(0, idCarona.length() - 1);
 			}
-		}
-		else{
+		} else {
 			throw new ECaronaException(MensagensDeErro.CIDADE_INEXISTENTE);
 		}
 
@@ -471,13 +485,13 @@ public class CaronaBusiness {
 
 			case "vagas":
 				return Integer.toString(carona.getVagas());
-				
+
 			case "foi concluida":
 				return Boolean.toString(carona.foiConcluida());
-				
+
 			case "nao funcionou":
 				return Integer.toString(carona.getNaoFuncionou());
-			
+
 			case "ehMunicipal":
 				return Boolean.toString(carona.ehMunicipal());
 
@@ -535,26 +549,47 @@ public class CaronaBusiness {
 		return carona.toString();
 
 	}
-	/**
-	 * Listar todas as caronas registradas no sistema
-	 * @return Lista de CaronaDomain
-	 */
-	public List<CaronaDomain> getTodasCaronas(){
-		List<CaronaDomain> caronas = persistenciaBD.getCaronaBD().list();
-		return caronas;
+	
+	public CaronaDomain getCarona(String idCarona) throws ECaronaException {
+		if (idCarona == null)
+			throw new ECaronaException(MensagensDeErro.CARONA_INVALIDA);
+		if (idCarona.equals(""))
+			throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		if (carona == null)
+			throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
+		return carona;
+
 	}
 	
+
+	/**
+	 * Listar todas as caronas registradas no sistema
+	 * 
+	 * @return Lista de CaronaDomain
+	 */
+	public ArrayList<CaronaDomain> getTodasCaronas() {
+		ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>(
+				persistenciaBD.getCaronaBD().list());
+		return caronas;
+	}
+
 	/**
 	 * Buscar Caronas no banco de dados, que contenham a palavra chave
-	 * @param palavraChave critério da busca
-	 * @param filtro onde buscar: origem, destino, intermunicipal, municipal. Caso
-	 * seja vazio, a função procura a palavra chave em todos os campos de cada carona
+	 * 
+	 * @param palavraChave
+	 *            critério da busca
+	 * @param filtro
+	 *            onde buscar: origem, destino, intermunicipal, municipal. Caso
+	 *            seja vazio, a função procura a palavra chave em todos os
+	 *            campos de cada carona
 	 * @return Uma lista de carona que satisfaz a pesquisa
 	 */
-	public List<CaronaDomain> getCaronasPorFiltro(String palavraChave, String filtro){
+	public List<CaronaDomain> getCaronasPorFiltro(String palavraChave,
+			String filtro) {
 		List<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
-		
-		switch(filtro){
+
+		switch (filtro) {
 		case "origem":
 			break;
 		case "destino":
@@ -564,19 +599,30 @@ public class CaronaBusiness {
 		case "municipal":
 			break;
 		default:
-			for(CaronaDomain carona : persistenciaBD.getCaronaBD().list()){
-				if(carona.getOrigem().equals(palavraChave)){
+			for (CaronaDomain carona : persistenciaBD.getCaronaBD().list()) {
+				if (carona.getOrigem().equals(palavraChave)) {
+					caronas.add(carona);
+				} else if (carona.getDestino().equals(palavraChave)) {
+					caronas.add(carona);
+				} else if (carona.getData().equals(palavraChave)) {
 					caronas.add(carona);
 				}
-				else if(carona.getDestino().equals(palavraChave)){
-					caronas.add(carona);
-				}
-				else if(carona.getData().equals(palavraChave)){
-					caronas.add(carona);
-				}				
 			}
-		}		
+		}
 		return caronas;
+	}
+
+	public ArrayList<CaronaDomain> getCaronasSessao(String idSessao) {
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
+
+		ArrayList<CaronaDomain> allCaronas = new ArrayList<CaronaDomain>();
+		for (CaronaDomain carona : persistenciaBD.getUsuarioBD()
+				.getUsuario(sessao.getIdUsuario()).getCaronas()) {
+			allCaronas.add(carona);
+		}
+
+		return allCaronas;
+
 	}
 
 }

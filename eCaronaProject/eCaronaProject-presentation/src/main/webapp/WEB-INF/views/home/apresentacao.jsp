@@ -4,59 +4,9 @@
 <html>
 <body style="background-color: #f1f2f6;">
 
-
-
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<p></p>
-				<a class="navbar-brand" href="#">ECARONA</a>
-			</div>
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-
-				<form:form modelAttribute="model" method="post"
-					class="navbar-form navbar-right">
-					<p></p>
-					<div class="col-md-4">
-						<div class='input-group'>
-							<span class="input-group-addon"
-								style="background-color: #4FC1E9;"><span
-								class="glyphicon glyphicon-user"></span></span>
-							<form:input path="login" type="text" class="form-control"
-								placeholder="Login" />
-						</div>
-					</div>
-
-					<div class="col-md-4">
-						<div class='input-group'>
-							<span class="input-group-addon"
-								style="background-color: #4FC1E9;"><span
-								class="glyphicon glyphicon-lock"></span></span>
-							<form:input path="senha" type="password" class="form-control"
-								placeholder="Senha" />
-						</div>
-					</div>
-					<div class="col-md-4">
-						<button type="submit" class="btn btn-primary btn-block">
-							<span class="fa fa-sign-in fa-lg" aria-hidden="true"></span>&nbsp;
-							Entrar
-						</button>
-					</div>
-
-					<p></p>
-				</form:form>
-			</div>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container-fluid -->
-	</nav>
-
-
-
-	<section id="about" style="margin-top: 4%;">
+	<jsp:include page="/WEB-INF/views/tiles/headerLogin.jsp" />
+	
+	<section>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
