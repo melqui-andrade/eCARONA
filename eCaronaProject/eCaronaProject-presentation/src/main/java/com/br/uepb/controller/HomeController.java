@@ -60,22 +60,27 @@ public class HomeController {
 		String login = (String) request.getSession().getAttribute("login");
 		String idSessao = (String) request.getSession()
 				.getAttribute("idSessao");
-		
+
 		gerenciadorDeCaronas = new CaronaBusiness();
 		modelAndView.addObject("modelIdCarona", new CaronaModel());
-		LOG.debug("\n-------------------------------"+idCarona+"--------------------------------------\n");
+		LOG.debug("\n-------------------------------" + idCarona
+				+ "--------------------------------------\n");
 		if (idCarona != null) {
 			gerenciadorDeSolicitacoes = new SolicitacaoBusiness();
 			try {
 				CaronaDomain carona = gerenciadorDeCaronas.getCarona(idCarona);
-				gerenciadorDeSolicitacoes.aceitarSolicitacao(idSessao, gerenciadorDeSolicitacoes.solicitarVaga(idSessao, idCarona));
-				//gerenciadorDeCaronas.cadastrarCarona(idSessao, carona.getOrigem(), carona.getDestino(),carona.getData(), carona.getHora(), String.valueOf(carona.getVagas()));
+				gerenciadorDeSolicitacoes.aceitarSolicitacao(idSessao,
+						gerenciadorDeSolicitacoes.solicitarVaga(idSessao,
+								idCarona));
+				// gerenciadorDeCaronas.cadastrarCarona(idSessao,
+				// carona.getOrigem(), carona.getDestino(),carona.getData(),
+				// carona.getHora(), String.valueOf(carona.getVagas()));
 
 			} catch (Exception e) {
 				modelAndView.addObject("mensagemErro", e.getMessage());
 				modelAndView.addObject("status", "erro");
 
-			}			
+			}
 		}
 
 		try {
@@ -250,7 +255,8 @@ public class HomeController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/home/cadastrarCarona");
-		modelAndView.addObject("model", new CadastrarCaronaModel());
+		modelAndView.addObject("modelCadastrarCarona",
+				new CadastrarCaronaModel());
 		modelAndView.addObject("mensagem", "");
 
 		LOG.debug("Finalizada a execucao do metodo: cadastrarGet");
@@ -260,7 +266,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/home/cadastrarCarona.html", method = RequestMethod.POST)
 	public ModelAndView cadastrarCaronaPost(
-			@ModelAttribute("model") @Valid CadastrarCaronaModel model,
+			@ModelAttribute("modelCadastrarCarona") @Valid CadastrarCaronaModel model,
 			BindingResult bindingResult, HttpServletRequest request) {
 
 		LOG.debug("Iniciada a execucao do metodo: cadastrarGet");
@@ -269,21 +275,32 @@ public class HomeController {
 		modelAndView.setViewName("/home/cadastrarCarona");
 
 		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("model", model);
+			modelAndView.addObject("modelCadastrarCarona", model);
 			return modelAndView;
 		}
 		String idSessao = (String) request.getSession()
 				.getAttribute("idSessao");
 		gerenciadorDeCaronas = new CaronaBusiness();
 		try {
-			gerenciadorDeCaronas.cadastrarCarona(idSessao, model.getOrigem(),
-					model.getDestino(), model.getData(), model.getHora(),
-					model.getVagas());
+			if (model.getCarona() == "intermunicipal") {
+				gerenciadorDeCaronas.cadastrarCarona(idSessao,
+						model.getOrigem(), model.getDestino(), model.getData(),
+						model.getHora(), model.getVagas());
+			}
+			if (model.getCarona() == "municipal") {
+				gerenciadorDeCaronas.cadastrarCaronaMunicipal(idSessao,
+						model.getOrigem(), model.getDestino(),
+						model.getCidade(), model.getData(), model.getHora(),
+						model.getVagas());
+			}
+			if (model.getCarona() == "relampago") {
+			
+			}
 			modelAndView
-					.addObject("mensagem", "Carona cadastrada com sucesso!");
+					.addObject("mensagem", "Carona " +model.getCarona()+" cadastrada com sucesso!");
 			modelAndView.addObject("status", "positivo");
 		} catch (Exception e) {
-			modelAndView.addObject("model", model);
+			modelAndView.addObject("modelCadastrarCarona", model);
 			modelAndView.addObject("mensagem", e.getMessage());
 			modelAndView.addObject("status", "negativo");
 			return modelAndView;

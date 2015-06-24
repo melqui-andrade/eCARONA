@@ -7,6 +7,8 @@ public class CadastrarCaronaModel {
 	private String data;
 	private String hora;
 	private String vagas;
+	private String cidade;
+	private String carona;
 	
 	public String getOrigem() {
 		return origem;
@@ -37,6 +39,18 @@ public class CadastrarCaronaModel {
 	}
 	public void setVagas(String vagas) {
 		this.vagas = vagas;
+	}
+	public String getCidade() {
+		return cidade;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	public String getCarona() {
+		return carona;
+	}
+	public void setCarona(String carona) {
+		this.carona = carona;
 	}
 	
 
