@@ -60,22 +60,27 @@ public class HomeController {
 		String login = (String) request.getSession().getAttribute("login");
 		String idSessao = (String) request.getSession()
 				.getAttribute("idSessao");
-		
+
 		gerenciadorDeCaronas = new CaronaBusiness();
 		modelAndView.addObject("modelIdCarona", new CaronaModel());
-		LOG.debug("\n-------------------------------"+idCarona+"--------------------------------------\n");
+		LOG.debug("\n-------------------------------" + idCarona
+				+ "--------------------------------------\n");
 		if (idCarona != null) {
 			gerenciadorDeSolicitacoes = new SolicitacaoBusiness();
 			try {
 				CaronaDomain carona = gerenciadorDeCaronas.getCarona(idCarona);
-				gerenciadorDeSolicitacoes.aceitarSolicitacao(idSessao, gerenciadorDeSolicitacoes.solicitarVaga(idSessao, idCarona));
-				//gerenciadorDeCaronas.cadastrarCarona(idSessao, carona.getOrigem(), carona.getDestino(),carona.getData(), carona.getHora(), String.valueOf(carona.getVagas()));
+				gerenciadorDeSolicitacoes.aceitarSolicitacao(idSessao,
+						gerenciadorDeSolicitacoes.solicitarVaga(idSessao,
+								idCarona));
+				// gerenciadorDeCaronas.cadastrarCarona(idSessao,
+				// carona.getOrigem(), carona.getDestino(),carona.getData(),
+				// carona.getHora(), String.valueOf(carona.getVagas()));
 
 			} catch (Exception e) {
 				modelAndView.addObject("mensagemErro", e.getMessage());
 				modelAndView.addObject("status", "erro");
 
-			}			
+			}
 		}
 
 		try {
@@ -103,193 +108,6 @@ public class HomeController {
 
 		LOG.debug("Finalizada a execucao do metodo: homeGet");
 
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/home/apresentacao.html", method = RequestMethod.GET)
-	public ModelAndView apresentacaoGet(HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: loginGet");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("model", new LoginModel());
-		request.getSession().removeAttribute("login");
-		request.getSession().removeAttribute("idSessao");
-
-		LOG.debug("Finalizada a execucao do metodo: loginGet");
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/home/apresentacao.html", method = RequestMethod.POST)
-	public ModelAndView apresentacaoPost(
-			@ModelAttribute("model") @Valid LoginModel model,
-			BindingResult bindingResult, HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: loginPost");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/apresentacao");
-
-		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("model", new LoginModel());
-			return modelAndView;
-		}
-
-		gerenciadorDeSessao = new SessaoBusiness();
-		gerenciadorDeUsuario = new UsuarioBusiness();
-		gerenciadorDeCaronas = new CaronaBusiness();
-		try {
-			gerenciadorDeSessao.abrirSessao(model.getLogin(), model.getSenha());
-			request.getSession().setAttribute("login", model.getLogin());
-			request.getSession().setAttribute(
-					"idSessao",
-					gerenciadorDeSessao.abrirSessao(model.getLogin(),
-							model.getSenha()));
-			// request.setAttribute("login", model.getLogin());
-
-		} catch (Exception e) {
-			modelAndView.addObject("model", new LoginModel());
-			return modelAndView;
-		}
-
-		LOG.debug("Finalizada a execucao do metodo: loginPost");
-		return new ModelAndView("redirect:/home/home.html");
-	}
-
-	@RequestMapping(value = "/home/cadastrar.html", method = RequestMethod.GET)
-	public ModelAndView cadastrarGet(HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: cadastrarGet");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/cadastrar");
-		modelAndView.addObject("model", new CadastrarModel());
-		modelAndView.addObject("modelLogin", new LoginModel());
-		modelAndView.addObject("mensagem", "");
-
-		LOG.debug("Finalizada a execucao do metodo: cadastrarGet");
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/home/cadastrar.html", method = RequestMethod.POST)
-	public ModelAndView cadastrarPost(
-			@ModelAttribute("model") @Valid CadastrarModel model,
-			BindingResult bindingResult, HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: cadastrarGet");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/cadastrar");
-
-		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("model", model);
-			return modelAndView;
-		}
-
-		gerenciadorDeUsuario = new UsuarioBusiness();
-		try {
-			gerenciadorDeUsuario.criarUsuario(model.getLogin(),
-					model.getSenha(), model.getNome(), model.getEndereco(),
-					model.getEmail());
-			modelAndView.addObject("mensagem",
-					"Cadastro realizado com sucesso!");
-			modelAndView.addObject("status", "positivo");
-		} catch (Exception e) {
-			modelAndView.addObject("model", model);
-			modelAndView.addObject("mensagem", e.getMessage());
-			modelAndView.addObject("status", "negativo");
-			return modelAndView;
-		}
-
-		LOG.debug("Finalizada a execucao do metodo: cadastrarGet");
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/home/headerLogin.html", method = RequestMethod.POST)
-	public ModelAndView headerLoginPost(
-			@ModelAttribute("model") @Valid LoginModel model,
-			BindingResult bindingResult, HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: loginPost");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/apresentacao");
-
-		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("model", new LoginModel());
-			return modelAndView;
-		}
-
-		gerenciadorDeSessao = new SessaoBusiness();
-		gerenciadorDeUsuario = new UsuarioBusiness();
-		gerenciadorDeCaronas = new CaronaBusiness();
-		try {
-			gerenciadorDeSessao.abrirSessao(model.getLogin(), model.getSenha());
-			request.getSession().setAttribute("login", model.getLogin());
-			request.getSession().setAttribute(
-					"idSessao",
-					gerenciadorDeSessao.abrirSessao(model.getLogin(),
-							model.getSenha()));
-			// request.setAttribute("login", model.getLogin());
-
-		} catch (Exception e) {
-			modelAndView.addObject("model", new LoginModel());
-			return new ModelAndView("redirect:/home/apresentacao.html");
-		}
-
-		LOG.debug("Finalizada a execucao do metodo: loginPost");
-		return new ModelAndView("redirect:/home/home.html");
-	}
-
-	@RequestMapping(value = "/home/cadastrarCarona.html", method = RequestMethod.GET)
-	public ModelAndView cadastrarCaronaGet(HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: cadastrarGet");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/cadastrarCarona");
-		modelAndView.addObject("model", new CadastrarCaronaModel());
-		modelAndView.addObject("mensagem", "");
-
-		LOG.debug("Finalizada a execucao do metodo: cadastrarGet");
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/home/cadastrarCarona.html", method = RequestMethod.POST)
-	public ModelAndView cadastrarCaronaPost(
-			@ModelAttribute("model") @Valid CadastrarCaronaModel model,
-			BindingResult bindingResult, HttpServletRequest request) {
-
-		LOG.debug("Iniciada a execucao do metodo: cadastrarGet");
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/home/cadastrarCarona");
-
-		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("model", model);
-			return modelAndView;
-		}
-		String idSessao = (String) request.getSession()
-				.getAttribute("idSessao");
-		gerenciadorDeCaronas = new CaronaBusiness();
-		try {
-			gerenciadorDeCaronas.cadastrarCarona(idSessao, model.getOrigem(),
-					model.getDestino(), model.getData(), model.getHora(),
-					model.getVagas());
-			modelAndView
-					.addObject("mensagem", "Carona cadastrada com sucesso!");
-			modelAndView.addObject("status", "positivo");
-		} catch (Exception e) {
-			modelAndView.addObject("model", model);
-			modelAndView.addObject("mensagem", e.getMessage());
-			modelAndView.addObject("status", "negativo");
-			return modelAndView;
-		}
-
-		LOG.debug("Finalizada a execucao do metodo: cadastrarGet");
 		return modelAndView;
 	}
 

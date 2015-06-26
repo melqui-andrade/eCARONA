@@ -109,6 +109,7 @@
 															Horário: ${carona.hora}h <br> Quantidade de vagas:
 															${carona.vagas} <br>
 														</p>
+														
 														<c:choose>
 															<c:when test="${carona.vagas >0}">
 

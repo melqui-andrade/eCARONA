@@ -2,6 +2,41 @@
 <%@ include file="/WEB-INF/views/imports.jsp"%>
 <%@ include file="/WEB-INF/views/includeTags.jsp"%>
 <html>
+<script type="text/javascript">
+
+	function clickIntermunicipal() {
+		document.getElementById("caronaIntermunicipal").style.display = "initial";
+		document.getElementById("caronaMunicipal").style.display = "none";
+		document.getElementById("caronaRelampago").style.display = "none";
+		document.getElementById("mensagemDeSaida").style.display = "none";
+	}
+
+	function clickMunicipal() {
+		document.getElementById("caronaIntermunicipal").style.display = "none";
+		document.getElementById("caronaMunicipal").style.display = "initial";
+		document.getElementById("caronaRelampago").style.display = "none";
+		document.getElementById("mensagemDeSaida").style.display = "none";
+
+	}
+
+	function clickRelampago() {
+		document.getElementById("caronaIntermunicipal").style.display = "none";
+		document.getElementById("caronaMunicipal").style.display = "none";
+		document.getElementById("caronaRelampago").style.display = "initial";
+		document.getElementById("mensagemDeSaida").style.display = "none";
+
+	}
+	function submitIntermunicipal() {
+		document.getElementById("carona").value = "intermunicipal"
+	}
+	function submitMunicipal() {
+		document.getElementById("carona").value = "municipal"
+	}
+	function submitRelampagol() {
+		document.getElementById("carona").value = "relampago"
+	}
+	
+</script>
 <body style="background-color: #f1f2f6;">
 
 
@@ -59,104 +94,310 @@
 
 	<section>
 		<div class="container">
+
 			<div class="row">
 				<div class="col-lg-12 text-center" style="padding-top: 6px;">
 					<center>
 						<h1>Cadastrar Carona</h1>
 					</center>
-
 				</div>
 			</div>
 
-			<form:form modelAttribute="model" method="post">
-				<div class="row col-md-6">
-
-					<div class="input-field">
-						<label> Origem</label>
-						<div class='input-group'>
-							<span class="input-group-addon"><span class="fa fa-globe"></span></span>
-							<form:input path="origem" type="text" class="form-control"
-								placeholder="Origem" />
-						</div>
-						<p></p>
-					</div>
-					<p></p>
-					<div class="input-field">
-						<label> Data </label>
-						<div class='input-group'>
-							<span class="input-group-addon"><span
-								class="fa fa-calendar"></span></span>
-							<form:input path="data" type="text" class="form-control"
-								placeholder="Data" />
-						</div>
-						<p></p>
-					</div>
-					<p></p>
-					<div class="input-field">
-						<label> Quantidade de vagas </label>
-						<div class='input-group'>
-							<span class="input-group-addon"> <span
-								class="fa fa-pencil-square-o"></span>
-							</span>
-							<form:input path="vagas" type="number" class="form-control"
-								placeholder="Quantidade de vagas" />
-						</div>
-						<p></p>
-					</div>
-					<p></p>
-
+			<div class="row">
+				<h3>Escolha o tipo de carona</h3>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-info btn-block"
+						onclick="clickIntermunicipal()">Intermunicipal</button>
+					&nbsp;
 				</div>
-
-				<div class="col-md-6">
-					<div class="input-field">
-						<label> Destino </label>
-						<div class='input-group'>
-							<span class="input-group-addon"><span class="fa fa-globe"></span></span>
-							<form:input path="destino" type="text" class="form-control"
-								placeholder="Destino" />
-						</div>
-						<p></p>
-					</div>
-					<p></p>
-					<div class="input-field">
-						<label> Horário </label>
-						<div class='input-group'>
-							<span class="input-group-addon"><span
-								class="fa fa-clock-o"></span></span>
-							<form:input path="hora" type="text" class="form-control"
-								placeholder="Horário" />
-						</div>
-						<p></p>
-					</div>
-					<br>
-					<button type="submit" class="btn btn-success ">
-						<span class="fa fa-check fa-lg" aria-hidden="true"></span>&nbsp;
-						Cadastrar Carona
-					</button>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-info btn-block"
+						onclick="clickMunicipal()">Municipal</button>
+					&nbsp;
 				</div>
-			</form:form>
-			<br>
-			<c:choose>
-				<c:when test="${status == 'positivo'}">
-					<div class="alert alert-success" role="alert">${mensagem}</div>
-				</c:when>
-				<c:otherwise>
-					<c:if test="${status == 'negativo'}">
-						<div class="alert alert-danger" role="alert">${mensagem}</div>
-					</c:if>
-				</c:otherwise>
-			</c:choose>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-info btn-block"
+						onclick="clickRelampago()">Relâmpago</button>
+					&nbsp;
+				</div>
+			</div>
+
+			<div class="row" id="caronaIntermunicipal" style="display: none;">
+				<h3>Carona Intermunicipal</h3>
+				<form:form modelAttribute="modelCadastrarCarona" method="post">
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<div class="input-field">
+								<p></p>
+								<label> Origem</label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="origem" type="text" class="form-control"
+										placeholder="Origem" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Data </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-calendar"></span></span>
+									<form:input path="data" type="text" class="form-control"
+										placeholder="Data" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Quantidade de vagas </label>
+								<div class='input-group'>
+									<span class="input-group-addon"> <span
+										class="fa fa-pencil-square-o"></span>
+									</span>
+									<form:input path="vagas" type="number" class="form-control"
+										placeholder="Quantidade de vagas" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="input-field">
+								<p></p>
+								<label> Destino </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="destino" type="text" class="form-control"
+										placeholder="Destino" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Horário </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-clock-o"></span></span>
+									<form:input path="hora" type="text" class="form-control"
+										placeholder="Horário" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<br>
+							<form:input path="carona" type="hidden" />
+							<button type="submit" class="btn btn-success"
+								onclick="submitIntermunicipal()">
+								<span class="fa fa-check fa-lg" aria-hidden="true"></span>&nbsp;
+								Cadastrar Carona
+							</button>
+						</div>
+					</div>
+				</form:form>
+			</div>
+
+			<div class="row" id="caronaMunicipal" style="display: none;">
+				<h3>Carona Municipal</h3>
+
+				<form:form modelAttribute="modelCadastrarCarona" method="post">
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<div class="input-field">
+								<p></p>
+								<label> Origem</label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="origem" type="text" class="form-control"
+										placeholder="Origem" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Data </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-calendar"></span></span>
+									<form:input path="data" type="text" class="form-control"
+										placeholder="Data" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Quantidade de vagas </label>
+								<div class='input-group'>
+									<span class="input-group-addon"> <span
+										class="fa fa-pencil-square-o"></span>
+									</span>
+									<form:input path="vagas" type="number" class="form-control"
+										placeholder="Quantidade de vagas" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="input-field">
+								<p></p>
+								<label> Destino </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="destino" type="text" class="form-control"
+										placeholder="Destino" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Horário </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-clock-o"></span></span>
+									<form:input path="hora" type="text" class="form-control"
+										placeholder="Horário" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Cidade</label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="cidade" type="text" class="form-control"
+										placeholder="Cidade" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<br>
+							<form:input path="carona" type="hidden" />
+							<button type="submit" class="btn btn-success"
+								onclick="submitMunicipal()">
+								<span class="fa fa-check fa-lg" aria-hidden="true"></span>&nbsp;
+								Cadastrar Carona
+							</button>
+						</div>
+					</div>
+				</form:form>
+			</div>
+
+
+			<div class="row" id="caronaRelampago" style="display: none;">
+				<h3>Carona Relâmpago</h3>
+				<form:form modelAttribute="modelCadastrarCarona" method="post">
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<div class="input-field">
+								<p></p>
+								<label> Origem</label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="origem" type="text" class="form-control"
+										placeholder="Origem" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Data </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-calendar"></span></span>
+									<form:input path="data" type="text" class="form-control"
+										placeholder="Data" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Quantidade de vagas </label>
+								<div class='input-group'>
+									<span class="input-group-addon"> <span
+										class="fa fa-pencil-square-o"></span>
+									</span>
+									<form:input path="vagas" type="number" class="form-control"
+										placeholder="Quantidade de vagas" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="input-field">
+								<p></p>
+								<label> Destino </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="destino" type="text" class="form-control"
+										placeholder="Destino" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Horário </label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-clock-o"></span></span>
+									<form:input path="hora" type="text" class="form-control"
+										placeholder="Horário" />
+								</div>
+							</div>
+							<div class="input-field">
+								<p></p>
+								<label> Cidade</label>
+								<div class='input-group'>
+									<span class="input-group-addon"><span
+										class="fa fa-globe"></span></span>
+									<form:input path="cidade" type="text" class="form-control"
+										placeholder="Cidade" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="col-md-6">
+							<br>
+							<form:input path="carona" type="hidden" />
+							<button type="submit" class="btn btn-success"
+								onclick="submitRelampago()">
+								<span class="fa fa-check fa-lg" aria-hidden="true"></span>&nbsp;
+								Cadastrar Carona
+							</button>
+						</div>
+					</div>
+				</form:form>
+			</div>
+
+
+			<div class="row" id="mensagemDeSaida">
+				<c:choose>
+					<c:when test="${status == 'positivo'}">
+						<div class="alert alert-success" role="alert">${mensagem}</div>
+					</c:when>
+					<c:otherwise>
+						<c:if test="${status == 'negativo'}">
+							<div class="alert alert-danger" role="alert">${mensagem}</div>
+						</c:if>
+					</c:otherwise>
+				</c:choose>
+			</div>
+
 		</div>
 	</section>
 
 	<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
 	<div class="scroll-top page-scroll visible-xs visble-sm">
-		<a class="btn btn-primary" href="#page-top"><i
+		<a class="btn btn-primary" href="#page-top"> <i
 			class="fa fa-chevron-up"></i></a>
 	</div>
 </body>
-
 </html>
+
+
+
 
 <style type="text/css">
 #divCenter {
