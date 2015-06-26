@@ -172,7 +172,8 @@ public class CaronaBusiness {
 						if (interesse.getHorarioInicio().isEmpty()
 								&& interesse.getHorarioFim().isEmpty()) {
 							interesse.adcionaNotificacao(carona.getId());
-						} else if (interesse.getHorarioFim().isEmpty()) {
+						} 
+						else if (interesse.getHorarioFim().isEmpty()) {
 							String[] horaInicio = interesse.getHorarioInicio()
 									.split(":");
 							String[] horaCarona = carona.getHora().split(":");
@@ -182,7 +183,8 @@ public class CaronaBusiness {
 											.parseInt(horaCarona[1])) {
 								interesse.adcionaNotificacao(carona.getId());
 							}
-						} else if (interesse.getHorarioInicio().isEmpty()) {
+						} 
+						else if (interesse.getHorarioInicio().isEmpty()) {
 							String[] horaFim = interesse.getHorarioFim().split(
 									":");
 							String[] horaCarona = carona.getHora().split(":");

@@ -119,7 +119,7 @@ public class SessaoBusiness {
 		SessaoDomain sessao = new SessaoDomain();
 		
 		Date data = new Date();
-		DateFormat formatoData = new SimpleDateFormat("yyyy/MM/dd");
+		DateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
 		DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
 		sessao.setIdSessao(idSessao);
 		sessao.setIdUsuario(login);

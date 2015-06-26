@@ -1,6 +1,9 @@
 package com.br.uepb.business;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.br.uepb.constants.ECaronaException;
 import com.br.uepb.constants.MensagensDeErro;
@@ -85,29 +88,44 @@ public class SolicitacaoBusiness {
 	 * @param idSessaoDoSolicitante Id do usuário interessado na carona
 	 * @param idCarona Id da carona desejada
 	 * @return ID da solicitação feita
+	 * @throws ParseException ECaronaException
 	 */
-	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona) {
+	public String solicitarVaga(String idSessaoDoSolicitante, String idCarona)
+		throws ECaronaException, ParseException{
 		
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		SessaoDomain sessaoCadastroCarona = persistenciaBD.getSessaoBD().getSessao(carona.getIdSessao());
 		SessaoDomain sessaoSolicitante = persistenciaBD.getSessaoBD().
 				getSessao(idSessaoDoSolicitante);
-		//TODO validar verificação da hora
-//		int diaDaSolicitacao = Integer.parseInt(sessaoSolicitante.getData().split("//")[0]);
-//		int diaDaCarona = Integer.parseInt(carona.getData().split("//")[0]);
-//		
-//		if( diaDaSolicitacao - diaDaCarona < 2){
-//			int horaSolicitacao = Integer.parseInt(sessaoSolicitante.getHora().split(":")[0]);
-//			return registraSolicitacao(idSessaoDoSolicitante, idCarona, carona,
-//					sessaoSolicitante); 
-//		}
-		//else{
+		
+		SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		Date dataCarona = sdFormat.parse(sessaoCadastroCarona.getData() + " " 
+				+ sessaoCadastroCarona.getHora());				
+		Date dataCorrente = new Date();
+		String dataSolicitacao = sdFormat.format(dataCorrente);
+		
+		if (carona.isPreferencial()) {
+			String usuariosPreferenciais = getUsuariosPreferenciaisCarona(idCarona);
+			if(usuariosPreferenciais.contains(sessaoSolicitante.getIdUsuario())){
+				return registraSolicitacao(idSessaoDoSolicitante, idCarona,
+						carona, sessaoSolicitante, dataSolicitacao);
+			}
+			else{			
+				long diferenca = ((((dataCorrente.getTime() - dataCarona.getTime())/1000)/60)/60);
+				if (diferenca >= 24) {
+					return registraSolicitacao(idSessaoDoSolicitante, idCarona,
+						carona, sessaoSolicitante, dataSolicitacao);
+				} 
+				else {
+					throw new ECaronaException(MensagensDeErro.USUARIO_NAO_PREFERENCIAL);
+				}
+			}
+		} 
+		else {
 			return registraSolicitacao(idSessaoDoSolicitante, idCarona, carona,
-					sessaoSolicitante);
-		//}
-	}
-
-	
-	
+					sessaoSolicitante, dataSolicitacao);
+		}
+	}	
 	
 
 	/**
@@ -316,7 +334,7 @@ public class SolicitacaoBusiness {
 	}
 	
 	private String registraSolicitacao(String idSessaoDoSolicitante,
-			String idCarona, CaronaDomain carona, SessaoDomain sessaoSolicitante) {
+			String idCarona, CaronaDomain carona, SessaoDomain sessaoSolicitante, String data) {
 		String idSolicitacao = "solic" + (getSolicitacoes().size() + 1);
 
 		SolicitacaoDomain novaSolicitacao = new SolicitacaoDomain();
@@ -340,5 +358,27 @@ public class SolicitacaoBusiness {
 		persistenciaBD.getCaronaBD().update(carona);
 		
 		return idSolicitacao;
+	}
+	
+	private String getUsuariosPreferenciaisCarona(String idCarona){
+		String idUsuarios = "[";		
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(carona.getUsuarioLogin());
+		
+		if(carona.isPreferencial()){
+			for(CaronaDomain c : usuario.getCaronas()){
+				if(c.foiConcluida() && c.getTranquila().length() > 0){
+					for(String sessao : c.getTranquila().split(",")){
+						SessaoDomain s = persistenciaBD.getSessaoBD().getSessao(sessao.trim());
+						if(!idUsuarios.contains(s.getIdUsuario())){ 
+							idUsuarios = idUsuarios + s.getIdUsuario() + ",";
+						}
+					}
+				}
+			}
+		}
+		idUsuarios = idUsuarios.replaceAll(" ", "");
+		idUsuarios += "]";
+		return idUsuarios;
 	}
 }

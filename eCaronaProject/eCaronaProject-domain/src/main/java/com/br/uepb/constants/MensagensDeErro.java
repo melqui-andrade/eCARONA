@@ -40,6 +40,7 @@ public class MensagensDeErro {
 		
 	//ERROS DA CLASSE SOLICITACAO
 		public static String SOLICITACAO_INEXISTENTE = "Solicitação inexistente";
+		public static String USUARIO_NAO_PREFERENCIAL = "Usuário não está na lista preferencial da carona";
 		
 	//ERROS DA CLASSE SUGESTAO
 		public static String PONTO_INVALIDO = "Ponto Inválido";

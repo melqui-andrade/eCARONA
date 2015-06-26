@@ -252,13 +252,14 @@ public class VisualizadorPerfil {
 				break;
 			case "segura e tranquila":
 				removeCarona(carona, usuario);
-				if(carona.getNaoFuncionou() == null){
+				if(carona.getTranquila() == null || carona.getTranquila().isEmpty()){
 					carona.setTranquila(sessaoPassageiro.getId());
 				}
 				else{
 				carona.setTranquila(carona.getTranquila() + ", "  + sessaoPassageiro.getId());
 				}
 				usuario.adicionarCarona(carona);
+				persistenciaBD.getUsuarioBD().update(usuario);
 				persistenciaBD.getCaronaBD().update(carona);
 				break;
 

@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import java.text.ParseException;
+
 import com.br.uepb.constants.ECaronaException;
 
 public class FacadeBusiness {
@@ -88,7 +90,8 @@ public class FacadeBusiness {
 				pontosSugeridos);
 	}
 
-	public String solicitarVaga(String idSessao, String idCarona) {
+	public String solicitarVaga(String idSessao, String idCarona) 
+			throws ECaronaException, ParseException {
 		return gerenciadorDeSolicitacao.solicitarVaga(idSessao, idCarona);
 	}
 
