@@ -38,7 +38,7 @@ public class CaronaBusiness {
 	 */
 	public CaronaBusiness() {
 		this.persistenciaBD = new Persistencia();
-		sufixoIdCarona = 0;
+		sufixoIdCarona = persistenciaBD.getCaronaBD().list().size();
 
 	}
 
@@ -79,29 +79,18 @@ public class CaronaBusiness {
 			sufixoIdCarona++;
 
 			CaronaDomain carona = new CaronaDomain();
-
+			
 			carona.setOrigem(origem);
-
 			carona.setDestino(destino);
-
 			carona.setCidade(null);
-
 			carona.setData(data);
-
 			carona.setIdSessao(idSessao);
-
 			carona.setVagas(Integer.valueOf(vagas));
-
 			carona.setHora(hora);
-
 			carona.setUsuarioLogin(sessao.getIdUsuario());
-
 			carona.foiConcluida(false);
-
 			carona.ehMunicipal(false);
-
 			carona.setTranquila("");
-
 			carona.setPreferencial(false);
 
 			ArrayList<CaronaDomain> todasCaronas = getTodasCaronas();
@@ -128,6 +117,7 @@ public class CaronaBusiness {
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
 			persistenciaBD.getCaronaBD().update(carona);
+			//Notificação comentada para o cadastro de carona funcionar na view
 			//notificarCarona(data, carona);
 
 			return carona.getId();
@@ -251,43 +241,28 @@ public class CaronaBusiness {
 			CaronaDomain carona = new CaronaDomain();
 
 			carona.setOrigem(origem);
-
 			carona.setDestino(destino);
-
 			carona.setCidade(cidade);
-
 			carona.setData(data);
-
 			carona.setIdSessao(idSessao);
-
 			carona.setVagas(Integer.valueOf(vagas));
-
 			carona.setHora(hora);
-
 			carona.setUsuarioLogin(sessao.getIdUsuario());
-
 			carona.foiConcluida(false);
-
 			carona.setTranquila("");
-
 			carona.setNaoFuncionou("");
-
 			carona.ehMunicipal(true);
-
 			carona.setPreferencial(false);
 
-			String identificadorCarona = "carona"
-					+ String.valueOf(sufixoIdCarona);
-			// System.out.println(identificadorCarona);
+			String identificadorCarona = "carona" + String.valueOf(sufixoIdCarona);			
 			carona.setId(identificadorCarona);
 
 			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(
 					sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
-
-			// Notificar carona municipal [ainda não testado]
-			// notificarCarona(data, carona);
+			//Notificação comentada para o cadastro de carona funcionar na view
+			//notificarCarona(data, carona);
 
 			return carona.getId();
 		} else {
@@ -295,7 +270,132 @@ public class CaronaBusiness {
 		}
 
 	}
+	
+	public String cadastrarCaronaRelanpago(String idSessao, String origem, String destino,
+			String dataIda, String dataVolta, String hora, String minimoCaroneiros) 
+					throws ECaronaException{
+		
+		if (idSessao == null || idSessao.equals(""))
+			throw new ECaronaException(MensagensDeErro.SESSAO_INVALIDA);
+		
+		if (origem == null || origem.equals(""))
+			throw new ECaronaException(MensagensDeErro.ORIGEM_INVALIDA);
+		
+		if (destino == null || destino.equals(""))
+			throw new ECaronaException(MensagensDeErro.DESTINO_INVALIDO);
+		
+		if (dataIda == null || dataIda.equals(""))
+			throw new ECaronaException(MensagensDeErro.DATA_INVALIDA);
+		
+		if (dataVolta == null || dataVolta.equals(""))
+			throw new ECaronaException(MensagensDeErro.DATA_INVALIDA);
+		
+		if (hora == null || hora.equals(""))
+			throw new ECaronaException(MensagensDeErro.HORA_INVALIDA);
+		
+		if (minimoCaroneiros == null || minimoCaroneiros.equals("") )
+			throw new ECaronaException(MensagensDeErro.MIN_CARONEIROS_INVALIDO);
+		
+		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
+		if (sessao != null) {
+			sufixoIdCarona++;
+			CaronaDomain carona = new CaronaDomain();
 
+			carona.setOrigem(origem);
+			carona.setDestino(destino);
+			carona.setCidade(null);
+			carona.setData(dataIda);
+			carona.setIdSessao(idSessao);
+			carona.setVagas(Integer.MAX_VALUE);
+			carona.setHora(hora);
+			carona.setUsuarioLogin(sessao.getIdUsuario());
+			carona.foiConcluida(false);
+			carona.ehMunicipal(false);
+			carona.setTranquila("");
+			carona.setPreferencial(false);
+			carona.setDataVolta(dataVolta);
+			carona.setMinCaroneiros(Integer.valueOf(minimoCaroneiros));
+			String identificadorCarona = "carona" + String.valueOf(sufixoIdCarona);			
+			carona.setId(identificadorCarona);
+			
+			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(
+					sessao.getIdUsuario());
+			usuario.adicionarCarona(carona);
+			persistenciaBD.getUsuarioBD().update(usuario);
+			
+			return carona.getId();
+		}
+		else{
+			throw new ECaronaException(MensagensDeErro.SESSAO_INEXISTENTE);
+		}
+		
+		
+	}
+
+	public String getAtributoCaronaRelampago(String idCarona, String atributoCarona) 
+			throws ECaronaException{
+		
+		if (idCarona == null || idCarona.equals("")) {
+			throw new ECaronaException(
+					MensagensDeErro.IDENTIFICADOR_CARONA_INVALIDO);
+		}
+
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		if (carona != null) {
+
+			if (atributoCarona == "" || atributoCarona == null)
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
+
+			switch (atributoCarona) {
+			case "":
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INVALIDO);
+
+			case "origem":
+				return carona.getOrigem();
+
+			case "destino":
+				return carona.getDestino();
+
+			case "dataIda":
+				return carona.getData();
+
+			case "dataVolta":
+				return carona.getDataVolta();
+				
+			case "minimoCaroneiros":
+				return carona.getMinCaroneiros().toString();
+
+			default:
+				throw new ECaronaException(MensagensDeErro.ATRIBUTO_INEXISTENTE);
+			}
+
+		}
+
+		else
+			throw new ECaronaException(MensagensDeErro.ITEM_INEXISTENTE);
+	}
+	
+	public String getMinimoCaroneiros(String idCarona){
+		
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);		
+		return carona.getMinCaroneiros().toString();		
+	}
+	
+	public String getCaronaRelampago(String idCarona) throws ECaronaException{
+		
+		if(idCarona == null || idCarona.isEmpty()){
+			throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
+		}
+		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
+		if(carona != null){
+		return carona.getOrigem() + " para " + carona.getDestino() + ", no dia " +
+				carona.getData() + ", as " + carona.getHora();
+		}
+		else{
+			throw new ECaronaException(MensagensDeErro.CARONA_INEXISTENTE);
+		}
+	}
+	
 	/**
 	 * Localizar uma carona do usuário, através do índice da carona no conjunto
 	 * de caronas

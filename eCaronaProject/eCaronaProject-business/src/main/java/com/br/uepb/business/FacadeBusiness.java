@@ -186,6 +186,28 @@ public class FacadeBusiness {
 		controladorPerfil.reviewCarona(idSessao, idCarona, review);
 	}
 	
+	public String cadastrarCaronaRelampago(String idSessao, String origem, String destino,
+			String dataIda, String dataVolta, String hora, String minimoCaroneiros) throws ECaronaException{
+		
+		return gerenciadorDeCarona.cadastrarCaronaRelanpago(idSessao, origem, destino, 
+				dataIda, dataVolta, hora, minimoCaroneiros);
+	}
+	
+	public String getAtributoCaronaRelampago(String idCarona, String atributo) throws ECaronaException{
+		
+		return gerenciadorDeCarona.getAtributoCaronaRelampago(idCarona, atributo);
+	}
+	
+	public String getMinimoCaroneiros(String idCarona){
+		
+		return gerenciadorDeCarona.getMinimoCaroneiros(idCarona);
+	}
+	
+	public String getCaronaRelampago(String idCarona) throws ECaronaException{
+		
+		return gerenciadorDeCarona.getCaronaRelampago(idCarona);
+	}
+	
 	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino,
 			String cidade, String data, String hora, String vagas) 
 					throws ECaronaException{

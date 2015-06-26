@@ -26,9 +26,9 @@ public class UsersStoryTests {
 //		arquivos.add("./src/test/resources/easyAcceptFiles/US09.txt");
 //		arquivos.add("./src/test/resources/easyAcceptFiles/US10.txt");
 //		arquivos.add("./src/test/resources/easyAcceptFiles/US11.txt");
-//		arquivos.add("./src/test/resources/easyAcceptFiles/US12.txt");
+		arquivos.add("./src/test/resources/easyAcceptFiles/US12.txt");
 //		arquivos.add("./src/test/resources/easyAcceptFiles/US13.txt");
-		arquivos.add("./src/test/resources/easyAcceptFiles/US14.txt");
+//		arquivos.add("./src/test/resources/easyAcceptFiles/US14.txt");
 		
 		FacadeBusiness facadeBusiness = new FacadeBusiness();
 		//facadeBusiness.zerarSistema();

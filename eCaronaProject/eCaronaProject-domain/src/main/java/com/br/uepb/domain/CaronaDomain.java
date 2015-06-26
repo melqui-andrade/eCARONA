@@ -74,6 +74,12 @@ public class CaronaDomain {
 	@Column(name="PREFERENCIAL")
 	private boolean preferencial;
 	
+	@Column(name="DATA_VOLTA")
+	private String dataVolta;
+	
+	@Column(name="MIN_CARONEIROS")
+	private Integer minCaroneiros;
+	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<SolicitacaoDomain> solicitacoes = new ArrayList<SolicitacaoDomain>();
 
@@ -282,6 +288,22 @@ public class CaronaDomain {
 
 	public void setPreferencial(boolean preferencial) {
 		this.preferencial = preferencial;
+	}
+
+	public String getDataVolta() {
+		return dataVolta;
+	}
+
+	public void setDataVolta(String dataVolta) {
+		this.dataVolta = dataVolta;
+	}
+
+	public Integer getMinCaroneiros() {
+		return minCaroneiros;
+	}
+
+	public void setMinCaroneiros(Integer minCaroneiros) {
+		this.minCaroneiros = minCaroneiros;
 	}
 
 	@Override

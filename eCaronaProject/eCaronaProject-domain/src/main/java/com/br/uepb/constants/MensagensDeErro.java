@@ -37,6 +37,7 @@ public class MensagensDeErro {
 		public static String TRAJETO_INEXISTENTE = "Trajeto Inexistente";
 		public static String TRAJETO_INVALIDO = "Trajeto Inválido";
 		public static String CIDADE_INEXISTENTE = "Cidade inexistente";
+		public static String MIN_CARONEIROS_INVALIDO = "Minimo Caroneiros inválido";
 		
 	//ERROS DA CLASSE SOLICITACAO
 		public static String SOLICITACAO_INEXISTENTE = "Solicitação inexistente";

@@ -69,7 +69,7 @@ expectError "Carona Inexistente" getCaronaRelampago idCarona=""
 expectError "Carona Inválida" getCaronaRelampago idCarona=
 expectError "Carona Inexistente" getCaronaRelampago idCarona="xpto"
 expectError "Trajeto Inexistente" getTrajeto idCarona=""
-expectError "Trajeto Inválida" getTrajeto idCarona=
+expectError "Trajeto Inválido" getTrajeto idCarona=
 expectError "Trajeto Inexistente" getTrajeto idCarona="xpto"
 
 encerrarSessao login="mark"
