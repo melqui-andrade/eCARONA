@@ -99,22 +99,36 @@ public class CaronaBusiness {
 			carona.foiConcluida(false);
 
 			carona.ehMunicipal(false);
-			
+
 			carona.setTranquila("");
-			
+
 			carona.setPreferencial(false);
 
-			String identificadorCarona = "carona"
-					+ String.valueOf(sufixoIdCarona);
-			// System.out.println(identificadorCarona);
-			carona.setId(identificadorCarona);
+			ArrayList<CaronaDomain> todasCaronas = getTodasCaronas();
+
+			if (!todasCaronas.isEmpty()) {
+
+				CaronaDomain ultimaCarona = getCarona(todasCaronas.get(
+						todasCaronas.size() - 1).getId());
+				String[] ultimoID = ultimaCarona.getId().split("carona");
+				 sufixoIdCarona = Integer.parseInt(ultimoID[1]) +1;
+				 String identificadorCarona = "carona"
+				 + String.valueOf(sufixoIdCarona);
+				 carona.setId(identificadorCarona);
+
+			} else {
+				String identificadorCarona = "carona"
+						+ String.valueOf(sufixoIdCarona);
+				// System.out.println(identificadorCarona);
+				carona.setId(identificadorCarona);
+			}
 
 			UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(
 					sessao.getIdUsuario());
 			usuario.adicionarCarona(carona);
 			persistenciaBD.getUsuarioBD().update(usuario);
-
-			notificarCarona(data, carona);
+			persistenciaBD.getCaronaBD().update(carona);
+			//notificarCarona(data, carona);
 
 			return carona.getId();
 		} else {
@@ -257,7 +271,7 @@ public class CaronaBusiness {
 			carona.setNaoFuncionou("");
 
 			carona.ehMunicipal(true);
-			
+
 			carona.setPreferencial(false);
 
 			String identificadorCarona = "carona"
@@ -492,7 +506,8 @@ public class CaronaBusiness {
 				return Boolean.toString(carona.foiConcluida());
 
 			case "nao funcionou":
-				return String.valueOf(carona.getNaoFuncionou().split(",").length);
+				return String
+						.valueOf(carona.getNaoFuncionou().split(",").length);
 
 			case "ehMunicipal":
 				return Boolean.toString(carona.ehMunicipal());
@@ -551,7 +566,7 @@ public class CaronaBusiness {
 		return carona.toString();
 
 	}
-	
+
 	public CaronaDomain getCarona(String idCarona) throws ECaronaException {
 		if (idCarona == null)
 			throw new ECaronaException(MensagensDeErro.CARONA_INVALIDA);
@@ -563,7 +578,6 @@ public class CaronaBusiness {
 		return carona;
 
 	}
-	
 
 	/**
 	 * Listar todas as caronas registradas no sistema
@@ -625,53 +639,55 @@ public class CaronaBusiness {
 
 		return allCaronas;
 	}
-	
-	public void adicionarQualificacao(CaronaDomain carona, String idPassageiro, String classificacao){
-		switch(classificacao){
+
+	public void adicionarQualificacao(CaronaDomain carona, String idPassageiro,
+			String classificacao) {
+		switch (classificacao) {
 		case "positiva":
-			if(carona.getTranquila() == null){
+			if (carona.getTranquila() == null) {
 				carona.setTranquila(idPassageiro);
-			}
-			else{
-				carona.setTranquila(carona.getTranquila() + ", "  + idPassageiro);
+			} else {
+				carona.setTranquila(carona.getTranquila() + ", " + idPassageiro);
 			}
 			break;
 		case "negativa":
-			if(carona.getNaoFuncionou() == null){
+			if (carona.getNaoFuncionou() == null) {
 				carona.setNaoFuncionou(idPassageiro);
-			}
-			else{
-				carona.setNaoFuncionou(carona.getNaoFuncionou() + ", "  + idPassageiro);
+			} else {
+				carona.setNaoFuncionou(carona.getNaoFuncionou() + ", "
+						+ idPassageiro);
 			}
 			break;
 		}
 		persistenciaBD.getCaronaBD().update(carona);
 	}
-	
+
 	public void definirCaronaPreferencial(String idCarona) {
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		carona.setPreferencial(true);
-		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(carona.getUsuarioLogin());
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(
+				carona.getUsuarioLogin());
 		removeCarona(carona, usuario);
 		usuario.adicionarCarona(carona);
 		persistenciaBD.getCaronaBD().update(carona);
-		
+
 	}
-	
-	public boolean isCaronaPreferencial(String idCarona){
+
+	public boolean isCaronaPreferencial(String idCarona) {
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		return carona.isPreferencial();
 	}
-	
-	public String getUsuariosPreferenciaisCarona(String idCarona){
-		String idUsuarios = "[";		
+
+	public String getUsuariosPreferenciaisCarona(String idCarona) {
+		String idUsuarios = "[";
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
-		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(carona.getUsuarioLogin());
-		
-		if(carona.isPreferencial()){
-			for(CaronaDomain c : usuario.getCaronas()){
-				if(c.foiConcluida() && c.getTranquila().length() > 0){
-					if(!idUsuarios.contains(c.getTranquila())){ 
+		UsuarioDomain usuario = persistenciaBD.getUsuarioBD().getUsuario(
+				carona.getUsuarioLogin());
+
+		if (carona.isPreferencial()) {
+			for (CaronaDomain c : usuario.getCaronas()) {
+				if (c.foiConcluida() && c.getTranquila().length() > 0) {
+					if (!idUsuarios.contains(c.getTranquila())) {
 						idUsuarios += c.getTranquila();
 					}
 				}
@@ -681,19 +697,18 @@ public class CaronaBusiness {
 		idUsuarios += "]";
 		return idUsuarios;
 	}
-	
-	public void zerarBase(){
+
+	public void zerarBase() {
 		persistenciaBD.getCaronaBD().excluirTudo();
 	}
-	
+
 	private void removeCarona(CaronaDomain carona, UsuarioDomain usuario) {
-		for(CaronaDomain c : usuario.getCaronas()){
-			if(c.getId().equals(carona.getId())){
+		for (CaronaDomain c : usuario.getCaronas()) {
+			if (c.getId().equals(carona.getId())) {
 				usuario.getCaronas().remove(c);
 				break;
 			}
 		}
 	}
-
 
 }

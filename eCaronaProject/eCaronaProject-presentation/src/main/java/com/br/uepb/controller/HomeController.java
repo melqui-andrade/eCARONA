@@ -282,23 +282,29 @@ public class HomeController {
 				.getAttribute("idSessao");
 		gerenciadorDeCaronas = new CaronaBusiness();
 		try {
-			if (model.getCarona() == "intermunicipal") {
+			if (model.getCarona().equals("intermunicipal")) {
 				gerenciadorDeCaronas.cadastrarCarona(idSessao,
 						model.getOrigem(), model.getDestino(), model.getData(),
 						model.getHora(), model.getVagas());
+				modelAndView.addObject("mensagem",
+						"Carona " + model.getCarona()
+								+ " cadastrada com sucesso!");
+				modelAndView.addObject("status", "positivo");
 			}
-			if (model.getCarona() == "municipal") {
+			if (model.getCarona().equals("municipal")) {
 				gerenciadorDeCaronas.cadastrarCaronaMunicipal(idSessao,
 						model.getOrigem(), model.getDestino(),
 						model.getCidade(), model.getData(), model.getHora(),
 						model.getVagas());
+				modelAndView.addObject("mensagem",
+						"Carona " + model.getCarona()
+								+ " cadastrada com sucesso!");
+				modelAndView.addObject("status", "positivo");
 			}
-			if (model.getCarona() == "relampago") {
-			
+			if (model.getCarona().equals("relampago")) {
+
 			}
-			modelAndView
-					.addObject("mensagem", "Carona " +model.getCarona()+" cadastrada com sucesso!");
-			modelAndView.addObject("status", "positivo");
+
 		} catch (Exception e) {
 			modelAndView.addObject("modelCadastrarCarona", model);
 			modelAndView.addObject("mensagem", e.getMessage());

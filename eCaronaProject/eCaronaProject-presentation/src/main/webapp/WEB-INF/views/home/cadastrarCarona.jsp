@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/views/includeTags.jsp"%>
 <html>
 <script type="text/javascript">
+
 	function clickIntermunicipal() {
 		document.getElementById("caronaIntermunicipal").style.display = "initial";
 		document.getElementById("caronaMunicipal").style.display = "none";
@@ -15,7 +16,7 @@
 		document.getElementById("caronaMunicipal").style.display = "initial";
 		document.getElementById("caronaRelampago").style.display = "none";
 		document.getElementById("mensagemDeSaida").style.display = "none";
-		
+
 	}
 
 	function clickRelampago() {
@@ -23,11 +24,18 @@
 		document.getElementById("caronaMunicipal").style.display = "none";
 		document.getElementById("caronaRelampago").style.display = "initial";
 		document.getElementById("mensagemDeSaida").style.display = "none";
-		
+
+	}
+	function submitIntermunicipal() {
+		document.getElementById("carona").value = "intermunicipal"
 	}
 	function submitMunicipal() {
-		document.getElementById("carona").value = municipal				
+		document.getElementById("carona").value = "municipal"
 	}
+	function submitRelampagol() {
+		document.getElementById("carona").value = "relampago"
+	}
+	
 </script>
 <body style="background-color: #f1f2f6;">
 
@@ -179,9 +187,9 @@
 					<div class="col-md-12">
 						<div class="col-md-6">
 							<br>
-							<c:set var="carona" value="intermunicipal" />
-
-							<button type="submit" class="btn btn-success">
+							<form:input path="carona" type="hidden" />
+							<button type="submit" class="btn btn-success"
+								onclick="submitIntermunicipal()">
 								<span class="fa fa-check fa-lg" aria-hidden="true"></span>&nbsp;
 								Cadastrar Carona
 							</button>
@@ -266,8 +274,9 @@
 					<div class="col-md-12">
 						<div class="col-md-6">
 							<br>
-							<form:input path="carona" id="carona" />
-							<button type="submit" class="btn btn-success">
+							<form:input path="carona" type="hidden" />
+							<button type="submit" class="btn btn-success"
+								onclick="submitMunicipal()">
 								<span class="fa fa-check fa-lg" aria-hidden="true"></span>&nbsp;
 								Cadastrar Carona
 							</button>
@@ -351,9 +360,9 @@
 					<div class="col-md-12">
 						<div class="col-md-6">
 							<br>
-							
-							<c:set var="carona" value="relampago" />
-							<button type="submit" class="btn btn-success">
+							<form:input path="carona" type="hidden" />
+							<button type="submit" class="btn btn-success"
+								onclick="submitRelampago()">
 								<span class="fa fa-check fa-lg" aria-hidden="true"></span>&nbsp;
 								Cadastrar Carona
 							</button>
