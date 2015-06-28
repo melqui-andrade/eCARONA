@@ -318,7 +318,11 @@ public class SolicitacaoBusiness {
 		}
 
 	}
-	
+	/**
+	 * Listar caronas que determinado usuário solicitou que foram aceitas
+	 * @param idCaroneiro Login do usuário
+	 * @return ArrayList de Caronas que satisfaçam a condição de busca
+	 */
 	public ArrayList<CaronaDomain> getCaronasAceitasDoCaroneiro(String idCaroneiro){
 		
 		ArrayList<CaronaDomain> caronasAceiteas = new ArrayList<CaronaDomain>();
