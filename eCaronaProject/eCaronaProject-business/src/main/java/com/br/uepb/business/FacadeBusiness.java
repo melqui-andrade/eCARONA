@@ -2,6 +2,7 @@ package com.br.uepb.business;
 
 import java.text.ParseException;
 
+import com.br.uepb.business.utilities.CorreioEletronico;
 import com.br.uepb.constants.ECaronaException;
 
 public class FacadeBusiness {
@@ -235,6 +236,15 @@ public class FacadeBusiness {
 	
 	public String verificarMensagensPerfil(String idSessao){
 		return controladorPerfil.verificarMensagensPerfil(idSessao);
+	}	
+
+	public void enviarMaisUm(){
+		CorreioEletronico correio = new CorreioEletronico();
+		try {
+			correio.enviaEmail("chicotripa.matador@gmail.com", "thiagobalu@gmail.com", "[Notificação ECarona]", "Eh nois na fita!");			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 
 	public void zerarSistema() {

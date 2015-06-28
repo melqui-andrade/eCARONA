@@ -423,9 +423,9 @@ public class CaronaBusiness {
 	 * @param idSessao
 	 *            campo obrigatório, id da sessão do usuário
 	 * @param origem
-	 *            [opicional] nome do local de origem
+	 *            [opcional] nome do local de origem
 	 * @param destino
-	 *            [opicional] nome do local de destino
+	 *            [opcional] nome do local de destino
 	 * @return uma mensagem com o conjuto de caronas que satisfazem os critérios
 	 *         de pesquisa
 	 * @throws Exception
@@ -491,6 +491,15 @@ public class CaronaBusiness {
 		return idCarona + "}";
 	}
 
+	/**
+	 * 
+	 * @param idSessao
+	 * @param origem
+	 * @param destino
+	 * @param cidade
+	 * @return
+	 * @throws ECaronaException
+	 */
 	public String localizarCaronaMunicipal(String idSessao, String origem,
 			String destino, String cidade) throws ECaronaException {
 

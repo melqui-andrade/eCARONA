@@ -286,7 +286,7 @@ public class VisualizadorPerfil {
 	public String verificarMensagensPerfil(String idSessao) {
 		InteresseBusiness gerenciadorInteresse = new InteresseBusiness();
 		return gerenciadorInteresse.verificarNotificacoes(idSessao);
-	}
+	}	
 	
 	public boolean enviarEmail(String idSessao, String emailDestino, String mensagem){
 		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);

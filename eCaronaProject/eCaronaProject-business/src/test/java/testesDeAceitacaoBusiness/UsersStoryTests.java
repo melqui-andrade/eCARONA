@@ -34,6 +34,7 @@ public class UsersStoryTests {
 
 		FacadeBusiness facadeBusiness = new FacadeBusiness();
 		// facadeBusiness.zerarSistema();
+		//facadeBusiness.enviarMaisUm();
 		EasyAcceptFacade eaFacade = new EasyAcceptFacade(facadeBusiness,
 				arquivos);
 		eaFacade.executeTests();
