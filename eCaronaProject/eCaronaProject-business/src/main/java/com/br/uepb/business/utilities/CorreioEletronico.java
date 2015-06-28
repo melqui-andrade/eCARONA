@@ -10,6 +10,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Classe para gerenciamento de envio de emails pelo sistema * 
+ * @author Melqui
+ *
+ */
 public class CorreioEletronico {
 	/**
 	 * Enviar um email de notificação.  

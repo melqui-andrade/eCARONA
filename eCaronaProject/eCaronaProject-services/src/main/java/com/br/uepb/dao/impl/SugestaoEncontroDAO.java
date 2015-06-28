@@ -33,7 +33,9 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 	@Override
 	public SugestaoEncontroDomain getSugestaoEncontro(String id) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		return (SugestaoEncontroDomain) session.get(SugestaoEncontroDomain.class, id);
+		SugestaoEncontroDomain sugestao = (SugestaoEncontroDomain) session.get(SugestaoEncontroDomain.class, id);
+		session.close();
+		return sugestao;
 	}
 
 	@Override
@@ -42,6 +44,7 @@ public class SugestaoEncontroDAO implements ISugestaoEncontroDAO {
 		Transaction t = session.beginTransaction();
 		List<SugestaoEncontroDomain> lista = session.createQuery("from SugestaoEncontroDomain").list();
 		t.commit();
+		session.close();
 		return lista;
 	}
 

@@ -43,7 +43,7 @@ public class SolicitacaoBusiness {
 			if (ponto.isEmpty())
 				throw new ECaronaException(MensagensDeErro.PONTO_INVALIDO);
 		}
-		//TODO Nada implementado nesse método
+		
 	}
 
 	/**
@@ -318,7 +318,9 @@ public class SolicitacaoBusiness {
 		}
 
 	}
-	
+	/**
+	 * Limpar todos os registros de solicitações
+	 */
 	public void zerarBase(){
 		persistenciaBD.getSolicitacaoBD().excluirTudo();
 	}

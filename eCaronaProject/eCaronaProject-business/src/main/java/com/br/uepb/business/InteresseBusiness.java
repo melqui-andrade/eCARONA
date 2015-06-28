@@ -11,6 +11,11 @@ import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.persistencia.Persistencia;
 
+/**
+ * Implementação das regras de negócio de InteresseDomain. Todas as ações
+ * relacionadas ao gerenciamento de interesse em caronas se encontram nessa classe
+ *
+ */
 public class InteresseBusiness {
 	
 	private Persistencia persistenciaBD;
@@ -18,7 +23,18 @@ public class InteresseBusiness {
 	public InteresseBusiness(){
 		this.persistenciaBD = new Persistencia();
 	}
-	
+	/**
+	 * Cadastra interesse em uma carona para determinado local e horário
+	 * @param idSessao Sessão do usuário que cadastra o interesse
+	 * @param origem Local de partida do interesse
+	 * @param destino Local de chegada do interesse
+	 * @param data No formato: dd/mm/aaaa
+	 * @param horaInicio No formato: hh:mm
+	 * @param horaFim No formato: hh:mm
+	 * @return ID do interesse cadastrado
+	 * @throws ECaronaException Caso os parâmetros passados sejam nulos, ou caso 
+	 * origem e destino sejam vazios
+	 */
 	public String cadastrarInteresse(String idSessao, String origem, String destino,
 			String data, String horaInicio, String horaFim) throws ECaronaException{
 		

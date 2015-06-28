@@ -1,9 +1,12 @@
 package com.br.uepb.dao.impl;
 
 import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.engine.spi.SessionDelegatorBaseImpl;
 import org.springframework.stereotype.Repository;
+
 import com.br.uepb.dao.ISessaoDAO;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.utilities.HibernateUtil;
@@ -17,12 +20,15 @@ public class SessaoDAO implements ISessaoDAO {
 		Transaction t = session.beginTransaction();
 		session.save(sessao);
 		t.commit();
+		session.close();
 	}
 
 	@Override
 	public SessaoDomain getSessao(String id) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		return (SessaoDomain) session.get(SessaoDomain.class, id);
+		SessaoDomain sessao =  (SessaoDomain) session.get(SessaoDomain.class, id);
+		session.close();
+		return sessao;
 	}
 
 	@Override
@@ -41,6 +47,7 @@ public class SessaoDAO implements ISessaoDAO {
 		Transaction t = session.beginTransaction();
 		session.delete(sessao);
 		t.commit();
+		session.close();
 	}
 
 	@Override
@@ -49,6 +56,7 @@ public class SessaoDAO implements ISessaoDAO {
 		Transaction t = session.beginTransaction();
 		session.update(sessao);
 		t.commit();
+		session.close();
 	}
 	
 	@Override
