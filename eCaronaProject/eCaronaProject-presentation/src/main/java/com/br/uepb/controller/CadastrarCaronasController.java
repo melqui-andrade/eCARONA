@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.br.uepb.Model.CadastrarCaronaModel;
-import com.br.uepb.Model.CadastrarModel;
-import com.br.uepb.Model.CaronaModel;
-import com.br.uepb.Model.LoginModel;
-import com.br.uepb.Model.UsuarioModel;
 import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.SolicitacaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.model.CadastrarCaronaModel;
+import com.br.uepb.model.CadastrarModel;
+import com.br.uepb.model.CaronaModel;
+import com.br.uepb.model.LoginModel;
+import com.br.uepb.model.UsuarioModel;
 
 @Controller
 public class CadastrarCaronasController {
