@@ -62,7 +62,11 @@ public class InteresseBusiness {
 		
 		return String.valueOf(interesse.getIdInteresse());
 	}
-	
+	/**
+	 * Verifica notificações de caronas que são de interesse do usuário
+	 * @param idSessao Sessão di usuário interessado
+	 * @return Mensagem informando horário de registro da carona e usuário que cadastrou a carona
+	 */
 	public String verificarNotificacoes(String idSessao){
 		List<String> notificacoes = getNotificacoesDoUsuario(idSessao);
 		String saida = "[";

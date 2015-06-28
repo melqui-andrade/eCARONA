@@ -318,6 +318,24 @@ public class SolicitacaoBusiness {
 		}
 
 	}
+	
+	public ArrayList<CaronaDomain> getCaronasAceitasDoCaroneiro(String idCaroneiro){
+		
+		ArrayList<CaronaDomain> caronasAceiteas = new ArrayList<CaronaDomain>();
+		
+		for(SolicitacaoDomain solicitacao : persistenciaBD.getSolicitacaoBD().list()){
+			if(solicitacao.foiAceita()){
+				SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(solicitacao.getIdSessaoSolicitante());
+				if(idCaroneiro.equals(sessao.getIdUsuario())){
+					CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(solicitacao.getIdCarona());
+					caronasAceiteas.add(carona);
+				}
+			}
+		}
+		
+		return caronasAceiteas;
+	}
+	
 	/**
 	 * Limpar todos os registros de solicitações
 	 */

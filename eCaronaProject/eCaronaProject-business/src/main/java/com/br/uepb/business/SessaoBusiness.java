@@ -159,7 +159,9 @@ public class SessaoBusiness {
 		}
 		
 	}
-	
+	/**
+	 * Limpar todos os registros de Sessao.
+	 */
 	public void zerarBase(){
 		persistenciaBD.getSessaoBD().excluirTudo();
 	}

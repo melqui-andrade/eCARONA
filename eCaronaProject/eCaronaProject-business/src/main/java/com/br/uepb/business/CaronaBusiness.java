@@ -669,6 +669,13 @@ public class CaronaBusiness {
 
 	}
 
+	/**
+	 * Busca uma carona pelo seu ID
+	 * @param idCarona Identificador da carona
+	 * @return CaronaDomain correspondente
+	 * @throws ECaronaException caso carona não esteja cadastrado na base de dados
+	 * ou o parâmetro seja nulo ou vazio
+	 */
 	public CaronaDomain getCarona(String idCarona) throws ECaronaException {
 		if (idCarona == null)
 			throw new ECaronaException(MensagensDeErro.CARONA_INVALIDA);
@@ -730,6 +737,11 @@ public class CaronaBusiness {
 		return caronas;
 	}
 
+	/**
+	 * Busca CaronaDomain(s) cadastradas de um usuário 
+	 * @param idSessao Identificador da sessão do usuário
+	 * @return um ArrayList de CaronaComain
+	 */
 	public ArrayList<CaronaDomain> getCaronasSessao(String idSessao) {
 		SessaoDomain sessao = persistenciaBD.getSessaoBD().getSessao(idSessao);
 
@@ -742,6 +754,12 @@ public class CaronaBusiness {
 		return allCaronas;
 	}
 
+	/**
+	 * Caroneiro avalia a qualidade da carona
+	 * @param carona Identificador da carona
+	 * @param idPassageiro Identificador do caroneiro
+	 * @param classificacao "positiva" || "negativa"
+	 */
 	public void adicionarQualificacao(CaronaDomain carona, String idPassageiro,
 			String classificacao) {
 		switch (classificacao) {
@@ -764,6 +782,10 @@ public class CaronaBusiness {
 		persistenciaBD.getCaronaBD().update(carona);
 	}
 
+	/**
+	 * Ajusta determinada carona como preferêncial
+	 * @param idCarona Identificador da carona
+	 */
 	public void definirCaronaPreferencial(String idCarona) {
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		carona.setPreferencial(true);
@@ -775,11 +797,21 @@ public class CaronaBusiness {
 
 	}
 
+	/**
+	 * Verificar de uma carona é preferêncial
+	 * @param idCarona Identificador da carona
+	 * @return true, caso carona seja preferêncial
+	 */
 	public boolean isCaronaPreferencial(String idCarona) {
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
 		return carona.isPreferencial();
 	}
 
+	/**
+	 * Busca usuários que possuem preferência em uma dada carona
+	 * @param idCarona Identificador da carona a ser verificada
+	 * @return lista de IDs da sessões dos usuários preferênciais
+	 */
 	public String getUsuariosPreferenciaisCarona(String idCarona) {
 		String idUsuarios = "[";
 		CaronaDomain carona = persistenciaBD.getCaronaBD().getCarona(idCarona);
@@ -800,6 +832,10 @@ public class CaronaBusiness {
 		return idUsuarios;
 	}
 
+	/**
+	 * Limpar todos os registros de Usuario. Como usuário é o elemento raiz de Carona, quando deletado
+	 * todos os registros de carona são deletados em cascata
+	 */
 	public void zerarBase() {
 		persistenciaBD.getCaronaBD().excluirTudo();
 	}
