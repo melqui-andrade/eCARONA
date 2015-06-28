@@ -13,13 +13,18 @@
 				<a href="apresentacao.html"><br> <img
 					src="../images/logo_header.png" class="img-responsive" alt=""
 					height="50%" width="50%" /> </a>
-					<p></p>
+				<p></p>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+				<li><a href="apresentacao.html"> <i class="btn btn-primary"
+						data-toggle="tooltip" data-placement="bottom" title="Início"><i
+							class="fa fa-home"></i>&nbsp;</i>
+				</a></li>
+				</ul>
 
-				
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -110,15 +115,11 @@
 				</center>
 				<c:choose>
 					<c:when test="${status == 'positivo'}">
-						<div class="alert alert-success" role="alert">
-							${mensagem}
-						</div>
+						<div class="alert alert-success" role="alert">${mensagem}</div>
 					</c:when>
 					<c:otherwise>
 						<c:if test="${status == 'negativo'}">
-							<div class="alert alert-danger" role="alert">
-								${mensagem}
-							</div>
+							<div class="alert alert-danger" role="alert">${mensagem}</div>
 						</c:if>
 					</c:otherwise>
 				</c:choose>

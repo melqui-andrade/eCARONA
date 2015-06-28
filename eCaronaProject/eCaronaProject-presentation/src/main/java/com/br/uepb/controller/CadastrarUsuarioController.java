@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.br.uepb.Model.CadastrarModel;
-import com.br.uepb.Model.LoginModel;
 import com.br.uepb.business.UsuarioBusiness;
+import com.br.uepb.model.CadastrarModel;
+import com.br.uepb.model.LoginModel;
 
 
 @Controller

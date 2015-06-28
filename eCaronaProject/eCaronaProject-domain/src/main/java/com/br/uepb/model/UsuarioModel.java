@@ -1,18 +1,13 @@
-package com.br.uepb.Model;
+package com.br.uepb.model;
 
-public class CadastrarModel {
-	
+public class UsuarioModel {
+
 	private String login;
 	private String senha;
 	private String nome;
 	private String endereco;
 	private String email;
 	
-	public CadastrarModel() {
-	
-		
-	}
-
 	public String getLogin() {
 		return login;
 	}
@@ -51,6 +46,10 @@ public class CadastrarModel {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public UsuarioModel() {
+		// TODO Auto-generated constructor stub
 	}
 
 }
