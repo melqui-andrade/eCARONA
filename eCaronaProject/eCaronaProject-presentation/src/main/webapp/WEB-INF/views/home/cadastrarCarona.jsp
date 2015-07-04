@@ -58,27 +58,33 @@
 
 						<li style="color: #ffffff;"><br> Bem vindo(a)
 							${modelUsuario.nome}!</li>
-						<li><a href="home.html"> <i class="btn btn-primary"
-								data-toggle="tooltip" data-placement="bottom" title="Início"><i
-									class="fa fa-home"></i>&nbsp;</i>
+						<li><a href="home.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Início"><i class="fa fa-home"></i>&nbsp;</i>
 						</a></li>
-						<li><a href="perfil.html"> <i class="btn btn-primary"
-								data-toggle="tooltip" data-placement="bottom" title="Perfil">
-									<i class="glyphicon glyphicon-user"></i>&nbsp;
+						<li><a href="perfil.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Perfil"> <i
+									class="glyphicon glyphicon-user"></i>&nbsp;
 							</i>
 						</a></li>
+						<li><a href="caronasCadastradas.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Caronas Cadastradas"><i
+									class="fa fa-database"></i>&nbsp;</i>
+						</a></li>
 						<li><a href="visualizarCaronas.html"> <i
-								class="btn btn-primary" data-toggle="tooltip"
+								class="btn btn-primary btn-block" data-toggle="tooltip"
 								data-placement="bottom" title="Minhas Caronas"><i
 									class="fa fa-child"></i>&nbsp;</i>
-						</a></li>
+						</a></li>						
 						<li><a href="cadastrarCarona.html"> <i
-								class="btn btn-primary" data-toggle="tooltip"
+								class="btn btn-primary btn-block" data-toggle="tooltip"
 								data-placement="bottom" title="Cadastrar Carona"><i
 									class="fa fa-car"></i>&nbsp;</i>
 						</a></li>
 						<li><a href="apresentacao.html"> <i
-								class="btn btn-primary" data-toggle="tooltip"
+								class="btn btn-primary btn-block" data-toggle="tooltip"
 								data-placement="bottom" title="Sair"> <i
 									class="fa fa-sign-out"></i>&nbsp;
 							</i>

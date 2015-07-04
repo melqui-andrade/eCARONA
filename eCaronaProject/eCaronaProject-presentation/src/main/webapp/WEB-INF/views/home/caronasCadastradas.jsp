@@ -71,7 +71,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="col-md-12">
-									<h2>Minhas Caronas</h2>
+									<h2>Caronas Cadastradas</h2>
 								</div>
 								<p></p>
 								<c:set var="flag" value="2" />
@@ -97,11 +97,7 @@
 																	Horário: ${carona.hora}h <br> Quantidade de vagas:
 																	${carona.vagas} <br>
 																</p>
-																<a class="btn btn-danger"
-																	href='<spring:url value="visualizarCaronas.html?idCarona=${carona.idCarona}"></spring:url>'>
-																	<span class="fa fa-remove" aria-hidden="true"></span>&nbsp;
-																	Desistir desta carona!
-																</a>
+																
 																<p></p>
 															</div>
 														</div>
@@ -125,11 +121,7 @@
 																	Horário: ${carona.hora}h <br> Quantidade de vagas:
 																	${carona.vagas}
 																</p>
-																<a class="btn btn-danger"
-																	href='<spring:url value="visualizarCaronas.html?idCarona=${carona.idCarona}"></spring:url>'>
-																	<span class="fa fa-remove" aria-hidden="true"></span>&nbsp;
-																	Desistir desta carona!
-																</a>
+																
 																<p></p>
 															</div>
 														</div>
@@ -151,7 +143,7 @@
 			<section>
 				<div class="container">
 					<div class="row">
-						<h2>Não há caronas aceitas!</h2>
+						<h2>Você ainda não cadastrou caronas!</h2>
 					</div>
 				</div>
 			</section>

@@ -33,11 +33,16 @@
 									class="glyphicon glyphicon-user"></i>&nbsp;
 							</i>
 						</a></li>
+						<li><a href="caronasCadastradas.html"> <i
+								class="btn btn-primary btn-block" data-toggle="tooltip"
+								data-placement="bottom" title="Caronas Cadastradas"><i
+									class="fa fa-database"></i>&nbsp;</i>
+						</a></li>
 						<li><a href="visualizarCaronas.html"> <i
 								class="btn btn-primary btn-block" data-toggle="tooltip"
 								data-placement="bottom" title="Minhas Caronas"><i
 									class="fa fa-child"></i>&nbsp;</i>
-						</a></li>
+						</a></li>						
 						<li><a href="cadastrarCarona.html"> <i
 								class="btn btn-primary btn-block" data-toggle="tooltip"
 								data-placement="bottom" title="Cadastrar Carona"><i

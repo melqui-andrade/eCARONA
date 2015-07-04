@@ -24,6 +24,7 @@ import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.SolicitacaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SolicitacaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.model.CadastrarCaronaModel;
 import com.br.uepb.model.CadastrarModel;
@@ -94,9 +95,16 @@ public class HomeController {
 					"", "");
 			List<CaronaDomain> todasCaronas = gerenciadorDeCaronas
 					.getTodasCaronas();
+			ArrayList<CaronaDomain> caronasNaoUsuario = new ArrayList<CaronaDomain>();
+			for (int i = 0; i < todasCaronas.size(); i++) {
+				String usuarioLogin = todasCaronas.get(i).getUsuarioLogin();
+				if (!usuarioLogin.equals(login)) {
+					caronasNaoUsuario.add(todasCaronas.get(i));
+				}
+			}
 			LOG.debug("Caronas: " + todasCaronas.toString());
 			modelAndView.addObject("allCaronas", allCaronas);
-			modelAndView.addObject("todasCaronas", todasCaronas);
+			modelAndView.addObject("todasCaronas", caronasNaoUsuario);
 		} catch (Exception e) {
 			LOG.debug("Ocorreu um erro no login:" + e.getMessage());
 			modelAndView.addObject("modelUsuario", new UsuarioModel());
@@ -145,24 +153,61 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/home/visualizarCaronas.html", method = RequestMethod.GET)
-	public ModelAndView visualizarCaronasGet(HttpServletRequest request) {
+	public ModelAndView visualizarCaronasGet(
+			@RequestParam(required = false) String idCarona,
+			HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: homeGet");
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/home/visualizarCaronas");
 
 		UsuarioModel usuarioModel = new UsuarioModel();
+		String login = (String) request.getSession().getAttribute("login");
 		String idSessao = (String) request.getSession()
 				.getAttribute("idSessao");
 		gerenciadorDeCaronas = new CaronaBusiness();
+
+		if (idCarona != null) {
+			gerenciadorDeSolicitacoes = new SolicitacaoBusiness();
+			try {
+				CaronaDomain carona = gerenciadorDeCaronas.getCarona(idCarona);
+				
+				ArrayList<SolicitacaoDomain> idSolicitacao = carona
+						.getSolicitacoes();
+				for (int i = 0; i < idSolicitacao.size(); i++) {
+					SolicitacaoDomain solicitacao = idSolicitacao.get(i);
+					
+					if (solicitacao.getIdCarona() == idCarona){
+						
+						if(gerenciadorDeSolicitacoes.getAtributoSolicitacao(solicitacao.getId(), "Dono da solicitacao") == login){
+							
+							gerenciadorDeSolicitacoes.desistirRequisicao(idSessao,
+									idCarona, solicitacao.getId());
+							return new ModelAndView(
+									"redirect:/home/visualizarCaronas.html");
+						}
+						
+						
+						
+					}
+				}
+
+			} catch (Exception e) {
+				modelAndView.addObject("mensagemErro", e.getMessage());
+				modelAndView.addObject("status", "erro");
+
+			}
+		}
 
 		try {
 			usuarioModel.setNome(gerenciadorDeUsuario
 					.getAtributoUsuario((String) request.getSession()
 							.getAttribute("login"), "nome"));
+
 			List<CaronaDomain> todasCaronas = gerenciadorDeSolicitacoes
 					.getCaronasAceitasDoCaroneiro((String) request.getSession()
 							.getAttribute("login"));
+
 			if (todasCaronas.isEmpty()) {
 				modelAndView.addObject("temCarona", "nao");
 			} else {
