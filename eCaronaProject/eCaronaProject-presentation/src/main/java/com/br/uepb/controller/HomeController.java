@@ -171,28 +171,14 @@ public class HomeController {
 			gerenciadorDeSolicitacoes = new SolicitacaoBusiness();
 			try {
 				CaronaDomain carona = gerenciadorDeCaronas.getCarona(idCarona);
-				
-				ArrayList<SolicitacaoDomain> idSolicitacao = carona
-						.getSolicitacoes();
-				for (int i = 0; i < idSolicitacao.size(); i++) {
-					SolicitacaoDomain solicitacao = idSolicitacao.get(i);
-					
-					if (solicitacao.getIdCarona() == idCarona){
-						
-						if(gerenciadorDeSolicitacoes.getAtributoSolicitacao(solicitacao.getId(), "Dono da solicitacao") == login){
-							
-							gerenciadorDeSolicitacoes.desistirRequisicao(idSessao,
-									idCarona, solicitacao.getId());
-							return new ModelAndView(
-									"redirect:/home/visualizarCaronas.html");
-						}
-						
-						
-						
-					}
-				}
 
-			} catch (Exception e) {
+				gerenciadorDeSolicitacoes.desistirRequisicao(idSessao,
+						idCarona, gerenciadorDeSolicitacoes.solicitarVaga(
+								idSessao, idCarona));
+				return new ModelAndView("redirect:/home/visualizarCaronas.html");
+
+			}
+			catch (Exception e) {
 				modelAndView.addObject("mensagemErro", e.getMessage());
 				modelAndView.addObject("status", "erro");
 
@@ -207,7 +193,7 @@ public class HomeController {
 			List<CaronaDomain> todasCaronas = gerenciadorDeSolicitacoes
 					.getCaronasAceitasDoCaroneiro((String) request.getSession()
 							.getAttribute("login"));
-
+			
 			if (todasCaronas.isEmpty()) {
 				modelAndView.addObject("temCarona", "nao");
 			} else {
